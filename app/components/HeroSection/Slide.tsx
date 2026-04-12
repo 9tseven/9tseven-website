@@ -1,0 +1,39 @@
+import Image from "next/image";
+import { GRAIN_SVG } from "./constants";
+
+interface SlideProps {
+  id: number;
+  bg: string;
+  accent: string;
+  image: string;
+  slideCount: number;
+}
+
+export default function Slide({ id, bg, accent, image, slideCount }: SlideProps) {
+  return (
+    <div
+      className="relative h-full shrink-0"
+      style={{
+        width: `${100 / slideCount}%`,
+        backgroundColor: bg,
+        backgroundImage: accent,
+      }}
+    >
+      {/* Grain overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: GRAIN_SVG,
+          backgroundRepeat: "repeat",
+          backgroundSize: "128px 128px",
+        }}
+      />
+
+      {/* Hero image */}
+      <Image src={image} alt={`Hero slide ${id + 1}`} fill className="object-cover pointer-events-none" sizes="100vw" priority={id === 0} draggable={false} />
+
+      {/* Readability overlay */}
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+    </div>
+  );
+}

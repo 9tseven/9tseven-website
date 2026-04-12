@@ -1,0 +1,104 @@
+<h2>Manifesto Section — Animation Approach</h2>
+<p class="subtitle">The layout is fixed: left half open (for images later), right half shows the manifesto on white. Pick the animation style that feels right for 9TSEVEN.</p>
+
+<div class="cards">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:24px 20px;min-height:240px;border-bottom:1px solid #eee;">
+      <div style="display:flex;gap:0;height:200px;">
+        <!-- Left placeholder -->
+        <div style="flex:1;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+          <span style="color:#bbb;font-size:11px;letter-spacing:0.1em;">IMAGE AREA</span>
+        </div>
+        <!-- Right manifesto -->
+        <div style="flex:1;padding-left:24px;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden;">
+          <div style="font-size:8px;letter-spacing:0.2em;color:#999;text-transform:uppercase;margin-bottom:4px;">9TSEVEN</div>
+          <div style="height:7px;background:#111;width:80%;border-radius:2px;opacity:0.85;"></div>
+          <div style="height:6px;background:#333;width:70%;border-radius:2px;opacity:0.6;animation:fadeUp 0.6s ease both 0.1s;"></div>
+          <div style="height:6px;background:#333;width:90%;border-radius:2px;opacity:0.6;animation:fadeUp 0.6s ease both 0.2s;"></div>
+          <div style="height:6px;background:#333;width:60%;border-radius:2px;opacity:0.6;animation:fadeUp 0.6s ease both 0.3s;"></div>
+          <div style="height:6px;background:#333;width:75%;border-radius:2px;opacity:0.6;animation:fadeUp 0.6s ease both 0.4s;"></div>
+          <div style="height:6px;background:#333;width:65%;border-radius:2px;opacity:0.6;animation:fadeUp 0.6s ease both 0.5s;"></div>
+          <div style="height:6px;background:#333;width:85%;border-radius:2px;opacity:0.6;animation:fadeUp 0.6s ease both 0.6s;"></div>
+        </div>
+      </div>
+      <style>
+        @keyframes fadeUp {
+          from { opacity:0; transform:translateY(10px); }
+          to { opacity:0.6; transform:translateY(0); }
+        }
+      </style>
+    </div>
+    <div class="card-body">
+      <h3>A — Staggered Fade Up</h3>
+      <p>Each manifesto line fades in and rises slightly, one after another, as the section enters the viewport. Clean, editorial feel — fits luxury / lifestyle brands well.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:24px 20px;min-height:240px;border-bottom:1px solid #eee;overflow:hidden;">
+      <div style="display:flex;gap:0;height:200px;">
+        <div style="flex:1;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+          <span style="color:#bbb;font-size:11px;letter-spacing:0.1em;">IMAGE AREA</span>
+        </div>
+        <div style="flex:1;padding-left:24px;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden;">
+          <div style="font-size:8px;letter-spacing:0.2em;color:#999;text-transform:uppercase;margin-bottom:4px;">9TSEVEN</div>
+          <!-- Lines with clip/reveal effect -->
+          <div style="overflow:hidden;height:7px;"><div style="height:7px;background:#111;width:80%;border-radius:2px;animation:slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both 0.05s;"></div></div>
+          <div style="overflow:hidden;height:6px;"><div style="height:6px;background:#333;width:70%;border-radius:2px;animation:slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both 0.15s;opacity:0.7;"></div></div>
+          <div style="overflow:hidden;height:6px;"><div style="height:6px;background:#333;width:90%;border-radius:2px;animation:slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both 0.25s;opacity:0.7;"></div></div>
+          <div style="overflow:hidden;height:6px;"><div style="height:6px;background:#333;width:60%;border-radius:2px;animation:slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both 0.35s;opacity:0.7;"></div></div>
+          <div style="overflow:hidden;height:6px;"><div style="height:6px;background:#333;width:75%;border-radius:2px;animation:slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both 0.45s;opacity:0.7;"></div></div>
+          <div style="overflow:hidden;height:6px;"><div style="height:6px;background:#333;width:85%;border-radius:2px;animation:slideIn 0.5s cubic-bezier(0.16,1,0.3,1) both 0.55s;opacity:0.7;"></div></div>
+        </div>
+      </div>
+      <style>
+        @keyframes slideIn {
+          from { transform:translateX(-100%); }
+          to { transform:translateX(0); }
+        }
+      </style>
+    </div>
+    <div class="card-body">
+      <h3>B — Slide In From Left</h3>
+      <p>Each line slides in horizontally from behind a clip mask, staggered. High-impact, dynamic, sporty — complements the slide-based hero. Strong sense of momentum.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:24px 20px;min-height:240px;border-bottom:1px solid #eee;overflow:hidden;">
+      <div style="display:flex;gap:0;height:200px;">
+        <div style="flex:1;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+          <span style="color:#bbb;font-size:11px;letter-spacing:0.1em;">IMAGE AREA</span>
+        </div>
+        <div style="flex:1;padding-left:24px;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden;">
+          <div style="font-size:8px;letter-spacing:0.2em;color:#999;text-transform:uppercase;margin-bottom:4px;">9TSEVEN</div>
+          <!-- Lines that progressively go from dim to full opacity as if "reading" down -->
+          <div style="height:7px;background:#111;width:80%;border-radius:2px;animation:pulse 2.4s ease-in-out infinite;"></div>
+          <div style="height:6px;background:#333;width:70%;border-radius:2px;animation:pulse 2.4s ease-in-out infinite 0.15s;opacity:0.25;"></div>
+          <div style="height:6px;background:#333;width:90%;border-radius:2px;animation:pulse 2.4s ease-in-out infinite 0.3s;opacity:0.25;"></div>
+          <div style="height:6px;background:#333;width:60%;border-radius:2px;animation:pulse 2.4s ease-in-out infinite 0.45s;opacity:0.25;"></div>
+          <div style="height:6px;background:#333;width:75%;border-radius:2px;animation:pulse 2.4s ease-in-out infinite 0.6s;opacity:0.25;"></div>
+          <div style="height:6px;background:#333;width:85%;border-radius:2px;animation:pulse 2.4s ease-in-out infinite 0.75s;opacity:0.25;"></div>
+          <div style="font-size:8px;color:#aaa;margin-top:4px;">← lines brighten as you scroll</div>
+        </div>
+      </div>
+      <style>
+        @keyframes pulse {
+          0%,100% { opacity:0.9; }
+          50% { opacity:0.3; }
+        }
+      </style>
+    </div>
+    <div class="card-body">
+      <h3>C — Scroll-Driven Highlight</h3>
+      <p>Lines start dim; as you scroll through the section each line brightens to full black. Creates a meditative, intentional reading experience — suits the manifesto's reflective tone.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;">Click an option to select it, then let me know in the terminal.</p>
