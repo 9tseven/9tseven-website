@@ -79,7 +79,7 @@ export default function ManifestoSection() {
               style={{
                 top: `${i * 18}%`,
                 left: `${5 + i * 25}%`,
-                rotate: `${IMAGE_POSITIONS[i].rotate}deg`,
+                rotate: IMAGE_POSITIONS[i].rotate,
                 zIndex: IMAGE_POSITIONS[i].zIndex,
               }}
             >
