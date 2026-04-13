@@ -69,8 +69,12 @@ export default function ManifestoSection() {
         {/* Mobile: stacked overlapping grid */}
         <div className="md:hidden relative h-80 mx-auto max-w-sm mb-12 overflow-hidden">
           {MANIFEST_IMAGES.map((img, i) => (
-            <div
+            <motion.div
               key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: i * 0.2 }}
               className="absolute w-[40%] aspect-3/4 shadow-xl overflow-hidden"
               style={{
                 top: `${i * 18}%`,
@@ -80,7 +84,7 @@ export default function ManifestoSection() {
               }}
             >
               <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
