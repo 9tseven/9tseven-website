@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll } from "motion/react";
 import ManifestoLine from "./ManifestoLine";
 import { LINES, MANIFEST_IMAGES } from "./constants";
 
@@ -11,17 +11,14 @@ const IMAGE_POSITIONS = [
   { top: "52%", left: "20%", rotate: -0.2, zIndex: 3 },
 ];
 
-function ManifestImage({ src, alt, position, index, scrollYProgress }: { src: string; alt: string; position: (typeof IMAGE_POSITIONS)[number]; index: number; scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
-  const start = index * 0.15;
-  const end = start + 0.25;
-  const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
-  const y = useTransform(scrollYProgress, [start, end], [40, 0]);
-
+function ManifestImage({ src, alt, position, index }: { src: string; alt: string; position: (typeof IMAGE_POSITIONS)[number]; index: number }) {
   return (
     <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94], delay: index * 0.2 }}
       style={{
-        opacity,
-        y,
         top: position.top,
         left: position.left,
         rotate: position.rotate,
@@ -65,7 +62,7 @@ export default function ManifestoSection() {
         {/* Desktop: overlapping absolute grid */}
         <div className="hidden md:block relative h-full min-h-150 overflow-hidden">
           {MANIFEST_IMAGES.map((img, i) => (
-            <ManifestImage key={i} src={img.src} alt={img.alt} position={IMAGE_POSITIONS[i]} index={i} scrollYProgress={scrollYProgress} />
+            <ManifestImage key={i} src={img.src} alt={img.alt} position={IMAGE_POSITIONS[i]} index={i} />
           ))}
         </div>
 
