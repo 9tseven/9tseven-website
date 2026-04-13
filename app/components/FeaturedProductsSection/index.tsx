@@ -10,12 +10,12 @@ export default function FeaturedProductsSection() {
   const { current, cardWidth, visibleCards, pageCount, containerRef, x, handleDragEnd, prev, next } = useProductCarousel();
 
   return (
-    <section data-nav-theme="light" className="w-full bg-white pt-4 pb-12 select-none">
+    <section data-nav-theme="light" className="w-full bg-white py-8 select-none">
       {/* Section label */}
       <p className="text-[9px] tracking-[0.25em] uppercase text-black/40 text-center mb-9">( FEATURED PRODUCTS )</p>
 
       {/* Carousel viewport — overflow clips the track */}
-      <div ref={containerRef} className="w-full overflow-hidden">
+      <div ref={containerRef} className="w-full px-1 overflow-hidden">
         <motion.div
           className="flex"
           style={{
