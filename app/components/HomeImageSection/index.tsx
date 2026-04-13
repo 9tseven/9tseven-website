@@ -30,10 +30,11 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
       const clamped = Math.max(24, Math.min(currentY, h - 24));
       cursorText!.style.top = `${clamped}px`;
       cursorText!.style.transform = "translateY(-50%)";
-      raf =
-        hovering || Math.abs(currentY - targetY) > 0.5
-          ? requestAnimationFrame(tick)
-          : 0;
+      if (hovering || Math.abs(currentY - targetY) > 0.5) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
     }
 
     function onMouseEnter(e: MouseEvent) {
@@ -67,29 +68,18 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
   }, []);
 
   return (
-    <div ref={wrapperRef} className="home-image-panel relative overflow-hidden">
-      {/* Photo — zoomed by .is-hovered CSS class */}
+    <div ref={wrapperRef} className="home-image-panel h-full relative overflow-hidden">
       <div className="home-image-photo absolute inset-0">
         <Image src={image} alt={alt} fill className="object-cover" />
       </div>
 
       {/* Centered label — always visible */}
-      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[9px] tracking-[0.28em] uppercase text-white/60 z-[3] pointer-events-none whitespace-nowrap">
-        {label}
-      </span>
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[9px] tracking-[0.28em] uppercase text-white z-[3] pointer-events-none whitespace-nowrap">{label}</span>
 
       {/* Cursor-tracking text — Y driven by rAF, opacity by CSS */}
-      <div
-        ref={cursorTextRef}
-        className="home-image-cursor-text absolute left-0 right-0 flex justify-between items-center px-[18px] pointer-events-none z-[3]"
-        style={{ top: "50%", transform: "translateY(-50%)" }}
-      >
-        <span className="text-[9px] tracking-[0.28em] uppercase text-white/90">
-          {leftText}
-        </span>
-        <span className="text-[9px] tracking-[0.28em] uppercase text-white/90">
-          {rightText}
-        </span>
+      <div ref={cursorTextRef} className="home-image-cursor-text absolute left-0 right-0 flex justify-between items-center px-[18px] pointer-events-none z-[3]" style={{ top: "50%" }}>
+        <span className="text-[9px] tracking-[0.28em] uppercase text-white/90">{leftText}</span>
+        <span className="text-[9px] tracking-[0.28em] uppercase text-white/90">{rightText}</span>
       </div>
 
       {/* Full-panel link sits on top so the whole panel is clickable */}
@@ -100,10 +90,7 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
 
 export default function HomeImageSection() {
   return (
-    <section
-      data-nav-theme="dark"
-      className="grid grid-cols-3 gap-[10px] bg-white h-[78vh]"
-    >
+    <section data-nav-theme="dark" className="grid grid-cols-3 gap-[10px] bg-white h-[78vh]">
       {PANELS.map((panel) => (
         <ImagePanel key={panel.label} {...panel} />
       ))}
