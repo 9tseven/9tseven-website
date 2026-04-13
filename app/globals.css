@@ -17,3 +17,19 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* HomeImageSection — image zoom + cursor text fade on hover */
+.home-image-panel .home-image-photo {
+  transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+.home-image-panel.is-hovered .home-image-photo {
+  transform: scale(1.06);
+}
+.home-image-panel .home-image-cursor-text {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.home-image-panel.is-hovered .home-image-cursor-text {
+  opacity: 1;
+}
