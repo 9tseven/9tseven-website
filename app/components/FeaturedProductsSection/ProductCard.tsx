@@ -87,8 +87,10 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
                        bg-black/10
                        md:bg-transparent md:opacity-0
                        md:group-hover:opacity-100 md:hover:bg-black/20
+                       focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-white/70 focus-visible:-outline-offset-2
                        transition-all duration-200"
             onClick={prevImage}
+            onPointerDown={(e) => e.stopPropagation()}
             aria-label="Previous image"
           >
             <ChevronLeft size={18} strokeWidth={1.25} className="text-white drop-shadow" />
@@ -99,8 +101,10 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
                        bg-black/10
                        md:bg-transparent md:opacity-0
                        md:group-hover:opacity-100 md:hover:bg-black/20
+                       focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-white/70 focus-visible:-outline-offset-2
                        transition-all duration-200"
             onClick={nextImage}
+            onPointerDown={(e) => e.stopPropagation()}
             aria-label="Next image"
           >
             <ChevronRight size={18} strokeWidth={1.25} className="text-white drop-shadow" />
