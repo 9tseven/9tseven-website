@@ -6,7 +6,7 @@ import { useProductCarousel } from "./hooks/useProductCarousel";
 import { PRODUCTS, CARD_GAP } from "./constants";
 
 export default function FeaturedProductsSection() {
-  const { current, cardWidth, pageCount, containerRef, handleScroll, prev, next } =
+  const { current, cardWidth, visibleCards, pageCount, containerRef, handleScroll, prev, next } =
     useProductCarousel();
 
   return (
@@ -21,7 +21,7 @@ export default function FeaturedProductsSection() {
         {/* Native scroll container */}
         <div
           ref={containerRef}
-          className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden"
+          className="w-full overflow-x-auto [&::-webkit-scrollbar]:hidden"
           style={
             {
               scrollSnapType: "x mandatory",
@@ -31,8 +31,8 @@ export default function FeaturedProductsSection() {
           onScroll={handleScroll}
         >
           <div className="flex" style={{ gap: CARD_GAP }}>
-            {PRODUCTS.map((product) => (
-              <div key={product.id} style={{ scrollSnapAlign: "start", flexShrink: 0 }}>
+            {PRODUCTS.map((product, i) => (
+              <div key={product.id} style={{ scrollSnapAlign: i % visibleCards === 0 ? "start" : "none", flexShrink: 0 }}>
                 <ProductCard product={product} cardWidth={cardWidth} />
               </div>
             ))}
