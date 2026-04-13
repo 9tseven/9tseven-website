@@ -41,7 +41,7 @@ export default function ManifestoSection() {
   return (
     <section ref={sectionRef} data-nav-theme="light" className="min-h-screen w-full bg-white flex flex-col md:flex-row">
       {/* Manifesto text */}
-      <div className="w-full md:w-1/2 flex items-center justify-center py-16 px-6 md:py-24 md:pl-12 md:pr-16 order-1 md:order-2">
+      <div className="w-full md:w-1/2 flex items-center justify-center py-8 px-6 md:py-24 md:pl-12 md:pr-16 order-1 md:order-2">
         <div className="max-w-md">
           <p className="text-[10px] md:text-xs font-medium tracking-[0.25em] uppercase text-black/40 mb-2 md:mb-3">9TSEVEN</p>
           <h2 className="text-2xl md:text-3xl font-semibold tracking-[0.12em] uppercase text-black mb-1">Manifesto</h2>

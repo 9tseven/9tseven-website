@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section Mockups v4 – 9TSEVEN</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+  .page-label {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+    padding: 6px 18px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); z-index: 100; white-space: nowrap;
+  }
+
+  .section-tag {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 32px;
+    background: #f0f0f0; border-top: 1px solid rgba(0,0,0,0.08);
+    margin-top: 50px;
+  }
+  .tag-badge {
+    background: #e85d26; color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .tag-name {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .note-bar {
+    background: #f5f5f5; border-top: 1px solid rgba(0,0,0,0.06);
+    padding: 16px 32px;
+    font-size: 11px; color: rgba(0,0,0,0.45); line-height: 1.7;
+  }
+  .note-bar strong { color: rgba(0,0,0,0.7); }
+
+  /* ═══════════════════════════════════════════════════════
+     SECTION 1 — HOME IMAGE SECTION
+  ═══════════════════════════════════════════════════════ */
+
+  .home-image-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    background: #fff;
+    height: 78vh;
+  }
+
+  .img-panel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Photo — zooms on hover via JS class to allow smooth transition */
+  .img-panel .photo {
+    position: absolute; inset: 0;
+    transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+  .img-panel.is-hovered .photo {
+    transform: scale(1.06);
+  }
+
+  .photo-1 { background: linear-gradient(170deg, #2a1e10 0%, #120d06 70%); }
+  .photo-2 { background: linear-gradient(170deg, #0e1c0e 0%, #060e06 70%); }
+  .photo-3 { background: linear-gradient(170deg, #14141e 0%, #070710 70%); }
+
+  .photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -55deg, transparent, transparent 24px,
+      rgba(255,255,255,0.02) 24px, rgba(255,255,255,0.02) 25px
+    );
+  }
+
+  /* Centered both axes */
+  .panel-label {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    z-index: 3;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* Cursor-following text row — position driven entirely by JS lerp */
+  .panel-cursor-text {
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;                      /* start position, overridden by JS */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    /* Separate transitions: opacity fast, transform none (JS handles position) */
+    transition: opacity 0.4s ease;
+    will-change: top, opacity;
+  }
+  .img-panel.is-hovered .panel-cursor-text {
+    opacity: 1;
+  }
+
+  .cursor-label-left,
+  .cursor-label-right {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    /* Subtle vertical entrance when fading in */
+    transition: opacity 0.4s ease;
+  }
+
+  .photo-placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.1);
+    pointer-events: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SECTION 2 — OR / TEXT SECTION
+  ═══════════════════════════════════════════════════════ */
+
+  .or-text-section {
+    background: #fff;
+    padding: 90px 40px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .or-brand-line {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(0,0,0,0.45); margin-bottom: 18px; text-align: center;
+  }
+  /* Row: Copenhagen | More than running | Denmark — all baseline-aligned */
+  .or-middle-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .or-city {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .or-tagline {
+    font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(0,0,0,0.8); font-weight: 300;
+    text-align: center; padding: 0 32px;
+  }
+  .or-country {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4); text-align: right;
+  }
+  .or-body {
+    font-size: 11px; line-height: 1.8; letter-spacing: 0.02em;
+    color: rgba(0,0,0,0.45); max-width: 380px; text-align: center;
+    margin-bottom: 52px;
+  }
+  .or-logo {
+    width: 80px; height: auto;
+    opacity: 0.25;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">9TSEVEN — v4 · Hover a panel</div>
+
+<div class="section-tag">
+  <span class="tag-badge">Section 1</span>
+  <span class="tag-name">shopify-home-image-section</span>
+</div>
+
+<div class="home-image-section">
+
+  <div class="img-panel" data-panel>
+    <div class="photo photo-1"></div>
+    <div class="photo-placeholder">photo</div>
+    <span class="panel-label">Our Products</span>
+    <div class="panel-cursor-text">
+      <span class="cursor-label-left">Shop</span>
+      <span class="cursor-label-right">[ View all ]</span>
+    </div>
+  </div>
+
+  <div class="img-panel" data-panel>
+    <div class="photo photo-2"></div>
+    <div class="photo-placeholder">photo</div>
+    <span class="panel-label">Our Story</span>
+    <div class="panel-cursor-text">
+      <span class="cursor-label-left">About</span>
+      <span class="cursor-label-right">[ Read more ]</span>
+    </div>
+  </div>
+
+  <div class="img-panel" data-panel>
+    <div class="photo photo-3"></div>
+    <div class="photo-placeholder">photo</div>
+    <span class="panel-label">Our Community</span>
+    <div class="panel-cursor-text">
+      <span class="cursor-label-left">Social</span>
+      <span class="cursor-label-right">[ Instagram ]</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="note-bar">
+  <strong>Hover effect:</strong> Lerp-smoothed cursor tracking — text glides behind the cursor with a small lag rather than snapping. Image zoom eased over 0.9s. Opacity fades over 0.4s. Hover to feel it.
+</div>
+
+<div class="section-tag" style="margin-top:0">
+  <span class="tag-badge">Section 2</span>
+  <span class="tag-name">shopify-section-or-text-section</span>
+</div>
+
+<div class="or-text-section">
+  <div class="or-brand-line">9TSEVEN©2025</div>
+  <div class="or-middle-row">
+    <div class="or-city">Copenhagen</div>
+    <div class="or-tagline">More than running</div>
+    <div class="or-country">Denmark</div>
+  </div>
+  <p class="or-body">Rooted in identity, shaped by culture, and driven by community — our expression is a reflection of where we come from and where we're going.</p>
+  <img class="or-logo" src="file:///Users/madschristiansen/Desktop/skrivebord/kea/4SEM/9t7/9tseven-website/public/Logo/9t7.svg" alt="9TSEVEN" />
+</div>
+
+<div class="note-bar">
+  <strong>OR Text Section:</strong> White, sparse. City · brand + tagline · country. Logo below.
+</div>
+
+<script>
+  // Per-panel lerp state
+  const panels = [];
+
+  document.querySelectorAll('[data-panel]').forEach(panel => {
+    const cursorText = panel.querySelector('.panel-cursor-text');
+
+    const state = {
+      el: panel,
+      cursorText,
+      targetY: null,   // null = not hovering
+      currentY: 0,
+      hovering: false,
+      raf: null,
+    };
+    panels.push(state);
+
+    panel.addEventListener('mouseenter', (e) => {
+      state.hovering = true;
+      panel.classList.add('is-hovered');
+      const rect = panel.getBoundingClientRect();
+      const relY = e.clientY - rect.top;
+      // Initialise currentY to cursor position so there's no initial jump
+      state.currentY = relY;
+      state.targetY = relY;
+      if (!state.raf) tick(state);
+    });
+
+    panel.addEventListener('mousemove', (e) => {
+      const rect = panel.getBoundingClientRect();
+      state.targetY = e.clientY - rect.top;
+    });
+
+    panel.addEventListener('mouseleave', () => {
+      state.hovering = false;
+      panel.classList.remove('is-hovered');
+      state.targetY = null;
+      // Let opacity CSS transition handle the fade
+    });
+  });
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function tick(state) {
+    if (state.targetY !== null) {
+      // Lerp factor: 0.1 = very smooth/laggy, 0.2 = moderately smooth
+      state.currentY = lerp(state.currentY, state.targetY, 0.1);
+
+      const panelH = state.el.getBoundingClientRect().height;
+      const clamped = Math.max(24, Math.min(state.currentY, panelH - 24));
+      state.cursorText.style.top = clamped + 'px';
+      state.cursorText.style.transform = 'translateY(-50%)';
+    }
+
+    state.raf = requestAnimationFrame(() => tick(state));
+
+    // Stop the loop when not hovering and position has settled
+    if (!state.hovering && state.targetY === null) {
+      cancelAnimationFrame(state.raf);
+      state.raf = null;
+    }
+  }
+</script>
+
+</body>
+</html>

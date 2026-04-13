@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section Mockups – 9TSEVEN</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; color: #fff; font-family: 'Helvetica Neue', sans-serif; }
+
+  .page-label {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.1); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+    padding: 6px 18px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); z-index: 100;
+  }
+
+  /* ── Section A: Home Image Section ───────────────── */
+  .home-image-section {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+
+  .home-image-section .bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #2a2a2a 0%, #0d0d0d 50%, #1a1a1a 100%);
+  }
+
+  /* Simulated image with runner silhouette */
+  .home-image-section .img-placeholder {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%),
+      repeating-linear-gradient(
+        -45deg,
+        #1e1e1e 0px, #1e1e1e 1px,
+        #222 1px, #222 20px
+      );
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .img-placeholder-label {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .home-image-section .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.65) 100%);
+  }
+
+  .home-image-section .content {
+    position: absolute;
+    bottom: 60px; left: 60px;
+    max-width: 500px;
+  }
+
+  .eyebrow {
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); margin-bottom: 14px;
+  }
+
+  .headline {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 300; line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin-bottom: 28px;
+  }
+  .headline em { font-style: italic; font-weight: 300; }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    border: 1px solid rgba(255,255,255,0.8);
+    color: #fff; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* ── Divider label ────────────────────────────────── */
+  .section-divider {
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px 60px;
+    background: #111;
+    gap: 20px;
+  }
+  .section-divider span {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1);
+  }
+
+  /* ── Section B: "OR" / Text Section ─────────────── */
+  .or-text-section {
+    width: 100%;
+    padding: 120px 60px;
+    background: #fff;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .or-text-section .inner {
+    max-width: 800px;
+  }
+
+  .or-rule {
+    width: 40px; height: 1px;
+    background: rgba(0,0,0,0.2);
+    margin: 0 auto 40px;
+  }
+
+  .or-word {
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 200;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: #000;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  .or-tagline {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+    line-height: 1.8;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  /* ── Annotation badges ────────────────────────────── */
+  .annotation {
+    position: absolute;
+    background: #ff6b35; color: #fff;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 3px;
+  }
+  .annotation.top-right { top: 20px; right: 20px; }
+
+  .section-tag {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 60px;
+    background: #111; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .section-tag .tag-badge {
+    background: #ff6b35; color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .section-tag .tag-name {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .section-tag-light {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 60px;
+    background: #f5f5f5; border-top: 1px solid rgba(0,0,0,0.06);
+  }
+  .section-tag-light .tag-badge {
+    background: #ff6b35; color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .section-tag-light .tag-name {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+  }
+
+  .note-bar {
+    background: #1a1a1a; border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 20px 60px;
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+  }
+  .note-bar strong { color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+
+<div class="page-label">9TSEVEN — Section Mockups (Odd Ritual–inspired)</div>
+
+<!-- ══ SECTION 1: HOME IMAGE SECTION ══════════════════════════════ -->
+<div class="section-tag">
+  <span class="tag-badge">Section 1</span>
+  <span class="tag-name">Home Image Section</span>
+</div>
+
+<div class="home-image-section">
+  <div class="img-placeholder">
+    <span class="img-placeholder-label">Full-bleed photo — e.g. runner on road, race moment, trail</span>
+  </div>
+  <div class="overlay"></div>
+  <div class="content">
+    <p class="eyebrow">9TSEVEN — More than running</p>
+    <h2 class="headline">Run beyond<br><em>every limit.</em></h2>
+    <a class="cta-btn">Shop the collection</a>
+  </div>
+</div>
+
+<div class="note-bar">
+  <strong>Home Image Section:</strong> Full-bleed photo (~90vh tall). Gradient overlay at bottom. Eyebrow label + headline + CTA button anchored bottom-left. Image source configurable. Text and button can be positioned left, center, or right.
+</div>
+
+
+<!-- ══ SECTION 2: "OR" TEXT SECTION ══════════════════════════════ -->
+<div class="section-tag-light">
+  <span class="tag-badge">Section 2</span>
+  <span class="tag-name">Text / "OR" Section</span>
+</div>
+
+<div class="or-text-section">
+  <div class="inner">
+    <div class="or-rule"></div>
+    <div class="or-word">Or</div>
+    <p class="or-tagline">
+      Maybe running isn't just a sport.<br>
+      Maybe it's who you are.
+    </p>
+  </div>
+</div>
+
+<div class="note-bar" style="background:#f0f0f0; border-top: 1px solid rgba(0,0,0,0.06);">
+  <span style="color:rgba(0,0,0,0.5)"><strong style="color:rgba(0,0,0,0.7)">OR Text Section:</strong> White background, minimal. Giant italic word or short phrase centered. Rule line above, supporting tagline below. Used as editorial dividers between product or content sections.</span>
+</div>
+
+</body>
+</html>

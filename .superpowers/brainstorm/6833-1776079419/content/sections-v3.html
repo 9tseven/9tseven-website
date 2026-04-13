@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Section Mockups v3 – 9TSEVEN</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+  .page-label {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+    padding: 6px 18px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); z-index: 100; white-space: nowrap;
+  }
+
+  .section-tag {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 32px;
+    background: #f0f0f0; border-top: 1px solid rgba(0,0,0,0.08);
+    margin-top: 50px;
+  }
+  .tag-badge {
+    background: #e85d26; color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 3px;
+  }
+  .tag-name {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .note-bar {
+    background: #f5f5f5; border-top: 1px solid rgba(0,0,0,0.06);
+    padding: 16px 32px;
+    font-size: 11px; color: rgba(0,0,0,0.45); line-height: 1.7;
+  }
+  .note-bar strong { color: rgba(0,0,0,0.7); }
+
+  /* ═══════════════════════════════════════════════════════
+     SECTION 1 — HOME IMAGE SECTION
+  ═══════════════════════════════════════════════════════ */
+
+  .home-image-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    background: #fff;
+    height: 78vh;
+  }
+
+  .img-panel {
+    position: relative;
+    overflow: hidden;
+    cursor: none; /* hide default cursor on hover */
+  }
+
+  /* Photo fills — scales on hover */
+  .img-panel .photo {
+    position: absolute; inset: 0;
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+  .img-panel:hover .photo {
+    transform: scale(1.06);
+  }
+
+  .photo-1 { background: linear-gradient(170deg, #2a1e10 0%, #120d06 70%); }
+  .photo-2 { background: linear-gradient(170deg, #0e1c0e 0%, #060e06 70%); }
+  .photo-3 { background: linear-gradient(170deg, #14141e 0%, #070710 70%); }
+
+  .photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -55deg, transparent, transparent 24px,
+      rgba(255,255,255,0.02) 24px, rgba(255,255,255,0.02) 25px
+    );
+  }
+
+  /* Fixed top-left section label */
+  .panel-label {
+    position: absolute;
+    top: 18px; left: 18px;
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Cursor-following text row — tracks mouse Y within panel */
+  .panel-cursor-text {
+    position: absolute;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    /* top is set by JS */
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .img-panel:hover .panel-cursor-text {
+    opacity: 1;
+  }
+
+  .cursor-label-left {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+  .cursor-label-right {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* Photo placeholder text */
+  .photo-placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.1);
+    pointer-events: none;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SECTION 2 — OR / TEXT SECTION
+  ═══════════════════════════════════════════════════════ */
+
+  .or-text-section {
+    background: #fff;
+    padding: 90px 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+
+  .or-city {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4);
+  }
+  .or-center {
+    text-align: center; padding: 0 40px;
+  }
+  .or-brand-line {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(0,0,0,0.45); margin-bottom: 5px;
+  }
+  .or-tagline {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(0,0,0,0.35);
+  }
+  .or-country {
+    font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(0,0,0,0.4); text-align: right;
+  }
+  .or-logo-row {
+    grid-column: 1 / -1;
+    display: flex; justify-content: center;
+    margin-top: 52px;
+  }
+  .or-logo {
+    width: 54px; height: 54px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 300; letter-spacing: -0.04em;
+    color: rgba(0,0,0,0.28); font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">9TSEVEN — Section Mockups v3 · Hover a panel</div>
+
+<!-- ══ SECTION 1 ══════════════════════════════════════════ -->
+<div class="section-tag">
+  <span class="tag-badge">Section 1</span>
+  <span class="tag-name">shopify-home-image-section</span>
+</div>
+
+<div class="home-image-section">
+
+  <!-- Panel: Our Products -->
+  <div class="img-panel" data-panel>
+    <div class="photo photo-1"></div>
+    <div class="photo-placeholder">photo</div>
+    <span class="panel-label">Our Products</span>
+    <div class="panel-cursor-text">
+      <span class="cursor-label-left">Shop</span>
+      <span class="cursor-label-right">[ View all ]</span>
+    </div>
+  </div>
+
+  <!-- Panel: Our Story -->
+  <div class="img-panel" data-panel>
+    <div class="photo photo-2"></div>
+    <div class="photo-placeholder">photo</div>
+    <span class="panel-label">Our Story</span>
+    <div class="panel-cursor-text">
+      <span class="cursor-label-left">About</span>
+      <span class="cursor-label-right">[ Read more ]</span>
+    </div>
+  </div>
+
+  <!-- Panel: Our Community -->
+  <div class="img-panel" data-panel>
+    <div class="photo photo-3"></div>
+    <div class="photo-placeholder">photo</div>
+    <span class="panel-label">Our Community</span>
+    <div class="panel-cursor-text">
+      <span class="cursor-label-left">Social</span>
+      <span class="cursor-label-right">[ Instagram ]</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="note-bar">
+  <strong>Hover effect:</strong> Image zooms (scale 1.06). Two text labels — left-aligned and right-aligned in brackets — follow the cursor's Y position within the panel. Labels fade in on hover, fade out on leave. ~10px white gap separates panels.
+</div>
+
+<!-- ══ SECTION 2 ══════════════════════════════════════════ -->
+<div class="section-tag" style="margin-top:0">
+  <span class="tag-badge">Section 2</span>
+  <span class="tag-name">shopify-section-or-text-section</span>
+</div>
+
+<div class="or-text-section">
+  <div class="or-city">Copenhagen</div>
+  <div class="or-center">
+    <div class="or-brand-line">9TSEVEN©2025</div>
+    <div class="or-tagline">More than running</div>
+  </div>
+  <div class="or-country">Denmark</div>
+  <div class="or-logo-row">
+    <div class="or-logo">9t7</div>
+  </div>
+</div>
+
+<div class="note-bar">
+  <strong>OR Text Section:</strong> White background, no images. City · brand + tagline centered · country. Logo monogram below.
+</div>
+
+<script>
+  // Cursor-Y-tracking text for each panel
+  document.querySelectorAll('[data-panel]').forEach(panel => {
+    const cursorText = panel.querySelector('.panel-cursor-text');
+
+    panel.addEventListener('mousemove', (e) => {
+      const rect = panel.getBoundingClientRect();
+      const relY = e.clientY - rect.top;
+      // Position the text row at the cursor's Y, clamped to panel bounds
+      const clampedY = Math.max(20, Math.min(relY, rect.height - 20));
+      cursorText.style.top = clampedY + 'px';
+      cursorText.style.transform = 'translateY(-50%)';
+    });
+
+    panel.addEventListener('mouseleave', () => {
+      // Reset smoothly — let CSS transition handle opacity
+    });
+  });
+</script>
+
+</body>
+</html>

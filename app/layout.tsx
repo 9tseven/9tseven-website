@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Monsieur_La_Doulaise } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import SmoothScroll from "./components/SmoothScroll";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const figtreeSans = Figtree({
+  variable: "--font-figtree-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const monsieurLaDoulaise = Monsieur_La_Doulaise({
+  variable: "--font-monsieur",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -25,12 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${figtreeSans.variable} ${monsieurLaDoulaise.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Navbar />
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
