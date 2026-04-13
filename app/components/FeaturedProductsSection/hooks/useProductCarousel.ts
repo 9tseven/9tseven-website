@@ -54,6 +54,12 @@ export function useProductCarousel() {
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
+    };
+  }, []);
+
   const snapTo = useCallback((pageIndex: number) => {
     const pages = pageCountRef.current;
     const wrapped = ((pageIndex % pages) + pages) % pages;
