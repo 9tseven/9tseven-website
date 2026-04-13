@@ -35,7 +35,12 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   };
 
   return (
-    <div className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer" style={{ width: cardWidth, aspectRatio: "3 / 4" }} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <div
+      className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group"
+      style={{ width: cardWidth, aspectRatio: "3 / 4" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       {/* Image with slide animation */}
       <AnimatePresence initial={false} custom={direction} mode="popLayout">
         <motion.div
@@ -54,34 +59,96 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
           onAnimationStart={() => setIsAnimating(true)}
           onAnimationComplete={() => setIsAnimating(false)}
         >
-          <Image src={images[imgIndex]} alt={product.name} fill className="object-cover pointer-events-none" draggable={false} />
+          <Image
+            src={images[imgIndex]}
+            alt={product.name}
+            fill
+            className="object-cover pointer-events-none"
+            draggable={false}
+          />
         </motion.div>
       </AnimatePresence>
 
       {/* New Arrival tag */}
       <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black">
-        <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">New Arrival</span>
+        <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">
+          New Arrival
+        </span>
       </div>
 
-      {/* Image navigation arrows — visible on hover only */}
+      {/* Full-height overlay arrow panels
+          Mobile:  always visible at bg-black/10 (no hover needed)
+          Desktop: hidden until the card (group) is hovered; panel hover darkens to bg-black/20 */}
       {hasMultiple && (
         <>
-          <button onClick={prevImage} aria-label="Previous image" className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 text-white/70 hover:text-white transition-all duration-200 ${hovered ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-            <ChevronLeft size={20} strokeWidth={1.25} />
+          <button
+            className="absolute left-0 top-0 bottom-0 w-[22%] z-10
+                       flex items-center justify-center
+                       bg-black/10
+                       md:bg-transparent md:opacity-0
+                       md:group-hover:opacity-100 md:hover:bg-black/20
+                       transition-all duration-200"
+            onClick={prevImage}
+            aria-label="Previous image"
+          >
+            <ChevronLeft size={18} strokeWidth={1.25} className="text-white drop-shadow" />
           </button>
-          <button onClick={nextImage} aria-label="Next image" className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 text-white/70 hover:text-white transition-all duration-200 ${hovered ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-            <ChevronRight size={20} strokeWidth={1.25} />
+          <button
+            className="absolute right-0 top-0 bottom-0 w-[22%] z-10
+                       flex items-center justify-center
+                       bg-black/10
+                       md:bg-transparent md:opacity-0
+                       md:group-hover:opacity-100 md:hover:bg-black/20
+                       transition-all duration-200"
+            onClick={nextImage}
+            aria-label="Next image"
+          >
+            <ChevronRight size={18} strokeWidth={1.25} className="text-white drop-shadow" />
           </button>
         </>
       )}
 
-      {/* Hover info panel */}
+      {/* Mobile: price panel — always visible */}
+      <div className="absolute bottom-4 left-3.5 right-3.5 px-3 py-2.5 bg-white/95 border-t border-black/8 z-20 md:hidden">
+        <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">
+          {product.category}
+        </p>
+        <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight">
+          {product.name}
+        </p>
+        <p className="text-[9px] text-black/60 mt-1">
+          DKK{" "}
+          {product.price.toLocaleString("da-DK", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </p>
+      </div>
+
+      {/* Desktop: price panel — animated on hover */}
       <AnimatePresence>
         {hovered && (
-          <motion.div key="info" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.18, ease: "easeOut" }} className="absolute bottom-4 left-3.5 right-3.5 px-3 py-2.5 bg-white/95 border-t border-black/8 z-20">
-            <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
-            <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight">{product.name}</p>
-            <p className="text-[9px] text-black/60 mt-1">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+          <motion.div
+            key="info"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="hidden md:block absolute bottom-4 left-3.5 right-3.5 px-3 py-2.5 bg-white/95 border-t border-black/8 z-20"
+          >
+            <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">
+              {product.category}
+            </p>
+            <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight">
+              {product.name}
+            </p>
+            <p className="text-[9px] text-black/60 mt-1">
+              DKK{" "}
+              {product.price.toLocaleString("da-DK", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
