@@ -94,9 +94,10 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
       : (imgIndex - 1 + images.length) % images.length;
 
     animate(dragX, dir * -cardWidth, {
-      type: "tween",
-      duration: 0.18,
-      ease: "easeOut",
+      type: "spring",
+      stiffness: 320,
+      damping: 36,
+      mass: 0.9,
       onComplete: () => {
         skipEnterAnim.current = true;
         dragX.set(0);
@@ -111,8 +112,9 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   const snapBack = () => {
     animate(dragX, 0, {
       type: "spring",
-      stiffness: 400,
-      damping: 40,
+      stiffness: 320,
+      damping: 36,
+      mass: 0.9,
       onComplete: () => {
         dragX.set(0);
         isDragModeRef.current = false;
