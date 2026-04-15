@@ -104,8 +104,15 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   };
 
   const snapBack = () => {
-    setIsDragMode(false);
-    animate(dragX, 0, { type: "spring", stiffness: 400, damping: 40 });
+    animate(dragX, 0, {
+      type: "spring",
+      stiffness: 400,
+      damping: 40,
+      onComplete: () => {
+        dragX.set(0);
+        setIsDragMode(false);
+      },
+    });
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
