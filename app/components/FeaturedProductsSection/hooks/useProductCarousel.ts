@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useMotionValue, animate } from "motion/react";
 import { PRODUCTS, CARD_GAP, PEEK_AMOUNT } from "../constants";
 
-/** Below this container width (px) the carousel shows 1 card per page. */
 const MOBILE_BREAKPOINT = 640;
 
 export function useProductCarousel() {
@@ -16,9 +14,9 @@ export function useProductCarousel() {
   const cardWidthRef = useRef(0);
   const visibleCardsRef = useRef(3);
   const pageCountRef = useRef(2);
+  const scrollDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -29,14 +27,11 @@ export function useProductCarousel() {
       const isMobile = containerWidth < MOBILE_BREAKPOINT;
 
       const visible = isMobile ? 1 : 3;
-      const pages = PRODUCTS.length / visible; // 6 on mobile, 2 on desktop
+      const pages = PRODUCTS.length / visible;
 
-      // Mobile: card fills full width (no peek, no inter-card gaps visible)
-      // Desktop: 3 cards + 2 gaps + 1 peek = container width
       const peek = isMobile ? 0 : PEEK_AMOUNT;
       const w = Math.floor((containerWidth - CARD_GAP * (visible - 1) - peek) / visible);
 
-      // Reset to page 0 when layout switches between mobile and desktop
       const layoutChanged = visible !== visibleCardsRef.current;
 
       cardWidthRef.current = w;
@@ -49,7 +44,7 @@ export function useProductCarousel() {
 
       if (layoutChanged) {
         setCurrent(0);
-        animate(x, 0, { type: "spring", stiffness: 320, damping: 36, mass: 0.9 });
+        container.scrollLeft = 0;
       }
     };
 
@@ -57,42 +52,45 @@ export function useProductCarousel() {
     const ro = new ResizeObserver(update);
     ro.observe(container);
     return () => ro.disconnect();
-  }, [x]);
+  }, []);
 
-  const snapTo = useCallback(
-    (pageIndex: number) => {
-      const pages = pageCountRef.current;
-      const wrapped = ((pageIndex % pages) + pages) % pages;
-      animate(x, -wrapped * visibleCardsRef.current * (cardWidthRef.current + CARD_GAP), {
-        type: "spring",
-        stiffness: 320,
-        damping: 36,
-        mass: 0.9,
+  useEffect(() => {
+    return () => {
+      if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
+    };
+  }, []);
+
+  const snapTo = useCallback((pageIndex: number) => {
+    const pages = pageCountRef.current;
+    const wrapped = ((pageIndex % pages) + pages) % pages;
+    containerRef.current?.scrollTo({
+      left: wrapped * visibleCardsRef.current * (cardWidthRef.current + CARD_GAP),
+      behavior: "smooth",
+    });
+    setCurrent(wrapped);
+  }, []);
+
+  // Debounced: after 150 ms of scroll inactivity, snap to the nearest page boundary.
+  // This corrects any mid-page positions from manual swipes on desktop.
+  const handleScroll = useCallback(() => {
+    if (scrollDebounceRef.current) clearTimeout(scrollDebounceRef.current);
+    scrollDebounceRef.current = setTimeout(() => {
+      const container = containerRef.current;
+      if (!container) return;
+      const page = Math.round(
+        container.scrollLeft / (visibleCardsRef.current * (cardWidthRef.current + CARD_GAP))
+      );
+      const clamped = Math.max(0, Math.min(page, pageCountRef.current - 1));
+      setCurrent(clamped);
+      container.scrollTo({
+        left: clamped * visibleCardsRef.current * (cardWidthRef.current + CARD_GAP),
+        behavior: "smooth",
       });
-      setCurrent(wrapped);
-    },
-    [x],
-  );
-
-  const handleDragEnd = useCallback(
-    (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
-      const threshold = cardWidthRef.current * 0.2;
-      const { x: offsetX } = info.offset;
-      const { x: velX } = info.velocity;
-
-      if (offsetX < -threshold || velX < -400) {
-        snapTo(current + 1);
-      } else if (offsetX > threshold || velX > 400) {
-        snapTo(current - 1);
-      } else {
-        snapTo(current);
-      }
-    },
-    [current, snapTo],
-  );
+    }, 150);
+  }, []);
 
   const prev = useCallback(() => snapTo(current - 1), [current, snapTo]);
   const next = useCallback(() => snapTo(current + 1), [current, snapTo]);
 
-  return { current, cardWidth, visibleCards, pageCount, containerRef, x, handleDragEnd, prev, next };
+  return { current, cardWidth, visibleCards, pageCount, containerRef, handleScroll, prev, next, snapTo };
 }
