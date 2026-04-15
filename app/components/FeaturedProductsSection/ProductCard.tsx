@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, animate, useTransform } from "motion/react";
+import type { MotionValue } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Product } from "./constants";
 
@@ -11,11 +12,35 @@ interface ProductCardProps {
   cardWidth: number;
 }
 
+function PeekImage({ src, name, dragX, peekDir, cardWidth }: {
+  src: string;
+  name: string;
+  dragX: MotionValue<number>;
+  peekDir: 1 | -1;
+  cardWidth: number;
+}) {
+  const x = useTransform(dragX, (v) => v + peekDir * cardWidth);
+  return (
+    <motion.div className="absolute inset-0" style={{ x }}>
+      <Image src={src} alt={name} fill className="object-cover pointer-events-none" draggable={false} />
+    </motion.div>
+  );
+}
+
 export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const [imgIndex, setImgIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  // Drag state
+  const [isDragMode, setIsDragMode] = useState(false);
+  const [peekIdx, setPeekIdx] = useState(0);
+  const [peekDir, setPeekDir] = useState<1 | -1>(1);
+  const dragX = useMotionValue(0);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const skipEnterAnim = useRef(false);
 
   const images = product.images as readonly string[];
   const hasMultiple = images.length > 1;
@@ -34,29 +59,123 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
     setImgIndex((i) => (i + 1) % images.length);
   };
 
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (window.innerWidth >= 640 || !hasMultiple || isAnimating || isDragMode) return;
+    e.preventDefault();
+    isDragging.current = true;
+    dragStartX.current = e.clientX;
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    const delta = e.clientX - dragStartX.current;
+    dragX.set(delta);
+
+    if (!isDragMode && Math.abs(delta) > 4) {
+      const dir = delta < 0 ? 1 : -1;
+      const peek = dir === 1
+        ? (imgIndex + 1) % images.length
+        : (imgIndex - 1 + images.length) % images.length;
+      setPeekDir(dir as 1 | -1);
+      setPeekIdx(peek);
+      setIsDragMode(true);
+    }
+
+    e.stopPropagation();
+  };
+
+  const commitDrag = (dir: 1 | -1) => {
+    const newIndex = dir === 1
+      ? (imgIndex + 1) % images.length
+      : (imgIndex - 1 + images.length) % images.length;
+
+    animate(dragX, dir * -cardWidth, {
+      type: "tween",
+      duration: 0.18,
+      ease: "easeOut",
+      onComplete: () => {
+        skipEnterAnim.current = true;
+        dragX.set(0);
+        setDirection(dir);
+        setImgIndex(newIndex);
+        setIsDragMode(false);
+      },
+    });
+  };
+
+  const snapBack = () => {
+    setIsDragMode(false);
+    animate(dragX, 0, { type: "spring", stiffness: 400, damping: 40 });
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    e.stopPropagation();
+
+    const delta = dragX.get();
+    if (Math.abs(delta) >= 40) {
+      commitDrag(delta < 0 ? 1 : -1);
+    } else {
+      snapBack();
+    }
+  };
+
   return (
-    <div className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group" style={{ width: cardWidth, aspectRatio: "4 / 5" }} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      {/* Image with slide animation */}
-      <AnimatePresence initial={false} custom={direction} mode="popLayout">
-        <motion.div
-          key={imgIndex}
-          custom={direction}
-          variants={{
-            enter: (dir: number) => ({ x: dir * (cardWidth || 300) }),
-            center: { x: 0 },
-            exit: (dir: number) => ({ x: -dir * (cardWidth || 300) }),
-          }}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ type: "spring", stiffness: 320, damping: 36, mass: 0.9 }}
-          className="absolute inset-0"
-          onAnimationStart={() => setIsAnimating(true)}
-          onAnimationComplete={() => setIsAnimating(false)}
-        >
-          <Image src={images[imgIndex]} alt={product.name} fill className="object-cover pointer-events-none" draggable={false} />
-        </motion.div>
-      </AnimatePresence>
+    <div
+      className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group"
+      style={{ width: cardWidth, aspectRatio: "4 / 5" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+    >
+      {/* ── Drag mode: two manually positioned images ── */}
+      {isDragMode && (
+        <>
+          <motion.div className="absolute inset-0" style={{ x: dragX }}>
+            <Image src={images[imgIndex]} alt={product.name} fill className="object-cover pointer-events-none" draggable={false} />
+          </motion.div>
+          <PeekImage
+            src={images[peekIdx]}
+            name={product.name}
+            dragX={dragX}
+            peekDir={peekDir}
+            cardWidth={cardWidth}
+          />
+        </>
+      )}
+
+      {/* ── Normal mode: AnimatePresence slide ── */}
+      <div className={isDragMode ? "opacity-0 pointer-events-none" : ""}>
+        <AnimatePresence initial={false} custom={direction} mode="popLayout">
+          <motion.div
+            key={imgIndex}
+            custom={direction}
+            variants={{
+              enter: (dir: number) => ({
+                x: skipEnterAnim.current ? 0 : dir * (cardWidth || 300),
+              }),
+              center: { x: 0 },
+              exit: (dir: number) => ({ x: -dir * (cardWidth || 300) }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "spring", stiffness: 320, damping: 36, mass: 0.9 }}
+            className="absolute inset-0"
+            onAnimationStart={() => {
+              skipEnterAnim.current = false;
+              setIsAnimating(true);
+            }}
+            onAnimationComplete={() => setIsAnimating(false)}
+          >
+            <Image src={images[imgIndex]} alt={product.name} fill className="object-cover pointer-events-none" draggable={false} />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {/* New Arrival tag */}
       <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black">
@@ -65,10 +184,11 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
 
       {/* Full-height overlay arrow panels
           Mobile:  always visible at bg-black/10 (no hover needed)
-          Desktop: hidden until the card (group) is hovered; panel hover darkens to bg-black/20 */}
+          Desktop: hidden until the card (group) is hovered; panel hover darkens to bg-black/10 */}
       {hasMultiple && (
         <>
           <button
+            type="button"
             className="absolute left-0 top-0 bottom-0 w-[15%] z-10
                        flex items-center justify-center
                        bg-black/10
@@ -83,6 +203,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
             <ChevronLeft size={18} strokeWidth={1.25} className="text-white drop-shadow" />
           </button>
           <button
+            type="button"
             className="absolute right-0 top-0 bottom-0 w-[15%] z-10
                        flex items-center justify-center
                        bg-black/10
