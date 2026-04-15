@@ -5,22 +5,29 @@ interface ProductCarouselIndicatorProps {
   pageCount: number;
   onPrev: () => void;
   onNext: () => void;
+  onGoTo: (index: number) => void;
 }
 
-export default function ProductCarouselIndicator({ current, pageCount, onPrev, onNext }: ProductCarouselIndicatorProps) {
+export default function ProductCarouselIndicator({ current, pageCount, onPrev, onNext, onGoTo }: ProductCarouselIndicatorProps) {
   return (
     <div className="flex justify-end pr-[5%] mt-5 w-full">
       <div className="w-1/4 min-w-40">
         {/* Segmented progress bar */}
         <div className="flex gap-1 w-full">
           {Array.from({ length: pageCount }, (_, i) => (
-            <div
+            <button
               key={i}
-              className="flex-1 h-px transition-colors duration-300"
-              style={{
-                backgroundColor: i === current ? "rgba(0,0,0,0.85)" : "rgba(0,0,0,0.15)",
-              }}
-            />
+              onClick={() => onGoTo(i)}
+              className="flex-1 h-5 flex items-end group"
+              aria-label={`Go to page ${i + 1}`}
+            >
+              <div
+                className="w-full h-px group-hover:h-[5px] transition-all duration-200"
+                style={{
+                  backgroundColor: i === current ? "rgba(0,0,0,0.85)" : "rgba(0,0,0,0.15)",
+                }}
+              />
+            </button>
           ))}
         </div>
 

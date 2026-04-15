@@ -92,5 +92,5 @@ export function useProductCarousel() {
   const prev = useCallback(() => snapTo(current - 1), [current, snapTo]);
   const next = useCallback(() => snapTo(current + 1), [current, snapTo]);
 
-  return { current, cardWidth, visibleCards, pageCount, containerRef, handleScroll, prev, next };
+  return { current, cardWidth, visibleCards, pageCount, containerRef, handleScroll, prev, next, snapTo };
 }
