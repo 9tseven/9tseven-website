@@ -12,13 +12,7 @@ interface ProductCardProps {
   cardWidth: number;
 }
 
-function PeekImage({ src, name, dragX, peekDir, cardWidth }: {
-  src: string;
-  name: string;
-  dragX: MotionValue<number>;
-  peekDir: 1 | -1;
-  cardWidth: number;
-}) {
+function PeekImage({ src, name, dragX, peekDir, cardWidth }: { src: string; name: string; dragX: MotionValue<number>; peekDir: 1 | -1; cardWidth: number }) {
   const x = useTransform(dragX, (v) => v + peekDir * cardWidth);
   return (
     <motion.div className="absolute inset-0" style={{ x }}>
@@ -76,9 +70,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
 
     if (!isDragModeRef.current && Math.abs(delta) > 4) {
       const dir = delta < 0 ? 1 : -1;
-      const peek = dir === 1
-        ? (imgIndex + 1) % images.length
-        : (imgIndex - 1 + images.length) % images.length;
+      const peek = dir === 1 ? (imgIndex + 1) % images.length : (imgIndex - 1 + images.length) % images.length;
       setPeekDir(dir as 1 | -1);
       setPeekIdx(peek);
       isDragModeRef.current = true;
@@ -89,9 +81,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   };
 
   const commitDrag = (dir: 1 | -1) => {
-    const newIndex = dir === 1
-      ? (imgIndex + 1) % images.length
-      : (imgIndex - 1 + images.length) % images.length;
+    const newIndex = dir === 1 ? (imgIndex + 1) % images.length : (imgIndex - 1 + images.length) % images.length;
 
     animate(dragX, dir * -cardWidth, {
       type: "spring",
@@ -146,29 +136,14 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   };
 
   return (
-    <div
-      className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group"
-      style={{ width: cardWidth, aspectRatio: "4 / 5", touchAction: "pan-y" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerCancel}
-    >
+    <div className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group" style={{ width: cardWidth, aspectRatio: "4 / 5", touchAction: "pan-y" }} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp} onPointerCancel={handlePointerCancel}>
       {/* ── Drag mode: two manually positioned images ── */}
       {isDragMode && (
         <>
           <motion.div className="absolute inset-0" style={{ x: dragX }}>
             <Image src={images[imgIndex]} alt={product.name} fill className="object-cover pointer-events-none" draggable={false} />
           </motion.div>
-          <PeekImage
-            src={images[peekIdx]}
-            name={product.name}
-            dragX={dragX}
-            peekDir={peekDir}
-            cardWidth={cardWidth}
-          />
+          <PeekImage src={images[peekIdx]} name={product.name} dragX={dragX} peekDir={peekDir} cardWidth={cardWidth} />
         </>
       )}
 
@@ -251,26 +226,21 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
         <div className="flex-1 min-w-0">
           <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
           <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight truncate">{product.name}</p>
-          <p className="text-[9px] text-black/60 mt-1">
-            DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </p>
+          <p className="text-[9px] text-black/60 mt-1">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
         </div>
         {/* Center: sizes */}
         <div className="flex flex-col items-center gap-1 shrink-0">
           <p className="text-[6px] tracking-[0.2em] uppercase text-black/30">Sizes</p>
           <div className="flex gap-1 flex-wrap justify-center">
             {(product.sizes as readonly string[]).map((s) => (
-              <span key={s} className="text-[7px] tracking-[0.06em] uppercase text-black/55 font-medium">{s}</span>
+              <span key={s} className="text-[7px] tracking-[0.06em] uppercase text-black/55 font-medium">
+                {s}
+              </span>
             ))}
           </div>
         </div>
         {/* Right: add to cart */}
-        <button
-          type="button"
-          onPointerDown={(e) => e.stopPropagation()}
-          className="shrink-0 w-7 h-7 flex items-center justify-center bg-black text-white hover:bg-black/80 transition-colors duration-200"
-          aria-label="Add to cart"
-        >
+        <button type="button" onPointerDown={(e) => e.stopPropagation()} className="shrink-0 w-7 h-7 flex items-center justify-center bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
           <span className="text-[15px] leading-none font-light">+</span>
         </button>
       </div>
@@ -283,26 +253,21 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
             <div className="flex-1 min-w-0">
               <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
               <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight truncate">{product.name}</p>
-              <p className="text-[9px] text-black/60 mt-1">
-                DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </p>
+              <p className="text-[9px] text-black/60 mt-1">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
             </div>
             {/* Center: sizes */}
             <div className="flex flex-col items-center gap-1 shrink-0">
               <p className="text-[6px] tracking-[0.2em] uppercase text-black/30">Sizes</p>
               <div className="flex gap-1 flex-wrap justify-center">
                 {(product.sizes as readonly string[]).map((s) => (
-                  <span key={s} className="text-[7px] tracking-[0.06em] uppercase text-black/55 font-medium">{s}</span>
+                  <span key={s} className="text-[7px] tracking-[0.06em] uppercase text-black/55 font-medium">
+                    {s}
+                  </span>
                 ))}
               </div>
             </div>
             {/* Right: add to cart */}
-            <button
-              type="button"
-              onPointerDown={(e) => e.stopPropagation()}
-              className="shrink-0 w-7 h-7 flex items-center justify-center bg-black text-white hover:bg-black/80 transition-colors duration-200"
-              aria-label="Add to cart"
-            >
+            <button type="button" onPointerDown={(e) => e.stopPropagation()} className="shrink-0 w-7 h-7 flex items-center justify-center bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
               <span className="text-[16px] leading-none font-light">+</span>
             </button>
           </motion.div>
