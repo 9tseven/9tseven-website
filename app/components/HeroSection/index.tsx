@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import Slide from "./Slide";
 import SlideIndicator from "./SlideIndicator";
+import HeroOverlayText from "./HeroOverlayText";
 import { useSlider } from "./hooks/useSlider";
 import { SLIDES } from "./constants";
 
@@ -42,6 +43,8 @@ export default function HeroSection() {
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none w-17 md:w-25">
         <Image src="/Logo/9t7.svg" alt="9TSEVEN" width={500} height={500} className="w-full h-auto" priority />
       </div>
+
+      <HeroOverlayText current={current} />
 
       <SlideIndicator current={current} onPrev={prev} onNext={next} />
     </section>
