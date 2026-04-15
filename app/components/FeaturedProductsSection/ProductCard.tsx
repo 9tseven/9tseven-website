@@ -41,6 +41,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const skipEnterAnim = useRef(false);
+  // Mirrors isDragMode as a ref to avoid stale-closure reads inside handlePointerMove.
   const isDragModeRef = useRef(false);
 
   const images = product.images as readonly string[];
@@ -134,6 +135,14 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
     }
   };
 
+  const handlePointerCancel = (e: React.PointerEvent) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    // browser already released pointer capture on cancel — do not call releasePointerCapture
+    e.stopPropagation();
+    snapBack();
+  };
+
   return (
     <div
       className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group"
@@ -143,7 +152,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
     >
       {/* ── Drag mode: two manually positioned images ── */}
       {isDragMode && (
