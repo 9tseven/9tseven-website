@@ -41,19 +41,20 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const skipEnterAnim = useRef(false);
+  const isDragModeRef = useRef(false);
 
   const images = product.images as readonly string[];
   const hasMultiple = images.length > 1;
 
   const prevImage = (e: React.MouseEvent) => {
-    if (isAnimating) return;
+    if (isAnimating || isDragMode) return;
     e.stopPropagation();
     setDirection(-1);
     setImgIndex((i) => (i - 1 + images.length) % images.length);
   };
 
   const nextImage = (e: React.MouseEvent) => {
-    if (isAnimating) return;
+    if (isAnimating || isDragMode) return;
     e.stopPropagation();
     setDirection(1);
     setImgIndex((i) => (i + 1) % images.length);
@@ -64,6 +65,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
     e.preventDefault();
     isDragging.current = true;
     dragStartX.current = e.clientX;
+    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -71,13 +73,14 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
     const delta = e.clientX - dragStartX.current;
     dragX.set(delta);
 
-    if (!isDragMode && Math.abs(delta) > 4) {
+    if (!isDragModeRef.current && Math.abs(delta) > 4) {
       const dir = delta < 0 ? 1 : -1;
       const peek = dir === 1
         ? (imgIndex + 1) % images.length
         : (imgIndex - 1 + images.length) % images.length;
       setPeekDir(dir as 1 | -1);
       setPeekIdx(peek);
+      isDragModeRef.current = true;
       setIsDragMode(true);
     }
 
@@ -98,6 +101,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
         dragX.set(0);
         setDirection(dir);
         setImgIndex(newIndex);
+        isDragModeRef.current = false;
         setIsDragMode(false);
       },
     });
@@ -110,6 +114,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
       damping: 40,
       onComplete: () => {
         dragX.set(0);
+        isDragModeRef.current = false;
         setIsDragMode(false);
       },
     });
@@ -118,6 +123,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   const handlePointerUp = (e: React.PointerEvent) => {
     if (!isDragging.current) return;
     isDragging.current = false;
+    (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId);
     e.stopPropagation();
 
     const delta = dragX.get();
@@ -131,7 +137,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   return (
     <div
       className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group"
-      style={{ width: cardWidth, aspectRatio: "4 / 5" }}
+      style={{ width: cardWidth, aspectRatio: "4 / 5", touchAction: "pan-y" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onPointerDown={handlePointerDown}
@@ -162,9 +168,11 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
             key={imgIndex}
             custom={direction}
             variants={{
-              enter: (dir: number) => ({
-                x: skipEnterAnim.current ? 0 : dir * (cardWidth || 300),
-              }),
+              enter: (dir: number) => {
+                const skip = skipEnterAnim.current;
+                skipEnterAnim.current = false;
+                return { x: skip ? 0 : dir * (cardWidth || 300) };
+              },
               center: { x: 0 },
               exit: (dir: number) => ({ x: -dir * (cardWidth || 300) }),
             }}
@@ -174,7 +182,6 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
             transition={{ type: "spring", stiffness: 320, damping: 36, mass: 0.9 }}
             className="absolute inset-0"
             onAnimationStart={() => {
-              skipEnterAnim.current = false;
               setIsAnimating(true);
             }}
             onAnimationComplete={() => setIsAnimating(false)}
