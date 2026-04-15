@@ -62,7 +62,7 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    if (window.innerWidth >= 640 || !hasMultiple || isAnimating || isDragMode) return;
+    if (!hasMultiple || isAnimating || isDragMode) return;
     e.preventDefault();
     isDragging.current = true;
     dragStartX.current = e.clientX;
