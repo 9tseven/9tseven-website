@@ -16,13 +16,14 @@ export default function ProductCarouselIndicator({ current, pageCount, onPrev, o
         <div className="flex gap-1 w-full">
           {Array.from({ length: pageCount }, (_, i) => (
             <button
+              type="button"
               key={i}
-              onClick={() => onGoTo(i)}
+              onClick={() => { if (i !== current) onGoTo(i); }}
               className="flex-1 h-5 flex items-end group"
               aria-label={`Go to page ${i + 1}`}
             >
               <div
-                className="w-full h-px group-hover:h-[5px] transition-all duration-200"
+                className="w-full h-px group-hover:h-[5px] [transition:height_200ms_ease,background-color_300ms_ease]"
                 style={{
                   backgroundColor: i === current ? "rgba(0,0,0,0.85)" : "rgba(0,0,0,0.15)",
                 }}
@@ -38,10 +39,10 @@ export default function ProductCarouselIndicator({ current, pageCount, onPrev, o
             {String(pageCount).padStart(2, "0")}
           </span>
           <div className="flex items-center gap-3">
-            <button onClick={onPrev} aria-label="Previous product" className="text-black/30 hover:text-black transition-colors duration-200">
+            <button type="button" onClick={onPrev} aria-label="Previous product" className="text-black/30 hover:text-black transition-colors duration-200">
               <ChevronLeft size={13} strokeWidth={1.25} />
             </button>
-            <button onClick={onNext} aria-label="Next product" className="text-black/30 hover:text-black transition-colors duration-200">
+            <button type="button" onClick={onNext} aria-label="Next product" className="text-black/30 hover:text-black transition-colors duration-200">
               <ChevronRight size={13} strokeWidth={1.25} />
             </button>
           </div>
