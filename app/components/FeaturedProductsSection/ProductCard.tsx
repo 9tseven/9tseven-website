@@ -246,31 +246,67 @@ export default function ProductCard({ product, cardWidth }: ProductCardProps) {
       )}
 
       {/* Mobile: price panel — always visible */}
-      <div className="absolute bottom-4 left-3.5 right-3.5 px-3 py-2.5 bg-white/95 border-t border-black/8 z-20 md:hidden">
-        <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
-        <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight">{product.name}</p>
-        <p className="text-[9px] text-black/60 mt-1">
-          DKK{" "}
-          {product.price.toLocaleString("da-DK", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </p>
+      <div className="absolute bottom-0 left-0 right-0 px-4 pt-3 pb-4 bg-white/95 border-t border-black/8 z-20 md:hidden">
+        <div className="flex items-center gap-2">
+          {/* Left: category + name + price */}
+          <div className="flex-1 min-w-0">
+            <p className="text-[7px] tracking-[0.18em] uppercase text-black/35 mb-0.5">{product.category}</p>
+            <p className="text-[10px] font-semibold tracking-[0.06em] uppercase text-black leading-tight truncate">{product.name}</p>
+            <p className="text-[9px] text-black/50 mt-1 tracking-wide">
+              DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </p>
+          </div>
+          {/* Center: sizes */}
+          <div className="flex flex-col items-center gap-1 px-2">
+            <p className="text-[6px] tracking-[0.2em] uppercase text-black/30">Sizes</p>
+            <div className="flex gap-1 flex-wrap justify-center">
+              {(product.sizes as readonly string[]).map((s) => (
+                <span key={s} className="text-[7px] tracking-[0.08em] uppercase text-black/60 font-medium">{s}</span>
+              ))}
+            </div>
+          </div>
+          {/* Right: add to cart */}
+          <button
+            type="button"
+            onPointerDown={(e) => e.stopPropagation()}
+            className="shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white hover:bg-black/80 transition-colors duration-200"
+            aria-label="Add to cart"
+          >
+            <span className="text-[16px] leading-none font-light">+</span>
+          </button>
+        </div>
       </div>
 
       {/* Desktop: price panel — animated on hover */}
       <AnimatePresence>
         {hovered && (
-          <motion.div key="info" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.18, ease: "easeOut" }} className="hidden md:block absolute bottom-4 left-3.5 right-3.5 px-3 py-2.5 bg-white/95 border-t border-black/8 z-20">
-            <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
-            <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight">{product.name}</p>
-            <p className="text-[9px] text-black/60 mt-1">
-              DKK{" "}
-              {product.price.toLocaleString("da-DK", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </p>
+          <motion.div key="info" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.18, ease: "easeOut" }} className="hidden md:flex absolute bottom-0 left-0 right-0 px-4 pt-3 pb-4 bg-white/95 border-t border-black/8 z-20 items-center gap-2">
+            {/* Left: category + name + price */}
+            <div className="flex-1 min-w-0">
+              <p className="text-[7px] tracking-[0.18em] uppercase text-black/35 mb-0.5">{product.category}</p>
+              <p className="text-[10px] font-semibold tracking-[0.06em] uppercase text-black leading-tight truncate">{product.name}</p>
+              <p className="text-[9px] text-black/50 mt-1 tracking-wide">
+                DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </p>
+            </div>
+            {/* Center: sizes */}
+            <div className="flex flex-col items-center gap-1 px-2">
+              <p className="text-[6px] tracking-[0.2em] uppercase text-black/30">Sizes</p>
+              <div className="flex gap-1 flex-wrap justify-center">
+                {(product.sizes as readonly string[]).map((s) => (
+                  <span key={s} className="text-[7px] tracking-[0.08em] uppercase text-black/60 font-medium">{s}</span>
+                ))}
+              </div>
+            </div>
+            {/* Right: add to cart */}
+            <button
+              type="button"
+              onPointerDown={(e) => e.stopPropagation()}
+              className="shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white hover:bg-black/80 transition-colors duration-200"
+              aria-label="Add to cart"
+            >
+              <span className="text-[16px] leading-none font-light">+</span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
