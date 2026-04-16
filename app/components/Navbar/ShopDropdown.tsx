@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { SHOP_MENU } from "./constants";
@@ -13,6 +13,10 @@ interface ShopDropdownProps {
 export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdownProps) {
   const [activeCategory, setActiveCategory] = useState(0);
   const category = SHOP_MENU[activeCategory];
+
+  useEffect(() => {
+    if (!shopOpen) setActiveCategory(0);
+  }, [shopOpen]);
 
   return (
     <AnimatePresence>
