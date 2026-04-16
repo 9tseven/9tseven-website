@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import ProductCard from "./ProductCard";
 import ProductCarouselIndicator from "./ProductCarouselIndicator";
 import { useProductCarousel } from "./hooks/useProductCarousel";
@@ -42,7 +43,9 @@ export default function FeaturedProductsSection() {
 
       {/* Footer link */}
       <div className="text-center mt-8">
-        <button className="text-[9px] tracking-[0.2em] uppercase text-black/50 hover:text-black transition-colors duration-200 border-b border-black/20 pb-px">VIEW ALL PRODUCTS</button>
+        <Link href="/products" className="text-[9px] tracking-[0.2em] uppercase text-black/50 hover:text-black transition-colors duration-200 border-b border-black/20 pb-px">
+          VIEW ALL PRODUCTS
+        </Link>
       </div>
     </section>
   );
