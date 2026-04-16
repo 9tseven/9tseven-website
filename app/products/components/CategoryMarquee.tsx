@@ -7,7 +7,7 @@ interface CategoryMarqueeProps {
 export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
   // Two identical copies side-by-side. The animation translates -50% so the
   // second copy slides into view exactly where the first ended — zero gap.
-  const repeated = Array(12).fill(text).join("\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0");
+  const repeated = Array(12).fill(text).join("\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0");
 
   return (
     <div
@@ -22,10 +22,10 @@ export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
         }}
       >
         {/* Two copies — second picks up where first ends */}
-        <span className="text-5xl md:text-7xl font-black uppercase tracking-tight text-black shrink-0 pr-24">
+        <span className="text-5xl md:text-7xl font-black uppercase tracking-tight text-black shrink-0">
           {repeated}
         </span>
-        <span className="text-5xl md:text-7xl font-black uppercase tracking-tight text-black shrink-0 pr-24" aria-hidden="true">
+        <span className="text-5xl md:text-7xl font-black uppercase tracking-tight text-black shrink-0">
           {repeated}
         </span>
       </div>
