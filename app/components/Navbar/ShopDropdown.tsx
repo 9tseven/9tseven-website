@@ -1,56 +1,117 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { SHOP_LINKS } from "./constants";
+import { SHOP_MENU } from "./constants";
 
 interface ShopDropdownProps {
-  isDark: boolean;
   shopOpen: boolean;
-  onMouseEnter: () => void;
   onShopLinkClick: () => void;
-  dropdownRef: React.RefObject<HTMLDivElement | null>;
-  triggerRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-export default function ShopDropdown({ isDark, shopOpen, onMouseEnter, onShopLinkClick, dropdownRef, triggerRef }: ShopDropdownProps) {
-  const [hoveredDropdown, setHoveredDropdown] = useState<number | null>(null);
+export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdownProps) {
+  const [activeCategory, setActiveCategory] = useState(0);
+  const category = SHOP_MENU[activeCategory];
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!shopOpen) setActiveCategory(0);
+  }, [shopOpen]);
 
   return (
-    <div className="relative z-10" onMouseEnter={onMouseEnter}>
-      <button ref={triggerRef} className="flex items-center gap-1.5 px-4 py-2 text-[0.65rem] tracking-[0.18em] uppercase opacity-70 hover:opacity-100 transition-opacity duration-150">
-        Shop
-        <ChevronDown size={10} strokeWidth={1.5} className={`transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`} />
-      </button>
-
-      <AnimatePresence>
-        {shopOpen && (
-          <motion.div ref={dropdownRef} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.12 }} className="absolute left-0 top-full pt-1 pb-2 min-w-[200px]">
-            {SHOP_LINKS.map((link, i) => (
-              <Link key={link.href} href={link.href} onClick={onShopLinkClick} onMouseEnter={() => setHoveredDropdown(i)} onMouseLeave={() => setHoveredDropdown(null)} className="relative block px-4 py-2.5 text-[0.6rem] tracking-[0.18em] uppercase opacity-50 hover:opacity-100 transition-opacity duration-150">
-                {hoveredDropdown === i && (
-                  <motion.span
+    <AnimatePresence>
+      {shopOpen && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97, y: -4 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.97, y: -4 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          className="absolute top-[calc(100%+6px)] left-1/2 -translate-x-1/2 flex bg-[rgba(18,18,18,0.92)] backdrop-blur-md rounded-[18px] overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
+          style={{ transformOrigin: "top center" }}
+        >
+          {/* Left column — categories */}
+          <div className="py-3 border-r border-white/[0.07]" style={{ minWidth: "170px" }}>
+            {SHOP_MENU.map((item, i) => (
+              <div key={item.href} className="relative mx-1.5">
+                {activeCategory === i && (
+                  <motion.div
                     layoutId="dropdown-pill"
-                    className="absolute inset-y-0 left-2 right-2 rounded-lg pointer-events-none"
-                    style={{
-                      background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 30,
-                      mass: 0.8,
-                    }}
+                    className="absolute inset-0 rounded-[10px] bg-white/[0.09]"
+                    transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
                   />
                 )}
-                {link.label}
-              </Link>
+                <Link
+                  href={item.href}
+                  onClick={onShopLinkClick}
+                  onMouseEnter={() => setActiveCategory(i)}
+                  className="relative block px-4 py-2.5 text-[0.68rem] tracking-[0.16em] uppercase text-white/45 hover:text-white transition-colors duration-150 z-10"
+                >
+                  {item.label}
+                </Link>
+              </div>
             ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          </div>
+
+          {/* Right column — subcategories or product previews */}
+          <div className="overflow-hidden" style={{ width: "280px" }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 6 }}
+                transition={{ duration: 0.12 }}
+              >
+                {category.type === "subcategories" ? (
+                  <div className="py-3">
+                    <p className="px-5 pb-2.5 text-[0.6rem] tracking-[0.18em] uppercase text-white/20">
+                      {category.label}
+                    </p>
+                    {category.subcategories.map((sub) => (
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        onClick={onShopLinkClick}
+                        className="block mx-1.5 px-4 py-2.5 text-[0.68rem] tracking-[0.14em] uppercase text-white/55 hover:text-white hover:bg-white/[0.07] rounded-[10px] transition-colors duration-150"
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-4 flex flex-col gap-3">
+                    <div className="flex gap-3 items-start">
+                      {[1, 2, 3].map((n) => (
+                        <Link
+                          key={n}
+                          href={`${category.href}?product=${n}`}
+                          onClick={onShopLinkClick}
+                          className="flex-1 flex flex-col gap-1.5 group"
+                        >
+                          <div className="w-full aspect-3/4 rounded-lg bg-white/6 border border-dashed border-white/15 flex items-center justify-center group-hover:bg-white/10 transition-colors duration-150">
+                            <span className="text-white/20 text-xs">▣</span>
+                          </div>
+                          <span className="text-[0.6rem] tracking-widest uppercase text-white/35 text-center group-hover:text-white/60 transition-colors duration-150">
+                            Product_0{n}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                    <Link
+                      href={category.href}
+                      onClick={onShopLinkClick}
+                      className="self-end text-[0.62rem] tracking-[0.12em] uppercase text-white/35 hover:text-white transition-colors duration-150"
+                    >
+                      See all →
+                    </Link>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
