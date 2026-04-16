@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Figtree, Monsieur_La_Doulaise } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
 
 const figtreeSans = Figtree({
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Navbar />
         <SmoothScroll>{children}</SmoothScroll>
+        <Footer />
       </body>
     </html>
   );
