@@ -50,10 +50,7 @@ export default function DesktopNav() {
       }}
     >
       {/* Island pill */}
-      <div
-        ref={islandRef}
-        className="relative flex items-center bg-[rgba(18,18,18,0.85)] backdrop-blur-md rounded-full px-1.5 py-1.5 gap-0.5"
-      >
+      <div ref={islandRef} className="relative flex items-center bg-[rgba(18,18,18,0.85)] backdrop-blur-md rounded-full px-2 py-2 gap-0.5">
         {/* Sliding highlight */}
         <AnimatePresence>
           {pill && (
@@ -77,8 +74,11 @@ export default function DesktopNav() {
         <Link
           ref={communityRef}
           href="/community"
-          onMouseEnter={() => { setHoveredIndex(0); setShopOpen(false); }}
-          className="relative px-4 py-2 text-[0.65rem] tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          onMouseEnter={() => {
+            setHoveredIndex(0);
+            setShopOpen(false);
+          }}
+          className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
         >
           Community
         </Link>
@@ -86,25 +86,25 @@ export default function DesktopNav() {
         <Link
           ref={aboutRef}
           href="/about"
-          onMouseEnter={() => { setHoveredIndex(1); setShopOpen(false); }}
-          className="relative px-4 py-2 text-[0.65rem] tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          onMouseEnter={() => {
+            setHoveredIndex(1);
+            setShopOpen(false);
+          }}
+          className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
         >
           About Us
         </Link>
 
-        <div className="w-px h-3.5 bg-white/10 mx-1 shrink-0" />
-
         <button
           ref={shopTriggerRef}
-          onMouseEnter={() => { setHoveredIndex(2); setShopOpen(true); }}
-          className="relative flex items-center gap-1.5 px-4 py-2 text-[0.65rem] tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          onMouseEnter={() => {
+            setHoveredIndex(2);
+            setShopOpen(true);
+          }}
+          className="relative flex items-center gap-1.5 px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
         >
           Shop
-          <ChevronDown
-            size={10}
-            strokeWidth={1.5}
-            className={`transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`}
-          />
+          <ChevronDown size={10} strokeWidth={1.5} className={`transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`} />
         </button>
 
         <div className="w-px h-3.5 bg-white/10 mx-1 shrink-0" />
@@ -113,17 +113,27 @@ export default function DesktopNav() {
           ref={cartRef}
           href="/cart"
           aria-label="Cart"
-          onMouseEnter={() => { setHoveredIndex(3); setShopOpen(false); }}
-          className="relative px-3 py-2 text-white/60 hover:text-white transition-colors duration-150 z-10"
+          onMouseEnter={() => {
+            setHoveredIndex(3);
+            setShopOpen(false);
+          }}
+          className="relative px-3.5 py-2.5 text-white/60 hover:text-white transition-colors duration-150 z-10"
         >
           <ShoppingCart size={14} strokeWidth={1.5} />
         </Link>
       </div>
 
       {/* Floating dropdown panel */}
+      {/* Invisible bridge — fills the 6 px gap so mouseleave doesn't fire mid-travel */}
+      {shopOpen && <div className="absolute left-0 right-0 h-3" style={{ top: "100%" }} />}
+
+      {/* Floating dropdown panel */}
       <ShopDropdown
         shopOpen={shopOpen}
-        onShopLinkClick={() => { setShopOpen(false); setHoveredIndex(null); }}
+        onShopLinkClick={() => {
+          setShopOpen(false);
+          setHoveredIndex(null);
+        }}
       />
     </div>
   );

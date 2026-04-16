@@ -31,7 +31,7 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
           style={{ transformOrigin: "top center" }}
         >
           {/* Left column — categories */}
-          <div className="py-2.5 border-r border-white/[0.07]" style={{ minWidth: "150px" }}>
+          <div className="py-3 border-r border-white/[0.07]" style={{ minWidth: "170px" }}>
             {SHOP_MENU.map((item, i) => (
               <div key={item.href} className="relative mx-1.5">
                 {activeCategory === i && (
@@ -45,7 +45,7 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
                   href={item.href}
                   onClick={onShopLinkClick}
                   onMouseEnter={() => setActiveCategory(i)}
-                  className="relative block px-4 py-2 text-[0.6rem] tracking-[0.16em] uppercase text-white/45 hover:text-white transition-colors duration-150 z-10"
+                  className="relative block px-4 py-2.5 text-[0.68rem] tracking-[0.16em] uppercase text-white/45 hover:text-white transition-colors duration-150 z-10"
                 >
                   {item.label}
                 </Link>
@@ -54,7 +54,7 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
           </div>
 
           {/* Right column — subcategories or product previews */}
-          <div className="flex-1 overflow-hidden" style={{ minWidth: "170px" }}>
+          <div className="overflow-hidden" style={{ width: "280px" }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeCategory}
@@ -64,8 +64,8 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
                 transition={{ duration: 0.12 }}
               >
                 {category.type === "subcategories" ? (
-                  <div className="py-2.5">
-                    <p className="px-5 pb-2 text-[0.55rem] tracking-[0.18em] uppercase text-white/20">
+                  <div className="py-3">
+                    <p className="px-5 pb-2.5 text-[0.6rem] tracking-[0.18em] uppercase text-white/20">
                       {category.label}
                     </p>
                     {category.subcategories.map((sub) => (
@@ -73,29 +73,38 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
                         key={sub.href}
                         href={sub.href}
                         onClick={onShopLinkClick}
-                        className="block mx-1.5 px-4 py-2 text-[0.6rem] tracking-[0.14em] uppercase text-white/55 hover:text-white hover:bg-white/[0.07] rounded-[10px] transition-colors duration-150"
+                        className="block mx-1.5 px-4 py-2.5 text-[0.68rem] tracking-[0.14em] uppercase text-white/55 hover:text-white hover:bg-white/[0.07] rounded-[10px] transition-colors duration-150"
                       >
                         {sub.label}
                       </Link>
                     ))}
                   </div>
                 ) : (
-                  <div className="p-3 flex gap-2 items-start">
-                    {[1, 2, 3].map((n) => (
-                      <Link
-                        key={n}
-                        href={`${category.href}?product=${n}`}
-                        onClick={onShopLinkClick}
-                        className="flex-1 flex flex-col gap-1.5 group"
-                      >
-                        <div className="w-full aspect-[3/4] rounded-lg bg-white/[0.06] border border-dashed border-white/15 flex items-center justify-center group-hover:bg-white/[0.10] transition-colors duration-150">
-                          <span className="text-white/20 text-xs">▣</span>
-                        </div>
-                        <span className="text-[0.5rem] tracking-[0.1em] uppercase text-white/35 text-center group-hover:text-white/60 transition-colors duration-150">
-                          Product_0{n}
-                        </span>
-                      </Link>
-                    ))}
+                  <div className="p-4 flex flex-col gap-3">
+                    <div className="flex gap-3 items-start">
+                      {[1, 2, 3].map((n) => (
+                        <Link
+                          key={n}
+                          href={`${category.href}?product=${n}`}
+                          onClick={onShopLinkClick}
+                          className="flex-1 flex flex-col gap-1.5 group"
+                        >
+                          <div className="w-full aspect-3/4 rounded-lg bg-white/6 border border-dashed border-white/15 flex items-center justify-center group-hover:bg-white/10 transition-colors duration-150">
+                            <span className="text-white/20 text-xs">▣</span>
+                          </div>
+                          <span className="text-[0.6rem] tracking-widest uppercase text-white/35 text-center group-hover:text-white/60 transition-colors duration-150">
+                            Product_0{n}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                    <Link
+                      href={category.href}
+                      onClick={onShopLinkClick}
+                      className="self-end text-[0.62rem] tracking-[0.12em] uppercase text-white/35 hover:text-white transition-colors duration-150"
+                    >
+                      See all →
+                    </Link>
                   </div>
                 )}
               </motion.div>
