@@ -22,7 +22,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     .join(" ");
 
   return (
-    <main className="bg-white min-h-screen pt-16">
+    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
       <ProductDetailView
         product={product}
         backHref={`/products/${category}`}

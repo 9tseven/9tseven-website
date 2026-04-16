@@ -27,7 +27,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     .join(" ");
 
   return (
-    <main className="bg-white min-h-screen pt-16">
+    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
       <CategoryMarquee text={label} />
 
       <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
