@@ -42,8 +42,8 @@ body {
     background: rgba(0, 0, 0, 0.3);
   }
 
-  /* Mobile: always show hover state */
-  @media (max-width: 767px) {
+  /* Touch/no-hover devices: always show the hover state */
+  @media (hover: none) {
     .home-image-panel .home-image-cursor-text {
       opacity: 1;
     }
