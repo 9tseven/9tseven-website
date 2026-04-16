@@ -42,3 +42,6 @@ export const SHOP_MENU: ShopCategory[] = [
     type: "products",
   },
 ];
+
+/** @deprecated Use SHOP_MENU — this shim exists only until MobileMenu.tsx is migrated */
+export const SHOP_LINKS = SHOP_MENU;
