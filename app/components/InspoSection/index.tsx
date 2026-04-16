@@ -20,8 +20,8 @@ const DOTS: [number, number][] = [
 // Clockwise from top-right (dot 2 ≈ 1 o'clock), outer ring first, center last
 const CLOCKWISE_ORDER = [2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 0];
 
-// Placeholder texts indexed by filled dot count (0 = none filled, 11 = all filled)
-const TEXTS = ["", "Placeholder 1", "Placeholder 2", "Placeholder 3", "Placeholder 4", "Placeholder 5", "Placeholder 6", "Placeholder 7", "Placeholder 8", "Placeholder 9", "Placeholder 10", "Placeholder 11"];
+const TEXTS = ["", "1.\nGratitude. Thank you for this one\n life.", "2.\nCreate a space for diversity.\nWe are all the same.", "3.\nIt's you vs you. At your own\npace, in your own time.", "4.\nWelcome all feelings. To appreciate the\nhighs, we have to appreciate the lows.", "5.\nNothing changes if nothing changes.\nStart now and improve later.", "6.\nChallenge your limits. Growth happens\nwhen you step outside your comfort zone.", "7.\nFuel your passion, not just your body. What\nDrives you is as important as what nourishes you", "8.\nYou're always developing, Always\nevolving. Enjoy the process.", "9.\nHolistic health. Invest in your physical,\nmental and emotional well-being.", "10.\nCommunity. Create a space for\ninspiration & human connection", "11.\nYou"];
+
 const FILL_SEQUENCE: number[] = new Array(TOTAL).fill(0);
 CLOCKWISE_ORDER.forEach((dotIdx, order) => {
   FILL_SEQUENCE[dotIdx] = order;
@@ -64,7 +64,7 @@ export default function InspoSection() {
   });
 
   return (
-    <div ref={wrapperRef} style={{ height: "400vh" }}>
+    <div ref={wrapperRef} style={{ height: "1200vh" }}>
       <section data-nav-theme="dark" className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
         {/* Corner accent dots — top right */}
         <div className="absolute top-5 right-5 flex flex-col gap-[5px] pointer-events-none">
@@ -87,8 +87,8 @@ export default function InspoSection() {
         {/* Centered square container keeps the circle perfectly round */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-10">
           {/* Text label — changes with each newly filled dot */}
-          <div className="h-6 flex items-center justify-center pointer-events-none">
-            <p className="text-[20px] tracking-[0.22em] uppercase text-white transition-none">{TEXTS[filledCount]}</p>
+          <div className="h-[60px] flex items-center justify-center pointer-events-none">
+            <p className="md:text-[20px] tracking-[0.22em] uppercase text-white transition-none whitespace-pre-line text-center">{TEXTS[filledCount]}</p>
           </div>
 
           <div className="relative" style={{ width: "min(55vw, 55vh)", aspectRatio: "1" }}>
