@@ -14,6 +14,12 @@ export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
       className="w-full overflow-hidden bg-white border-b border-black/8 py-4 select-none"
       aria-hidden="true"
     >
+      <style>{`
+        @keyframes marquee-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+      `}</style>
       <div
         className="flex whitespace-nowrap"
         style={{
