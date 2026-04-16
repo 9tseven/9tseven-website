@@ -10,8 +10,7 @@ interface UseImageSliderOptions {
 
 export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
   const [imgIndex, setImgIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [hoverIdx, setHoverIdx] = useState(0);
 
   const [isDragMode, setIsDragMode] = useState(false);
   const [peekIdx, setPeekIdx] = useState(0);
@@ -20,27 +19,27 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
   const dragX = useMotionValue(0);
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
-  const skipEnterAnim = useRef(false);
   const isDragModeRef = useRef(false);
 
   const hasMultiple = images.length > 1;
 
-  const prevImage = (e: React.MouseEvent) => {
-    if (isAnimating || isDragMode) return;
-    e.stopPropagation();
-    setDirection(-1);
-    setImgIndex((i) => (i - 1 + images.length) % images.length);
+  const handleCardMouseMove = (e: React.MouseEvent) => {
+    if (isDragging.current || !hasMultiple) return;
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+    const relX = e.clientX - rect.left;
+    const ratio = Math.max(0, Math.min(0.9999, relX / rect.width));
+    setHoverIdx(Math.floor(ratio * images.length));
   };
 
-  const nextImage = (e: React.MouseEvent) => {
-    if (isAnimating || isDragMode) return;
-    e.stopPropagation();
-    setDirection(1);
-    setImgIndex((i) => (i + 1) % images.length);
+  const handleCardMouseLeave = () => {
+    setHoverIdx(0);
   };
 
   const commitDrag = (dir: 1 | -1) => {
-    const newIndex = dir === 1 ? (imgIndex + 1) % images.length : (imgIndex - 1 + images.length) % images.length;
+    const newIndex =
+      dir === 1
+        ? (imgIndex + 1) % images.length
+        : (imgIndex - 1 + images.length) % images.length;
 
     animate(dragX, dir * -cardWidth, {
       type: "spring",
@@ -48,10 +47,9 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
       damping: 36,
       mass: 0.9,
       onComplete: () => {
-        skipEnterAnim.current = true;
         dragX.set(0);
-        setDirection(dir);
         setImgIndex(newIndex);
+        setHoverIdx(newIndex);
         isDragModeRef.current = false;
         setIsDragMode(false);
       },
@@ -73,9 +71,8 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
-    // Skip touch events — let native scroll handle carousel navigation on mobile
     if (e.pointerType === "touch") return;
-    if (!hasMultiple || isAnimating || isDragMode) return;
+    if (!hasMultiple || isDragMode) return;
     e.preventDefault();
     isDragging.current = true;
     dragStartX.current = e.clientX;
@@ -89,7 +86,10 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
 
     if (!isDragModeRef.current && Math.abs(delta) > 4) {
       const dir = delta < 0 ? 1 : -1;
-      const peek = dir === 1 ? (imgIndex + 1) % images.length : (imgIndex - 1 + images.length) % images.length;
+      const peek =
+        dir === 1
+          ? (imgIndex + 1) % images.length
+          : (imgIndex - 1 + images.length) % images.length;
       setPeekDir(dir as 1 | -1);
       setPeekIdx(peek);
       isDragModeRef.current = true;
@@ -122,17 +122,14 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
 
   return {
     imgIndex,
-    direction,
-    isAnimating,
-    setIsAnimating,
+    hoverIdx,
     isDragMode,
     peekIdx,
     peekDir,
     dragX,
-    skipEnterAnim,
     hasMultiple,
-    prevImage,
-    nextImage,
+    handleCardMouseMove,
+    handleCardMouseLeave,
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
