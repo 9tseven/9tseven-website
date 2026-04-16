@@ -22,6 +22,7 @@ export default function DesktopNav() {
     const itemRefs = [communityRef, aboutRef, shopTriggerRef, cartRef];
 
     if (hoveredIndex === null || !islandRef.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPill(null);
       return;
     }

@@ -15,6 +15,7 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
   const category = SHOP_MENU[activeCategory];
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!shopOpen) setActiveCategory(0);
   }, [shopOpen]);
 
