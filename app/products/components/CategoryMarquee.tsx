@@ -29,13 +29,6 @@ export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
           {repeated}
         </span>
       </div>
-
-      <style>{`
-        @keyframes marquee-scroll {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
-        }
-      `}</style>
     </div>
   );
 }
