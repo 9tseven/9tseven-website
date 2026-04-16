@@ -34,7 +34,7 @@ export default function HeroSection() {
           whileDrag={{ cursor: "grabbing" }}
         >
           {SLIDES.map((slide) => (
-            <Slide key={slide.id} id={slide.id} bg={slide.bg} accent={slide.accent} image={slide.image} slideCount={SLIDES.length} />
+            <Slide key={slide.id} id={slide.id} bg={slide.bg} accent={slide.accent} image={slide.image} video={"video" in slide ? slide.video : undefined} slideCount={SLIDES.length} />
           ))}
         </motion.div>
       </div>

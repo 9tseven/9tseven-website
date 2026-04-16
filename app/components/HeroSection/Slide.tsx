@@ -6,10 +6,11 @@ interface SlideProps {
   bg: string;
   accent: string;
   image: string;
+  video?: string;
   slideCount: number;
 }
 
-export default function Slide({ id, bg, accent, image, slideCount }: SlideProps) {
+export default function Slide({ id, bg, accent, image, video, slideCount }: SlideProps) {
   return (
     <div
       className="relative h-full shrink-0"
@@ -29,8 +30,8 @@ export default function Slide({ id, bg, accent, image, slideCount }: SlideProps)
         }}
       />
 
-      {/* Hero image */}
-      <Image src={image} alt={`Hero slide ${id + 1}`} fill className="object-cover pointer-events-none" sizes="100vw" priority={id === 0} draggable={false} />
+      {/* Hero media */}
+      {video ? <video src={video} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover pointer-events-none" /> : <Image src={image} alt={`Hero slide ${id + 1}`} fill className="object-cover pointer-events-none" sizes="100vw" priority={id === 0} draggable={false} />}
 
       {/* Readability overlay */}
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
