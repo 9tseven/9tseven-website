@@ -20,6 +20,7 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const isDragModeRef = useRef(false);
+  const hasDragged = useRef(false);
 
   const hasMultiple = images.length > 1;
 
@@ -71,17 +72,24 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
   };
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    hasDragged.current = false;
+    dragStartX.current = e.clientX;
     if (e.pointerType === "touch") return;
     if (!hasMultiple || isDragMode) return;
     e.preventDefault();
     isDragging.current = true;
-    dragStartX.current = e.clientX;
     (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
+    if (e.pointerType === "touch") {
+      const delta = e.clientX - dragStartX.current;
+      if (Math.abs(delta) > 8) hasDragged.current = true;
+      return;
+    }
     if (!isDragging.current) return;
     const delta = e.clientX - dragStartX.current;
+    if (Math.abs(delta) > 8) hasDragged.current = true;
     dragX.set(delta);
 
     if (!isDragModeRef.current && Math.abs(delta) > 4) {
@@ -128,6 +136,7 @@ export function useImageSlider({ images, cardWidth }: UseImageSliderOptions) {
     peekDir,
     dragX,
     hasMultiple,
+    hasDragged,
     handleCardMouseMove,
     handleCardMouseLeave,
     handlePointerDown,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "motion/react";
 import type { Product } from "../constants";
@@ -11,18 +12,23 @@ import ProductCardInfo from "./ProductCardInfo";
 interface ProductCardProps {
   product: Product;
   cardWidth: number;
+  href?: string;
 }
 
-export default function ProductCard({ product, cardWidth }: ProductCardProps) {
+export default function ProductCard({ product, cardWidth, href }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
+  const router = useRouter();
   const images = product.images as readonly string[];
 
-  const { imgIndex, hoverIdx, isDragMode, peekIdx, peekDir, dragX, hasMultiple, handleCardMouseMove, handleCardMouseLeave, handlePointerDown, handlePointerMove, handlePointerUp, handlePointerCancel } = useImageSlider({ images, cardWidth });
+  const { imgIndex, hoverIdx, isDragMode, peekIdx, peekDir, dragX, hasMultiple, hasDragged, handleCardMouseMove, handleCardMouseLeave, handlePointerDown, handlePointerMove, handlePointerUp, handlePointerCancel } = useImageSlider({ images, cardWidth });
 
   return (
     <div
       className="relative shrink-0 bg-[#e0e0e0] rounded-sm overflow-hidden cursor-pointer group"
       style={{ width: cardWidth, aspectRatio: "4 / 5", touchAction: "pan-x pan-y" }}
+      onClick={() => {
+        if (href && !hasDragged.current) router.push(href);
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => {
         setHovered(false);
