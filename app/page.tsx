@@ -4,6 +4,7 @@ import ManifestoSection from "./components/ManifestoSection";
 import FeaturedProductsSection from "./components/FeaturedProductsSection";
 import HomeImageSection from "./components/HomeImageSection";
 import BrandStatementSection from "./components/BrandStatementSection";
+import InspoSection from "./components/InspoSection";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <ManifestoSection />
       <HomeImageSection />
       <BrandStatementSection />
+      <InspoSection />
     </main>
   );
 }
