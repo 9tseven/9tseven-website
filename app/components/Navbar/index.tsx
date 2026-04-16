@@ -28,7 +28,7 @@ export default function Navbar() {
           <div className="flex-1 flex items-center">
             <Logo />
           </div>
-          <DesktopNav isDark={isDark} />
+          <DesktopNav />
           <div className="flex-1 flex items-center justify-end">
             <NavActions onMenuOpen={() => setMobileOpen(true)} />
           </div>
