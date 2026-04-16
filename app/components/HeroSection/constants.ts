@@ -22,6 +22,7 @@ export const SLIDES = [
     bg: "#0c0d0a",
     accent: "radial-gradient(ellipse 80% 60% at 20% 50%, #181e12 0%, transparent 70%)",
     image: "/Hero/3.webp",
+    video: "/Hero/hero-video.mp4",
     heading: "Our story",
     subheading: "Learn what drives us forward",
     href: "/about",
