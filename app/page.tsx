@@ -1,6 +1,6 @@
 // app/page.tsx
 import HeroSection from "./components/HeroSection";
-import ManifestoSection from "./components/ManifestoSection";
+import MantraSection from "./components/MantraSection";
 import FeaturedProductsSection from "./components/FeaturedProductsSection";
 import HomeImageSection from "./components/HomeImageSection";
 import BrandStatementSection from "./components/BrandStatementSection";
@@ -11,7 +11,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <FeaturedProductsSection />
-      <ManifestoSection />
+      <MantraSection />
       <HomeImageSection />
       <BrandStatementSection />
     </main>
