@@ -9,7 +9,7 @@ import { useSlider } from "./hooks/useSlider";
 import { SLIDES } from "./constants";
 
 export default function HeroSection() {
-  const { current, slideWidth, containerRef, x, handleDragEnd, prev, next } = useSlider();
+  const { current, slideWidth, containerRef, x, handleDragEnd, prev, next, goTo } = useSlider();
 
   return (
     <section data-nav-theme="dark" className="relative w-full h-screen overflow-hidden select-none">
@@ -46,7 +46,7 @@ export default function HeroSection() {
 
       <HeroOverlayText current={current} />
 
-      <SlideIndicator current={current} onPrev={prev} onNext={next} />
+      <SlideIndicator current={current} onPrev={prev} onNext={next} onGoTo={goTo} />
     </section>
   );
 }
