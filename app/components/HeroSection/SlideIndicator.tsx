@@ -5,21 +5,29 @@ interface SlideIndicatorProps {
   current: number;
   onPrev: () => void;
   onNext: () => void;
+  onGoTo: (index: number) => void;
 }
 
-export default function SlideIndicator({ current, onPrev, onNext }: SlideIndicatorProps) {
+export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
   return (
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
       {/* Segmented progress bar */}
-      <div className="flex gap-1 w-full">
+      <div className="flex gap-1 w-full pointer-events-auto">
         {SLIDES.map((_, i) => (
-          <div
+          <button
+            type="button"
             key={i}
-            className="flex-1 h-px transition-colors duration-300"
-            style={{
-              backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
-            }}
-          />
+            onClick={() => { if (i !== current) onGoTo(i); }}
+            className="flex-1 h-5 flex items-end group"
+            aria-label={`Go to slide ${i + 1}`}
+          >
+            <div
+              className="w-full h-px group-hover:h-1.25 [transition:height_200ms_ease,background-color_300ms_ease]"
+              style={{
+                backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
+              }}
+            />
+          </button>
         ))}
       </div>
 
