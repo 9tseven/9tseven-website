@@ -50,7 +50,7 @@ export default function DesktopNav() {
       }}
     >
       {/* Island pill */}
-      <div ref={islandRef} className="relative flex items-center bg-[rgba(18,18,18,0.85)] backdrop-blur-md rounded-full px-2 py-2 gap-0.5">
+      <div ref={islandRef} className="relative flex items-center bg-[rgba(18,18,18,0.7)] backdrop-blur-md rounded-full px-2 py-2 gap-0.5">
         {/* Sliding highlight */}
         <AnimatePresence>
           {pill && (
