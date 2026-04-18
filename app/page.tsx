@@ -4,6 +4,7 @@ import MantraSection from "./components/MantraSection";
 import FeaturedProductsSection from "./components/FeaturedProductsSection";
 import HomeImageSection from "./components/HomeImageSection";
 import BrandStatementSection from "./components/BrandStatementSection";
+import BlogSection from "./components/BlogSection";
 import InspoSection from "./components/InspoSection";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <MantraSection />
       <HomeImageSection />
       <BrandStatementSection />
+      <BlogSection />
     </main>
   );
 }
