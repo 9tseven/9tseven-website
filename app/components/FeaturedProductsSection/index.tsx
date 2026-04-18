@@ -1,49 +1,40 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import ProductCard from "./ProductCard";
 import ProductCarouselIndicator from "./ProductCarouselIndicator";
 import { useProductCarousel } from "./hooks/useProductCarousel";
 import { PRODUCTS, CARD_GAP } from "./constants";
 
 export default function FeaturedProductsSection() {
-  const { current, cardWidth, visibleCards, pageCount, containerRef, handleScroll, prev, next, snapTo } = useProductCarousel();
+  const { current, cardWidth, pageCount, containerRef, x, handleDragEnd, dragConstraintsLeft, prev, next, snapTo } = useProductCarousel();
 
   return (
     <section data-nav-theme="light" className="w-full bg-white py-8 select-none">
-      {/* Section label */}
-      <p className="text-[9px] tracking-[0.25em] uppercase text-black/40 text-center mb-9">( FEATURED PRODUCTS )</p>
+      <p className="font-mono text-xs tracking-[0.25em] uppercase text-black text-center mb-9">( FEATURED PRODUCTS )</p>
 
-      {/* Padding wrapper — shrinks the card area away from viewport edges */}
-      <div className="w-full">
-        {/* Native scroll container */}
-        <div
-          ref={containerRef}
-          className="w-full overflow-x-auto [&::-webkit-scrollbar]:hidden"
-          style={
-            {
-              scrollSnapType: "x mandatory",
-              scrollbarWidth: "none",
-            } as React.CSSProperties
-          }
-          onScroll={handleScroll}
+      <div ref={containerRef} className="w-full overflow-hidden">
+        <motion.div
+          className="flex"
+          style={{ x, gap: CARD_GAP, cursor: "grab" }}
+          drag="x"
+          dragConstraints={{ left: dragConstraintsLeft(), right: 0 }}
+          dragElastic={0.06}
+          dragMomentum={false}
+          onDragEnd={handleDragEnd}
+          whileDrag={{ cursor: "grabbing" }}
         >
-          <div className="flex" style={{ gap: CARD_GAP }}>
-            {PRODUCTS.map((product, i) => (
-              <div key={product.id} style={{ scrollSnapAlign: i % visibleCards === 0 ? "start" : "none", flexShrink: 0 }}>
-                <ProductCard product={product} cardWidth={cardWidth} />
-              </div>
-            ))}
-          </div>
-        </div>
+          {PRODUCTS.map((product) => (
+            <ProductCard key={product.id} product={product} cardWidth={cardWidth} />
+          ))}
+        </motion.div>
       </div>
 
-      {/* Progress indicator */}
       <ProductCarouselIndicator current={current} pageCount={pageCount} onPrev={prev} onNext={next} onGoTo={snapTo} />
 
-      {/* Footer link */}
       <div className="text-center mt-8">
-        <Link href="/products" className="text-[9px] tracking-[0.2em] uppercase text-black/50 hover:text-black transition-colors duration-200 border-b border-black/20 pb-px">
+        <Link href="/products" className="font-mono text-sm tracking-[-0.05em] text-black underline underline-offset-4 transition-opacity hover:opacity-50">
           VIEW ALL PRODUCTS
         </Link>
       </div>

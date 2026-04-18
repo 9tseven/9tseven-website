@@ -21,8 +21,8 @@ export default function ProductsGrid({ products }: ProductsGridProps) {
 
     const update = () => {
       const w = container.offsetWidth;
-      // md breakpoint = 768px: 3 cols; below: 2 cols
-      const cols = w >= 768 ? 3 : 2;
+      // lg breakpoint = 1024px: 3 cols; below: 2 cols
+      const cols = w >= 1024 ? 3 : 2;
       setCardWidth(Math.floor((w - GAP * (cols - 1)) / cols));
     };
 
@@ -43,7 +43,7 @@ export default function ProductsGrid({ products }: ProductsGridProps) {
   return (
     <div ref={containerRef} className="w-full px-3 py-3">
       <div
-        className="grid grid-cols-2 md:grid-cols-3"
+        className="grid grid-cols-2 lg:grid-cols-3"
         style={{ gap: GAP }}
       >
         {products.map((product) => (

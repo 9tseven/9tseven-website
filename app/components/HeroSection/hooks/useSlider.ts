@@ -8,6 +8,7 @@ export function useSlider() {
   const [current, setCurrent] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);
   const slideWidthRef = useRef(0);
+  const currentRef = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
 
@@ -32,9 +33,29 @@ export function useSlider() {
         mass: 0.9,
       });
       setCurrent(clamped);
+      currentRef.current = clamped;
     },
     [x],
   );
+
+  // Horizontal trackpad/wheel scroll changes slide
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    let lastWheel = 0;
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
+      if (Math.abs(e.deltaX) < 40) return;
+      e.preventDefault();
+      const now = Date.now();
+      if (now - lastWheel < 1000) return;
+      lastWheel = now;
+      if (e.deltaX > 0) snapTo(currentRef.current + 1);
+      else snapTo(currentRef.current - 1);
+    };
+    container.addEventListener("wheel", onWheel, { passive: false });
+    return () => container.removeEventListener("wheel", onWheel);
+  }, [snapTo]);
 
   const handleDragEnd = useCallback(
     (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
