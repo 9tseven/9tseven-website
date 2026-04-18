@@ -7,6 +7,8 @@ import { ChevronDown } from "lucide-react";
 
 const TOTAL = 11;
 const RADIUS = 42; // % of the square container
+// First 80% of scroll fills the dots; last 20% expands the center dot
+const FILL_END = 0.8;
 
 // Dot 0 = center; dots 1–10 evenly placed clockwise from 12 o'clock
 const DOTS: [number, number][] = [
@@ -28,12 +30,19 @@ CLOCKWISE_ORDER.forEach((dotIdx, order) => {
 });
 
 function Dot({ x, y, fillOrder, scrollYProgress }: { x: number; y: number; fillOrder: number; scrollYProgress: MotionValue<number> }) {
-  const start = fillOrder / TOTAL;
-  const end = (fillOrder + 1) / TOTAL;
+  const isCenter = fillOrder === TOTAL - 1;
+
+  // Compress fill ranges into the first FILL_END of scroll progress
+  const start = (fillOrder / TOTAL) * FILL_END;
+  const end = ((fillOrder + 1) / TOTAL) * FILL_END;
 
   const fill = useTransform(scrollYProgress, [start, end], [0, 1]);
   const bg = useTransform(fill, (v) => `rgba(255,255,255,${v})`);
   const border = useTransform(fill, (v) => `rgba(255,255,255,${0.5 + v * 0.5})`);
+
+  // Center dot scales up to fill the section after all dots are filled.
+  // Non-center dots use a flat [0,1]→[1,1] range so hooks are always called.
+  const scale = useTransform(scrollYProgress, isCenter ? [FILL_END, 1] : [0, 1], isCenter ? [1, 100] : [1, 1]);
 
   return (
     <div className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
@@ -44,6 +53,8 @@ function Dot({ x, y, fillOrder, scrollYProgress }: { x: number; y: number; fillO
           borderWidth: 1,
           borderStyle: "solid",
           borderColor: border,
+          scale,
+          ...(isCenter ? { zIndex: 10 } : {}),
         }}
       />
     </div>
@@ -63,8 +74,12 @@ export default function InspoSection() {
     setFilledCount(Math.min(TOTAL, Math.round(v * TOTAL)));
   });
 
+  const textOpacity = useTransform(scrollYProgress, [0.9, 1], [0, 1]);
+  // Fades in the first text as the first dot fills; stays at 1 for all subsequent texts
+  const firstTextOpacity = useTransform(scrollYProgress, [0, (1 / TOTAL) * FILL_END], [0, 1]);
+
   return (
-    <div ref={wrapperRef} style={{ height: "1200vh" }}>
+    <div ref={wrapperRef} style={{ height: "1400vh" }}>
       <section data-nav-theme="dark" className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
         {/* Corner accent dots — top right */}
         <div className="absolute top-5 right-5 flex flex-col gap-[5px] pointer-events-none">
@@ -88,7 +103,9 @@ export default function InspoSection() {
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-10">
           {/* Text label — changes with each newly filled dot */}
           <div className="h-[60px] flex items-center justify-center pointer-events-none">
-            <p className="md:text-[20px] tracking-[0.22em] uppercase text-white transition-none whitespace-pre-line text-center">{TEXTS[filledCount]}</p>
+            <motion.p className="md:text-[20px] tracking-[0.22em] uppercase text-white transition-none whitespace-pre-line text-center" style={{ opacity: firstTextOpacity }}>
+              {TEXTS[filledCount]}
+            </motion.p>
           </div>
 
           <div className="relative" style={{ width: "min(55vw, 55vh)", aspectRatio: "1" }}>
@@ -97,6 +114,11 @@ export default function InspoSection() {
             ))}
           </div>
         </div>
+
+        {/* Text revealed over the white fill */}
+        <motion.div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none" style={{ opacity: textOpacity }}>
+          <p className="text-black text-7xl tracking-[0.18em] uppercase text-center self-center">Placeholder</p>
+        </motion.div>
 
         {/* Bottom instruction */}
         <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-1.5 pointer-events-none">
