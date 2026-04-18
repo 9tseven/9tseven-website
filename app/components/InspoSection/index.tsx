@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import type { MotionValue } from "motion/react";
 import { ChevronDown } from "lucide-react";
@@ -29,7 +29,7 @@ CLOCKWISE_ORDER.forEach((dotIdx, order) => {
   FILL_SEQUENCE[dotIdx] = order;
 });
 
-function Dot({ x, y, fillOrder, scrollYProgress }: { x: number; y: number; fillOrder: number; scrollYProgress: MotionValue<number> }) {
+function Dot({ x, y, fillOrder, scrollYProgress, maxScale }: { x: number; y: number; fillOrder: number; scrollYProgress: MotionValue<number>; maxScale: number }) {
   const isCenter = fillOrder === TOTAL - 1;
 
   // Compress fill ranges into the first FILL_END of scroll progress
@@ -42,7 +42,7 @@ function Dot({ x, y, fillOrder, scrollYProgress }: { x: number; y: number; fillO
 
   // Center dot scales up to fill the section after all dots are filled.
   // Non-center dots use a flat [0,1]→[1,1] range so hooks are always called.
-  const scale = useTransform(scrollYProgress, isCenter ? [FILL_END, 1] : [0, 1], isCenter ? [1, 100] : [1, 1]);
+  const scale = useTransform(scrollYProgress, isCenter ? [FILL_END, 1] : [0, 1], isCenter ? [1, maxScale] : [1, 1]);
 
   return (
     <div className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
@@ -64,6 +64,18 @@ function Dot({ x, y, fillOrder, scrollYProgress }: { x: number; y: number; fillO
 export default function InspoSection() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [filledCount, setFilledCount] = useState(0);
+  const [maxScale, setMaxScale] = useState(80);
+
+  useEffect(() => {
+    const calculate = () => {
+      // dot is w-7 = 28px, radius = 14px; scale must cover viewport diagonal from center
+      const diag = Math.sqrt((window.innerWidth / 2) ** 2 + (window.innerHeight / 2) ** 2);
+      setMaxScale(Math.ceil(diag / 14) + 2);
+    };
+    calculate();
+    window.addEventListener("resize", calculate);
+    return () => window.removeEventListener("resize", calculate);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -71,10 +83,10 @@ export default function InspoSection() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setFilledCount(Math.min(TOTAL, Math.round(v * TOTAL)));
+    setFilledCount(Math.min(TOTAL, Math.round((v / FILL_END) * TOTAL)));
   });
 
-  const textOpacity = useTransform(scrollYProgress, [0.9, 1], [0, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
   // Fades in the first text as the first dot fills; stays at 1 for all subsequent texts
   const firstTextOpacity = useTransform(scrollYProgress, [0, (1 / TOTAL) * FILL_END], [0, 1]);
 
@@ -110,14 +122,14 @@ export default function InspoSection() {
 
           <div className="relative" style={{ width: "min(55vw, 55vh)", aspectRatio: "1" }}>
             {DOTS.map(([x, y], i) => (
-              <Dot key={i} x={x} y={y} fillOrder={FILL_SEQUENCE[i]} scrollYProgress={scrollYProgress} />
+              <Dot key={i} x={x} y={y} fillOrder={FILL_SEQUENCE[i]} scrollYProgress={scrollYProgress} maxScale={maxScale} />
             ))}
           </div>
         </div>
 
         {/* Text revealed over the white fill */}
         <motion.div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none" style={{ opacity: textOpacity }}>
-          <p className="text-black text-7xl tracking-[0.18em] uppercase text-center self-center">Placeholder</p>
+          <p className="text-black text-4xl md:text-7xl tracking-[0.18em] uppercase text-center self-center">Placeholder</p>
         </motion.div>
 
         {/* Bottom instruction */}
