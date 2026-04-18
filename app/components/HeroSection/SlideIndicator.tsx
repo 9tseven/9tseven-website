@@ -17,7 +17,9 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
           <button
             type="button"
             key={i}
-            onClick={() => { if (i !== current) onGoTo(i); }}
+            onClick={() => {
+              if (i !== current) onGoTo(i);
+            }}
             className="flex-1 h-5 flex items-end group"
             aria-label={`Go to slide ${i + 1}`}
           >
@@ -33,7 +35,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
 
       {/* Counter + arrows */}
       <div className="flex items-center justify-between mt-4 pointer-events-auto">
-        <span className="text-white/40 text-[0.65rem] tracking-[0.2em] tabular-nums">
+        <span className="font-mono text-white/40 text-[0.65rem] tracking-[0.2em] tabular-nums">
           {String(current + 1).padStart(2, "0")}&nbsp;/&nbsp;
           {String(SLIDES.length).padStart(2, "0")}
         </span>
