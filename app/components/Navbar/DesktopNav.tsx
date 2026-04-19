@@ -1,3 +1,4 @@
+// app/components/Navbar/DesktopNav.tsx
 "use client";
 
 import { useState, useRef, useLayoutEffect } from "react";
@@ -5,18 +6,20 @@ import Link from "next/link";
 import { ShoppingCart, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ShopDropdown from "./ShopDropdown";
+import { useCart } from "@/app/context/CartContext";
 import type { PillStyle } from "./types";
 
 export default function DesktopNav() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [shopOpen, setShopOpen] = useState(false);
   const [pill, setPill] = useState<PillStyle | null>(null);
+  const { openCart, totalQuantity } = useCart();
 
   const islandRef = useRef<HTMLDivElement>(null);
   const communityRef = useRef<HTMLAnchorElement>(null);
   const aboutRef = useRef<HTMLAnchorElement>(null);
   const shopTriggerRef = useRef<HTMLButtonElement>(null);
-  const cartRef = useRef<HTMLAnchorElement>(null);
+  const cartRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
     const itemRefs = [communityRef, aboutRef, shopTriggerRef, cartRef];
@@ -109,21 +112,21 @@ export default function DesktopNav() {
 
         <div className="w-px h-3.5 bg-white/10 mx-1 shrink-0" />
 
-        <Link
+        <button
           ref={cartRef}
-          href="/cart"
-          aria-label="Cart"
+          onClick={openCart}
+          aria-label={`Open cart, ${totalQuantity} items`}
           onMouseEnter={() => {
             setHoveredIndex(3);
             setShopOpen(false);
           }}
-          className="relative px-3.5 py-2.5 text-white/60 hover:text-white transition-colors duration-150 z-10"
+          className="relative flex items-center gap-2 px-3.5 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
         >
+          Cart ({totalQuantity})
           <ShoppingCart size={14} strokeWidth={1.5} />
-        </Link>
+        </button>
       </div>
 
-      {/* Floating dropdown panel */}
       {/* Invisible bridge — fills the 6 px gap so mouseleave doesn't fire mid-travel */}
       {shopOpen && <div className="absolute left-0 right-0 h-3" style={{ top: "100%" }} />}
 
