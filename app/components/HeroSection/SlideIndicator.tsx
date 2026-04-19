@@ -30,7 +30,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
             aria-label={`Go to slide ${i + 1}`}
           >
             {/* Segment bar — thumbnail slides up from here via absolute positioning */}
-            <div className="relative h-5 flex items-end">
+            <div className="relative h-10 flex items-end">
               {/* Thumbnail — desktop only, absolutely positioned above the bar */}
               <div
                 className="hidden md:flex absolute bottom-0 left-0 w-full flex-col overflow-hidden transition-[opacity,max-height] duration-200 ease-in-out"
