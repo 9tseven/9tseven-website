@@ -11,10 +11,10 @@ import { useAutoSlide } from "./hooks/useAutoSlide";
 import { SLIDES } from "./constants";
 
 export default function HeroSection() {
-  const { current, slideWidth, containerRef, x, handleDragEnd, prev, next, goTo } = useSlider();
+  const { current, slideWidth, containerRef, x, handleDragEnd, prev, next, nextLooping, goTo } = useSlider();
   const [isHovered, setIsHovered] = useState(false);
 
-  const { reset } = useAutoSlide({ next, isPaused: isHovered });
+  const { reset } = useAutoSlide({ next: nextLooping, isPaused: isHovered });
 
   const handlePrev = useCallback(() => {
     reset();

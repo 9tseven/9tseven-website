@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { SLIDES } from "./constants";
 
@@ -10,11 +11,56 @@ interface SlideIndicatorProps {
   onGoTo: (index: number) => void;
 }
 
+const TEXT_TRANSITION = {
+  type: "tween" as const,
+  duration: 0.6,
+  ease: [0.65, 0, 0.35, 1] as const,
+};
+
 export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  const activeIndex = hoveredIndex ?? current;
+
   return (
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
+
+      {/* Hover heading — desktop only, top-left of indicator container */}
+      <div className="hidden md:block mb-3 pointer-events-none">
+        {/* Heading clip box */}
+        <div className="overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.p
+              key={`indicator-heading-${activeIndex}`}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={TEXT_TRANSITION}
+              className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em]"
+              style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.1rem)" }}
+            >
+              {SLIDES[activeIndex].heading}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+        {/* Subheading clip box */}
+        <div className="overflow-hidden mt-0.5" style={{ height: "clamp(0.8rem, 1.4vw, 1rem)" }}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.p
+              key={`indicator-sub-${activeIndex}`}
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={{ ...TEXT_TRANSITION, delay: 0.06 }}
+              className="font-bold text-white/40 leading-[1.2] uppercase -tracking-[0.02em]"
+              style={{ fontSize: "clamp(0.65rem, 1.1vw, 0.8rem)" }}
+            >
+              {SLIDES[activeIndex].subheading}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+      </div>
+
       {/* Segmented progress bar */}
       <div className="flex gap-1 w-full pointer-events-auto">
         {SLIDES.map((slide, i) => (

@@ -76,6 +76,7 @@ export function useSlider() {
 
   const prev = useCallback(() => snapTo(current - 1), [current, snapTo]);
   const next = useCallback(() => snapTo(current + 1), [current, snapTo]);
+  const nextLooping = useCallback(() => snapTo((currentRef.current + 1) % SLIDES.length), [snapTo]);
 
-  return { current, slideWidth, containerRef, x, handleDragEnd, prev, next, goTo: snapTo };
+  return { current, slideWidth, containerRef, x, handleDragEnd, prev, next, nextLooping, goTo: snapTo };
 }
