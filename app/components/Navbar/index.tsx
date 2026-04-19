@@ -1,23 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Logo from "./Logo";
 import DesktopNav from "./DesktopNav";
 import NavActions from "./NavActions";
 import MobileMenu from "./MobileMenu";
+import CartDrawer from "../Cart/CartDrawer";
 import { useNavTheme } from "./hooks/useNavTheme";
 
 export default function Navbar() {
   const theme = useNavTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  // Body scroll lock
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
 
   const isDark = theme === "dark";
 
@@ -36,6 +29,7 @@ export default function Navbar() {
       </nav>
 
       <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <CartDrawer />
     </>
   );
 }
