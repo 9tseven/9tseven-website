@@ -33,7 +33,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
             <div className="relative h-5 flex items-end">
               {/* Thumbnail — desktop only, absolutely positioned above the bar */}
               <div
-                className="hidden md:flex absolute bottom-full left-0 w-full flex-col overflow-hidden transition-[opacity,max-height] duration-200 ease-in-out"
+                className="hidden md:flex absolute bottom-0 left-0 w-full flex-col overflow-hidden transition-[opacity,max-height] duration-200 ease-in-out"
                 style={{
                   maxHeight: hoveredIndex === i ? "120px" : "0px",
                   opacity: hoveredIndex === i ? 1 : 0,
