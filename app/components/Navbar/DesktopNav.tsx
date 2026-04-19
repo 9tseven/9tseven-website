@@ -92,7 +92,7 @@ export default function DesktopNav() {
           }}
           className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
         >
-          About Us
+          Mantra
         </Link>
 
         <button
