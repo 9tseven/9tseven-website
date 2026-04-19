@@ -15,18 +15,9 @@ export default function FeaturedProductsSection() {
       <p className="font-mono text-xs tracking-[0.25em] uppercase text-black text-center mb-9">( FEATURED PRODUCTS )</p>
 
       <div ref={containerRef} className="w-full overflow-hidden">
-        <motion.div
-          className="flex"
-          style={{ x, gap: CARD_GAP, cursor: "grab" }}
-          drag="x"
-          dragConstraints={{ left: dragConstraintsLeft(), right: 0 }}
-          dragElastic={0.06}
-          dragMomentum={false}
-          onDragEnd={handleDragEnd}
-          whileDrag={{ cursor: "grabbing" }}
-        >
+        <motion.div className="flex" style={{ x, gap: CARD_GAP, cursor: "grab" }} drag="x" dragConstraints={{ left: dragConstraintsLeft(), right: 0 }} dragElastic={0.06} dragMomentum={false} onDragEnd={handleDragEnd} whileDrag={{ cursor: "grabbing" }}>
           {PRODUCTS.map((product) => (
-            <ProductCard key={product.id} product={product} cardWidth={cardWidth} />
+            <ProductCard key={product.id} product={product} cardWidth={cardWidth} href={`/products/${product.category.toLowerCase().replace(/ /g, "-")}/${product.id}`} />
           ))}
         </motion.div>
       </div>
