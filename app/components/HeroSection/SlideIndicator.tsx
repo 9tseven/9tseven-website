@@ -22,20 +22,11 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
 
   return (
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
-
       {/* Hover heading — desktop only, shown only while hovering a segment */}
-      <div className="hidden md:flex justify-end mb-8 pointer-events-none overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
+      <div className="hidden md:flex justify-start mb-8 pointer-events-none overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
         <AnimatePresence mode="wait" initial={false}>
           {hoveredIndex !== null && (
-            <motion.p
-              key={`indicator-heading-${hoveredIndex}`}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={TEXT_TRANSITION}
-              className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em]"
-              style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.1rem)" }}
-            >
+            <motion.p key={`indicator-heading-${hoveredIndex}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em]" style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.1rem)" }}>
               {SLIDES[hoveredIndex].heading}
             </motion.p>
           )}
@@ -67,24 +58,12 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
                 }}
               >
                 {/* Top framing line — matches hovered indicator style */}
-                <div
-                  className="w-full h-1.25 shrink-0"
-                  style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
-                />
+                <div className="w-full h-1.25 shrink-0" style={{ backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)" }} />
                 {/* Thumbnail image */}
                 <div className="relative w-full grow" style={{ aspectRatio: "16/9" }}>
-                  <Image
-                    src={slide.image}
-                    alt={`Slide ${i + 1} preview`}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 768px) 5vw, 0px"
-                  />
+                  <Image src={slide.image} alt={`Slide ${i + 1} preview`} fill className="object-cover" sizes="(min-width: 768px) 5vw, 0px" />
                   {/* Light bleed from indicator line below */}
-                  <div
-                    className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
-                    style={{ background: "linear-gradient(to top, rgba(255,255,255,0.12), transparent)" }}
-                  />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(255,255,255,0.60), transparent)" }} />
                 </div>
               </div>
 
