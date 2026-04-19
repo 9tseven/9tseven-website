@@ -53,6 +53,11 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
                     className="object-cover"
                     sizes="(min-width: 768px) 5vw, 0px"
                   />
+                  {/* Light bleed from indicator line below */}
+                  <div
+                    className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none"
+                    style={{ background: "linear-gradient(to top, rgba(255,255,255,0.12), transparent)" }}
+                  />
                 </div>
               </div>
 
