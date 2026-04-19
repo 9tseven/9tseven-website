@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import type { MotionValue } from "motion/react";
 import { ChevronDown } from "lucide-react";
@@ -64,6 +65,7 @@ function Dot({ x, y, fillOrder, scrollYProgress, maxScale }: { x: number; y: num
 export default function InspoSection() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [filledCount, setFilledCount] = useState(0);
+  const [labelFadingOut, setLabelFadingOut] = useState(false);
   const [maxScale, setMaxScale] = useState(80);
 
   useEffect(() => {
@@ -84,40 +86,46 @@ export default function InspoSection() {
 
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setFilledCount(Math.min(TOTAL, Math.round((v / FILL_END) * TOTAL)));
+    setLabelFadingOut(v > FILL_END);
   });
 
-  const textOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
-  // Fades in the first text as the first dot fills; stays at 1 for all subsequent texts
-  const firstTextOpacity = useTransform(scrollYProgress, [0, (1 / TOTAL) * FILL_END], [0, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0.83, 0.9], [0, 1]);
+  // Plain CSS opacity (not a motion value) to avoid layer promotion that
+  // disables subpixel font AA and makes the text look grey.
+  const labelVisible = filledCount >= 1 && !labelFadingOut;
+
+  // Corner accent dots: alternate filled/outline as each point is reached; both filled at the end.
+  const dotAFilled = filledCount === TOTAL || filledCount % 2 === 1;
+  const dotBFilled = filledCount === TOTAL || (filledCount > 0 && filledCount % 2 === 0);
 
   return (
     <div ref={wrapperRef} style={{ height: "1400vh" }}>
       <section data-nav-theme="dark" className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
-        {/* Corner accent dots — top right */}
-        <div className="absolute top-5 right-5 flex flex-col gap-[5px] pointer-events-none">
-          <div className="w-[5px] h-[5px] rounded-full bg-white/40" />
-          <div className="w-[5px] h-[5px] rounded-full bg-white/40" />
+        {/* Corner accent dots — below the navbar, alternate filled as scroll progresses */}
+        <div className="absolute top-20 right-5 flex flex-col gap-1.5 pointer-events-none">
+          <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotAFilled ? "bg-white border-white" : "bg-transparent"}`} />
+          <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotBFilled ? "bg-white border-white" : "bg-transparent"}`} />
         </div>
 
         {/* Rotated side label */}
         <p
-          className="absolute left-4 pointer-events-none text-[7px] tracking-[0.28em] uppercase text-white/25 whitespace-nowrap"
+          className="absolute left-4 pointer-events-none font-mono text-md tracking-[0.28em] uppercase text-white/25 whitespace-nowrap"
           style={{
             top: "50%",
             transform: "rotate(-90deg) translateX(-50%)",
             transformOrigin: "left center",
           }}
         >
-          Coming up in space
+          9TSEVEN_MANTRA
         </p>
 
         {/* Centered square container keeps the circle perfectly round */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-10">
           {/* Text label — changes with each newly filled dot */}
-          <div className="h-[60px] flex items-center justify-center pointer-events-none">
-            <motion.p className="md:text-[20px] tracking-[0.22em] uppercase text-white transition-none whitespace-pre-line text-center" style={{ opacity: firstTextOpacity }}>
-              {TEXTS[filledCount]}
-            </motion.p>
+          <div className="h-15 flex items-center justify-center pointer-events-none">
+            <p className="md:text-[20px] tracking-[0.22em] uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
+              {TEXTS[filledCount] || TEXTS[1]}
+            </p>
           </div>
 
           <div className="relative" style={{ width: "min(55vw, 55vh)", aspectRatio: "1" }}>
@@ -128,16 +136,17 @@ export default function InspoSection() {
         </div>
 
         {/* Text revealed over the white fill */}
-        <motion.div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none" style={{ opacity: textOpacity }}>
-          <p className="text-black text-4xl md:text-7xl tracking-[0.18em] uppercase text-center self-center">Placeholder</p>
+        <motion.div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6 gap-6" style={{ opacity: textOpacity }}>
+          <p className="text-black text-lg md:text-2xl leading-relaxed text-center max-w-2xl whitespace-pre-line">{"This is what we strive to live by.\nA mindset of growth, balance, and accountability. Grounded in gratitude, driven by progress, and open to every part of the journey.\n\nTake what resonates. Move at your own pace. Keep evolving."}</p>
+          <Image src="/Logo/9t7.svg" alt="9TSEVEN" width={10} height={10} className="w-5 h-5 invert p-0.5" style={{ width: "40px", height: "40px" }} />
         </motion.div>
 
-        {/* Bottom instruction */}
-        <div className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-1.5 pointer-events-none">
-          <p className="text-[9px] tracking-[0.28em] uppercase text-white/50">Scroll</p>
-          <p className="text-[9px] tracking-[0.28em] uppercase text-white/50">The Dots</p>
-          <ChevronDown size={11} className="text-white/30 mt-1" strokeWidth={1.25} />
-        </div>
+        {/* Bottom instruction — pulses gently, disappears once the first dot is reached */}
+        <motion.div className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-1.5 pointer-events-none" animate={{ opacity: filledCount >= 1 ? 0 : [0.5, 1, 0.5] }} transition={filledCount >= 1 ? { duration: 0.4, ease: "easeOut" } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}>
+          <p className="text-[11px] tracking-[0.28em] uppercase text-white">Scroll</p>
+          <p className="text-[11px] tracking-[0.28em] uppercase text-white">The Dots</p>
+          <ChevronDown size={13} className="text-white mt-1" strokeWidth={1.25} />
+        </motion.div>
       </section>
     </div>
   );
