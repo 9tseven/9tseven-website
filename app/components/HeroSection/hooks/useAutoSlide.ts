@@ -8,7 +8,7 @@ interface UseAutoSlideOptions {
   intervalMs?: number;
 }
 
-export function useAutoSlide({ next, isPaused, intervalMs = 5000 }: UseAutoSlideOptions) {
+export function useAutoSlide({ next, isPaused, intervalMs = 10000 }: UseAutoSlideOptions) {
   const nextRef = useRef(next);
   const isPausedRef = useRef(isPaused);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -30,23 +30,21 @@ export function useAutoSlide({ next, isPaused, intervalMs = 5000 }: UseAutoSlide
 
   const start = useCallback(() => {
     clear();
+    // Interval always runs — isPausedRef gates whether the advance actually fires.
+    // This keeps the rhythm steady across hover pauses so there's no long wait on resume.
     intervalRef.current = setInterval(() => {
-      nextRef.current();
+      if (!isPausedRef.current) nextRef.current();
     }, intervalMs);
   }, [clear, intervalMs]);
 
   const reset = useCallback(() => {
-    if (!isPausedRef.current) start();
+    start();
   }, [start]);
 
   useEffect(() => {
-    if (isPaused) {
-      clear();
-    } else {
-      start();
-    }
+    start();
     return clear;
-  }, [isPaused, start, clear]);
+  }, [start, clear]);
 
   return { reset };
 }
