@@ -25,7 +25,7 @@ CLOCKWISE_ORDER.forEach((dotIdx, order) => {
 function Dot({ x, y, fillOrder, inView }: { x: number; y: number; fillOrder: number; inView: boolean }) {
   return (
     <div className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
-      <motion.div className="w-7 h-7 rounded-full" initial={{ backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0.25)" }} animate={inView ? { backgroundColor: "rgba(0,0,0,1)", borderColor: "rgba(0,0,0,1)" } : { backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0.25)" }} transition={{ duration: 0.8, delay: fillOrder * 0.35 }} style={{ borderWidth: 1, borderStyle: "solid" }} />
+      <motion.div className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full" initial={{ backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0.25)" }} animate={inView ? { backgroundColor: "rgba(0,0,0,1)", borderColor: "rgba(0,0,0,1)" } : { backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0.25)" }} transition={{ duration: 0.8, delay: fillOrder * 0.35 }} style={{ borderWidth: 1, borderStyle: "solid" }} />
     </div>
   );
 }
@@ -35,12 +35,12 @@ export default function MantraSection() {
   const inView = useInView(sectionRef, { amount: 0.6, once: true });
 
   return (
-    <section ref={sectionRef} data-nav-theme="light" className="w-full bg-white px-8 py-16 md:px-16 md:py-24 lg:px-24">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6">
+    <section ref={sectionRef} data-nav-theme="light" className="w-full bg-white py-16 md:py-24">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-8">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-0">
           {/* Heading */}
-          <div className="flex-1 md:pr-16">
-            <h2 className="text-5xl font-bold leading-none tracking-tight text-black md:text-6xl lg:text-[6rem]">
+          <div className="flex-1">
+            <h2 className="text-5xl font-bold leading-none tracking-tight text-black md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem]">
               Community.
               <br />
               Create a space for inspiration &amp; human connection.
@@ -48,8 +48,8 @@ export default function MantraSection() {
           </div>
 
           {/* Dots */}
-          <div className="w-full md:w-auto md:shrink-0">
-            <div className="relative mx-auto w-full md:w-[min(45vw,55vh,480px)]" style={{ aspectRatio: "1" }}>
+          <div className="shrink-0">
+            <div className="relative mx-auto w-70 md:w-72 lg:w-80 xl:w-100" style={{ aspectRatio: "1" }}>
               {DOTS.map(([x, y], i) => (
                 <Dot key={i} x={x} y={y} fillOrder={FILL_SEQUENCE[i]} inView={inView} />
               ))}
