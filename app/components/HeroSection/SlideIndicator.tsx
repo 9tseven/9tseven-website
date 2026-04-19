@@ -58,7 +58,13 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
                 }}
               >
                 {/* Top framing line — matches hovered indicator style */}
-                <div className="w-full h-1.25 shrink-0" style={{ backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)" }} />
+                <div
+                  className="w-full shrink-0 [transition:height_200ms_ease,background-color_300ms_ease]"
+                  style={{
+                    height: i === current ? "5px" : "1px",
+                    backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
+                  }}
+                />
                 {/* Thumbnail image */}
                 <div className="relative w-full grow" style={{ aspectRatio: "16/9" }}>
                   <Image src={slide.image} alt={`Slide ${i + 1} preview`} fill className="object-cover" sizes="(min-width: 768px) 5vw, 0px" />
