@@ -24,7 +24,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
 
       {/* Hover heading — desktop only, shown only while hovering a segment */}
-      <div className="hidden md:block mb-3 pointer-events-none overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
+      <div className="hidden md:block mb-8 pointer-events-none overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
         <AnimatePresence mode="wait" initial={false}>
           {hoveredIndex !== null && (
             <motion.p
