@@ -10,12 +10,16 @@ interface UseAutoSlideOptions {
 
 export function useAutoSlide({ next, isPaused, intervalMs = 5000 }: UseAutoSlideOptions) {
   const nextRef = useRef(next);
+  const isPausedRef = useRef(isPaused);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Keep ref fresh so interval always calls the latest `next`
   useEffect(() => {
     nextRef.current = next;
   }, [next]);
+
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
 
   const clear = useCallback(() => {
     if (intervalRef.current !== null) {
@@ -32,8 +36,8 @@ export function useAutoSlide({ next, isPaused, intervalMs = 5000 }: UseAutoSlide
   }, [clear, intervalMs]);
 
   const reset = useCallback(() => {
-    if (!isPaused) start();
-  }, [isPaused, start]);
+    if (!isPausedRef.current) start();
+  }, [start]);
 
   useEffect(() => {
     if (isPaused) {
@@ -42,7 +46,7 @@ export function useAutoSlide({ next, isPaused, intervalMs = 5000 }: UseAutoSlide
       start();
     }
     return clear;
-  }, [isPaused, start, clear]);
+  }, [isPaused, start]);
 
   return { reset };
 }
