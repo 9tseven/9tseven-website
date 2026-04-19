@@ -71,7 +71,7 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
   return (
     <div ref={wrapperRef} className="home-image-panel h-[60vh] md:h-full relative overflow-hidden">
       <div className="home-image-photo absolute inset-0">
-        <Image src={image} alt={alt} fill className="object-cover" />
+        <Image src={image} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
       </div>
 
       {/* Dark overlay on hover */}

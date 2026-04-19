@@ -37,7 +37,7 @@ export default function ProductCard({ product, cardWidth, href }: ProductCardPro
       onPointerMove={handlePointerMove}
     >
       <div className="absolute inset-0">
-        <Image src={images[hoverIdx]} alt={product.name} fill className="object-cover pointer-events-none" draggable={false} />
+        <Image src={images[hoverIdx]} alt={product.name} fill className="object-cover pointer-events-none" sizes="(max-width: 768px) 50vw, 25vw" draggable={false} />
       </div>
 
       {/* New Arrival tag */}

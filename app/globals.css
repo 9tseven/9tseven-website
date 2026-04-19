@@ -24,6 +24,10 @@ body {
   box-sizing: border-box;
 }
 
+html[data-load-seen] [data-load-screen] {
+  display: none !important;
+}
+
 @layer base {
   .home-image-panel .home-image-photo {
     transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);

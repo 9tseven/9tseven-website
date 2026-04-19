@@ -5,7 +5,10 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
+import LoadScreen from "./components/LoadScreen";
 import { CartProvider } from "./context/CartContext";
+
+const loadScreenPreHydrationScript = `try{if(sessionStorage.getItem('loadScreenSeen'))document.documentElement.setAttribute('data-load-seen','1');}catch(e){}`;
 
 const openSauceSans = localFont({
   variable: "--font-open-sauce-sans",
@@ -44,8 +47,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${openSauceSans.variable} ${monsieurLaDoulaise.variable} h-full antialiased`}>
+    <html lang="en" className={`${openSauceSans.variable} ${monsieurLaDoulaise.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: loadScreenPreHydrationScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
+        <LoadScreen />
         <CartProvider>
           <Navbar />
           <SmoothScroll>{children}</SmoothScroll>
