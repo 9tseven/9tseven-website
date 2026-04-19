@@ -51,10 +51,10 @@ const PLACEHOLDER_CART: Cart = {
       quantity: 1,
       merchandise: {
         id: "variant-1",
-        title: "FLASH RED/BLACK / 6.5M",
-        price: { amount: "270.00", currencyCode: "USD" },
+        title: "MORE THAN RUNNING SINGLET / SMALL",
+        price: { amount: "550.00", currencyCode: "DKK" },
         product: {
-          title: "METASPEED EDGE TOKYO - UNISEX",
+          title: "MORE THAN RUNNING SINGLET - UNISEX",
           featuredImage: null,
         },
       },
@@ -64,25 +64,22 @@ const PLACEHOLDER_CART: Cart = {
       quantity: 2,
       merchandise: {
         id: "variant-2",
-        title: "BLACK / 8M",
-        price: { amount: "180.00", currencyCode: "USD" },
+        title: "9TSEVEN RACE SHORTS / MEDIUM",
+        price: { amount: "449.00", currencyCode: "DKK" },
         product: {
-          title: "GEL-KAYANO 31 - MENS",
+          title: "9TSEVEN RACE SHORTS - UNISEX",
           featuredImage: null,
         },
       },
     },
   ],
   cost: {
-    subtotalAmount: { amount: "630.00", currencyCode: "USD" },
+    subtotalAmount: { amount: "999.00", currencyCode: "DKK" },
   },
 };
 
 function deriveSubtotal(lines: CartLine[]): CartLinePrice {
-  const total = lines.reduce(
-    (sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity,
-    0
-  );
+  const total = lines.reduce((sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity, 0);
   const currencyCode = lines[0]?.merchandise.price.currencyCode ?? "USD";
   return { amount: total.toFixed(2), currencyCode };
 }
@@ -97,7 +94,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   const openCart = () => setIsOpen(true);
@@ -106,16 +105,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addLine = (merchandise: CartLine["merchandise"], quantity: number) => {
     setCart((prev) => {
       const existing = prev.lines.find((l) => l.merchandise.id === merchandise.id);
-      const newLines = existing
-        ? prev.lines.map((l) =>
-            l.merchandise.id === merchandise.id
-              ? { ...l, quantity: l.quantity + quantity }
-              : l
-          )
-        : [
-            ...prev.lines,
-            { id: `line-${Date.now()}`, quantity, merchandise },
-          ];
+      const newLines = existing ? prev.lines.map((l) => (l.merchandise.id === merchandise.id ? { ...l, quantity: l.quantity + quantity } : l)) : [...prev.lines, { id: `line-${Date.now()}`, quantity, merchandise }];
       return { ...prev, lines: newLines, cost: { subtotalAmount: deriveSubtotal(newLines) } };
     });
   };
@@ -128,18 +118,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const updateLine = (id: string, quantity: number) => {
-    if (quantity < 1) { removeLine(id); return; }
+    if (quantity < 1) {
+      removeLine(id);
+      return;
+    }
     setCart((prev) => {
       const newLines = prev.lines.map((l) => (l.id === id ? { ...l, quantity } : l));
       return { ...prev, lines: newLines, cost: { subtotalAmount: deriveSubtotal(newLines) } };
     });
   };
 
-  return (
-    <CartContext.Provider value={{ cart, isOpen, openCart, closeCart, addLine, removeLine, updateLine, totalQuantity }}>
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={{ cart, isOpen, openCart, closeCart, addLine, removeLine, updateLine, totalQuantity }}>{children}</CartContext.Provider>;
 }
 
 export function useCart(): CartContextValue {
