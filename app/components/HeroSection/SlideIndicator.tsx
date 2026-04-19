@@ -13,8 +13,8 @@ interface SlideIndicatorProps {
 
 const TEXT_TRANSITION = {
   type: "tween" as const,
-  duration: 0.6,
-  ease: [0.65, 0, 0.35, 1] as const,
+  duration: 0.18,
+  ease: [0, 0, 0.2, 1] as const,
 };
 
 export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
