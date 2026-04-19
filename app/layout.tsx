@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SmoothScroll from "./components/SmoothScroll";
+import { CartProvider } from "./context/CartContext";
 
 const openSauceSans = localFont({
   variable: "--font-open-sauce-sans",
@@ -45,9 +46,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${openSauceSans.variable} ${monsieurLaDoulaise.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Navbar />
-        <SmoothScroll>{children}</SmoothScroll>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <SmoothScroll>{children}</SmoothScroll>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );
