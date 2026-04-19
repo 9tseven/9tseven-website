@@ -26,13 +26,14 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
             }}
             onMouseEnter={() => setHoveredIndex(i)}
             onMouseLeave={() => setHoveredIndex(null)}
-            className="flex-1 flex flex-col items-stretch group"
+            className="flex-1 group"
             aria-label={`Go to slide ${i + 1}`}
           >
-            {/* Thumbnail — desktop only, shown on hover */}
-            <div className="hidden md:block">
+            {/* Segment bar — thumbnail slides up from here via absolute positioning */}
+            <div className="relative h-5 flex items-end">
+              {/* Thumbnail — desktop only, absolutely positioned above the bar */}
               <div
-                className="w-full overflow-hidden transition-[opacity,max-height] duration-200 ease-in-out"
+                className="hidden md:flex absolute bottom-full left-0 w-full flex-col overflow-hidden transition-[opacity,max-height] duration-200 ease-in-out"
                 style={{
                   maxHeight: hoveredIndex === i ? "120px" : "0px",
                   opacity: hoveredIndex === i ? 1 : 0,
@@ -40,11 +41,11 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
               >
                 {/* Top framing line */}
                 <div
-                  className="w-full h-px"
+                  className="w-full h-px shrink-0"
                   style={{ backgroundColor: "rgba(255,255,255,0.35)" }}
                 />
                 {/* Thumbnail image */}
-                <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                <div className="relative w-full grow" style={{ aspectRatio: "16/9" }}>
                   <Image
                     src={slide.image}
                     alt={`Slide ${i + 1} preview`}
@@ -54,10 +55,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
                   />
                 </div>
               </div>
-            </div>
 
-            {/* Segment bar (acts as bottom frame when thumbnail is visible) */}
-            <div className="h-5 flex items-end">
               <div
                 className="w-full h-px group-hover:h-1.25 [transition:height_200ms_ease,background-color_300ms_ease]"
                 style={{
