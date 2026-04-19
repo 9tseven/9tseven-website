@@ -46,7 +46,7 @@ export function useAutoSlide({ next, isPaused, intervalMs = 5000 }: UseAutoSlide
       start();
     }
     return clear;
-  }, [isPaused, start]);
+  }, [isPaused, start, clear]);
 
   return { reset };
 }
