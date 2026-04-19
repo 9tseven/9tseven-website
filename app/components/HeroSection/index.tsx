@@ -1,18 +1,46 @@
 "use client";
 
+import { useState, useCallback } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import Slide from "./Slide";
 import SlideIndicator from "./SlideIndicator";
 import HeroOverlayText from "./HeroOverlayText";
 import { useSlider } from "./hooks/useSlider";
+import { useAutoSlide } from "./hooks/useAutoSlide";
 import { SLIDES } from "./constants";
 
 export default function HeroSection() {
   const { current, slideWidth, containerRef, x, handleDragEnd, prev, next, goTo } = useSlider();
+  const [isHovered, setIsHovered] = useState(false);
+
+  const { reset } = useAutoSlide({ next, isPaused: isHovered });
+
+  const handlePrev = useCallback(() => {
+    reset();
+    prev();
+  }, [reset, prev]);
+
+  const handleNext = useCallback(() => {
+    reset();
+    next();
+  }, [reset, next]);
+
+  const handleGoTo = useCallback(
+    (index: number) => {
+      reset();
+      goTo(index);
+    },
+    [reset, goTo],
+  );
 
   return (
-    <section data-nav-theme="dark" className="relative w-full h-screen overflow-hidden select-none">
+    <section
+      data-nav-theme="dark"
+      className="relative w-full h-screen overflow-hidden select-none"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Filmstrip container */}
       <div ref={containerRef} className="w-full h-full">
         <motion.div
@@ -30,11 +58,22 @@ export default function HeroSection() {
           }}
           dragElastic={0.06}
           dragMomentum={false}
-          onDragEnd={handleDragEnd}
+          onDragEnd={(e, info) => {
+            reset();
+            handleDragEnd(e, info);
+          }}
           whileDrag={{ cursor: "grabbing" }}
         >
           {SLIDES.map((slide) => (
-            <Slide key={slide.id} id={slide.id} bg={slide.bg} accent={slide.accent} image={slide.image} video={"video" in slide ? slide.video : undefined} slideCount={SLIDES.length} />
+            <Slide
+              key={slide.id}
+              id={slide.id}
+              bg={slide.bg}
+              accent={slide.accent}
+              image={slide.image}
+              video={"video" in slide ? slide.video : undefined}
+              slideCount={SLIDES.length}
+            />
           ))}
         </motion.div>
       </div>
@@ -46,7 +85,7 @@ export default function HeroSection() {
 
       <HeroOverlayText current={current} />
 
-      <SlideIndicator current={current} onPrev={prev} onNext={next} onGoTo={goTo} />
+      <SlideIndicator current={current} onPrev={handlePrev} onNext={handleNext} onGoTo={handleGoTo} />
     </section>
   );
 }
