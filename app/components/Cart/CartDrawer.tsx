@@ -26,6 +26,7 @@ export default function CartDrawer() {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed inset-0 z-40 bg-black/60"
             onClick={closeCart}
+            aria-hidden="true"
           />
 
           {/* Drawer panel */}
@@ -36,6 +37,9 @@ export default function CartDrawer() {
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 380, damping: 36, mass: 0.9 }}
             className="fixed right-0 top-0 z-50 h-full w-full max-w-[420px] bg-[#0b0b0b] flex flex-col"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Shopping cart"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 h-16 shrink-0 border-b border-white/10">
@@ -93,7 +97,8 @@ export default function CartDrawer() {
                           <button
                             onClick={() => updateLine(line.id, line.quantity - 1)}
                             aria-label="Decrease quantity"
-                            className="text-white/40 hover:text-white transition-colors text-sm leading-none"
+                            disabled={line.quantity === 1}
+                            className="text-white/40 hover:text-white transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed"
                           >
                             −
                           </button>
@@ -108,6 +113,7 @@ export default function CartDrawer() {
                         </div>
                         <button
                           onClick={() => removeLine(line.id)}
+                          aria-label={`Remove ${line.merchandise.product.title} from cart`}
                           className="text-[0.65rem] tracking-[0.14em] uppercase text-white/30 hover:text-white/70 transition-colors underline underline-offset-2"
                         >
                           Remove
