@@ -39,10 +39,10 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
                   opacity: hoveredIndex === i ? 1 : 0,
                 }}
               >
-                {/* Top framing line */}
+                {/* Top framing line — matches hovered indicator style */}
                 <div
-                  className="w-full h-px shrink-0"
-                  style={{ backgroundColor: "rgba(255,255,255,0.35)" }}
+                  className="w-full h-1.25 shrink-0"
+                  style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
                 />
                 {/* Thumbnail image */}
                 <div className="relative w-full grow" style={{ aspectRatio: "16/9" }}>
