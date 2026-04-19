@@ -89,7 +89,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
               </div>
 
               <div
-                className="w-full h-px group-hover:h-1.25 [transition:height_200ms_ease,background-color_300ms_ease]"
+                className="relative z-10 w-full h-px group-hover:h-1.25 [transition:height_200ms_ease,background-color_300ms_ease]"
                 style={{
                   backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
                 }}
