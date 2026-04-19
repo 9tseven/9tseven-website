@@ -20,18 +20,15 @@ const TEXT_TRANSITION = {
 export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const activeIndex = hoveredIndex ?? current;
-
   return (
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
 
-      {/* Hover heading — desktop only, top-left of indicator container */}
-      <div className="hidden md:block mb-3 pointer-events-none">
-        {/* Heading clip box */}
-        <div className="overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
-          <AnimatePresence mode="wait" initial={false}>
+      {/* Hover heading — desktop only, shown only while hovering a segment */}
+      <div className="hidden md:block mb-3 pointer-events-none overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
+        <AnimatePresence mode="wait" initial={false}>
+          {hoveredIndex !== null && (
             <motion.p
-              key={`indicator-heading-${activeIndex}`}
+              key={`indicator-heading-${hoveredIndex}`}
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "-100%" }}
@@ -39,26 +36,10 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
               className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em]"
               style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.1rem)" }}
             >
-              {SLIDES[activeIndex].heading}
+              {SLIDES[hoveredIndex].heading}
             </motion.p>
-          </AnimatePresence>
-        </div>
-        {/* Subheading clip box */}
-        <div className="overflow-hidden mt-0.5" style={{ height: "clamp(0.8rem, 1.4vw, 1rem)" }}>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p
-              key={`indicator-sub-${activeIndex}`}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={{ ...TEXT_TRANSITION, delay: 0.06 }}
-              className="font-bold text-white/40 leading-[1.2] uppercase -tracking-[0.02em]"
-              style={{ fontSize: "clamp(0.65rem, 1.1vw, 0.8rem)" }}
-            >
-              {SLIDES[activeIndex].subheading}
-            </motion.p>
-          </AnimatePresence>
-        </div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Segmented progress bar */}
