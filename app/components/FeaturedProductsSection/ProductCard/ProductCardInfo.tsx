@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { Product } from "../constants";
 
@@ -9,9 +10,11 @@ interface ProductCardInfoProps {
 }
 
 function InfoContent({ product }: { product: Product }) {
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const soldOut = new Set(product.soldOutSizes as readonly string[]);
+
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
       <div className="flex items-center gap-2">
         <div className="flex-1 min-w-0">
           <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
@@ -27,11 +30,16 @@ function InfoContent({ product }: { product: Product }) {
         <div className="flex gap-1">
           {(product.sizes as readonly string[]).map((s) => {
             const out = soldOut.has(s);
+            const selected = selectedSize === s;
             return (
-              <span key={s} className={`text-[9px] tracking-[0.05em] uppercase font-medium px-1.5 py-1 leading-none relative ${out ? "text-black/25 bg-black/5" : "text-black/70 bg-black/8"}`}>
+              <button key={s} type="button" disabled={out} onClick={() => setSelectedSize(selected ? null : s)} className={`text-[9px] tracking-[0.05em] uppercase font-medium px-1.5 py-1 leading-none relative transition-colors duration-150 ${out ? "text-black/25 bg-black/5 cursor-not-allowed" : selected ? "bg-black text-white" : "text-black/70 bg-black/8 hover:bg-black/15"}`}>
                 {s}
-                {out && <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden preserveAspectRatio="none"><line x1="0" y1="100%" x2="100%" y2="0" stroke="rgba(0,0,0,0.25)" strokeWidth="1" /></svg>}
-              </span>
+                {out && (
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden preserveAspectRatio="none">
+                    <line x1="0" y1="100%" x2="100%" y2="0" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
+                  </svg>
+                )}
+              </button>
             );
           })}
         </div>

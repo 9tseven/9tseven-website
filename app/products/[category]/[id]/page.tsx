@@ -8,7 +8,7 @@ interface ProductDetailPageProps {
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const { category, id } = await params;
+  const { id } = await params;
 
   const product = PRODUCTS.find((p) => String(p.id) === id);
 
@@ -16,18 +16,9 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     notFound();
   }
 
-  const categoryLabel = category
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-
   return (
     <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
-      <ProductDetailView
-        product={product}
-        backHref={`/products/${category}`}
-        backLabel={`Back to ${categoryLabel}`}
-      />
+      <ProductDetailView product={product} />
     </main>
   );
 }
