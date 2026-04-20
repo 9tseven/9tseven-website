@@ -366,22 +366,25 @@ export default function AsciiRun() {
   }, [paused]);
 
   return (
-    <div>
-      <pre className="font-mono leading-none text-sm select-none text-black">{FRAMES[frame]}</pre>
-      {process.env.NODE_ENV === "development" && (
-        <div className="flex gap-2 mt-2 text-xs font-mono">
-          <button onClick={() => setPaused((p) => !p)}>{paused ? "▶ play" : "⏸ pause"}</button>
-          {paused && (
-            <>
-              <button onClick={() => setFrame((f) => (f - 1 + FRAMES.length) % FRAMES.length)}>← prev</button>
-              <button onClick={() => setFrame((f) => (f + 1) % FRAMES.length)}>next →</button>
-              <span>
-                frame {frame + 1} / {FRAMES.length}
-              </span>
-            </>
-          )}
-        </div>
-      )}
-    </div>
+    <section data-nav-theme="light" className="flex items-center place-content-between p-40">
+      <h1 className="text-5xl font-bold leading-none tracking-tight text-black md:text-6xl lg:text-[10rem]">Community</h1>
+      {/* <div>
+        <pre className="font-mono leading-none text-sm select-none text-black">{FRAMES[frame]}</pre>
+        {process.env.NODE_ENV === "development" && (
+          <div className="flex gap-2 mt-2 text-xs font-mono">
+            <button onClick={() => setPaused((p) => !p)}>{paused ? "▶ play" : "⏸ pause"}</button>
+            {paused && (
+              <>
+                <button onClick={() => setFrame((f) => (f - 1 + FRAMES.length) % FRAMES.length)}>← prev</button>
+                <button onClick={() => setFrame((f) => (f + 1) % FRAMES.length)}>next →</button>
+                <span>
+                  frame {frame + 1} / {FRAMES.length}
+                </span>
+              </>
+            )}
+          </div>
+        )}
+      </div> */}
+    </section>
   );
 }
