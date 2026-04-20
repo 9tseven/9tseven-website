@@ -25,9 +25,10 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
     };
   }, [open]);
 
-  useEffect(() => {
-    if (!open) setShopOpen(false);
-  }, [open]);
+  const handleClose = () => {
+    setShopOpen(false);
+    onClose();
+  };
 
   const rowBase =
     "block w-full text-left text-white text-3xl font-light tracking-[0.08em] uppercase py-6 px-6 border-t border-white/10";
@@ -50,9 +51,9 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
         >
           {/* Top bar */}
           <div className="flex items-center justify-between px-6 h-16 shrink-0">
-            <Logo onClick={onClose} className="text-white" />
+            <Logo onClick={handleClose} className="text-white" />
             <button
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="Close menu"
               className="text-white/50 hover:text-white transition-colors"
             >
@@ -63,13 +64,13 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
           {/* Menu list */}
           <div className="flex-1 pt-4 flex flex-col">
             <motion.div {...entrance(0)}>
-              <Link href="/community" onClick={onClose} className={rowBase}>
+              <Link href="/community" onClick={handleClose} className={rowBase}>
                 Community
               </Link>
             </motion.div>
 
             <motion.div {...entrance(1)}>
-              <Link href="/about" onClick={onClose} className={rowBase}>
+              <Link href="/about" onClick={handleClose} className={rowBase}>
                 Mantra
               </Link>
             </motion.div>
@@ -102,7 +103,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                       <Link
                         key={category.href}
                         href={category.href}
-                        onClick={onClose}
+                        onClick={handleClose}
                         className="block py-4 pl-10 pr-6 text-sm tracking-[0.22em] uppercase text-white/55 hover:text-white transition-colors border-t border-white/5"
                       >
                         {category.label}
