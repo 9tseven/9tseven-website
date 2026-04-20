@@ -18,24 +18,33 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
+  const soldOut = new Set(product.soldOutSizes as readonly string[]);
+
   const sizeSelector = (
     <div>
       <p className="text-[8px] tracking-[0.2em] uppercase text-black/30 mb-3">Select size</p>
       <div className="flex gap-2 flex-wrap">
-        {sizes.map((size) => (
-          <button
-            key={size}
-            type="button"
-            onClick={() => setSelectedSize(size)}
-            className={`px-4 py-2 text-[9px] tracking-widest uppercase border transition-colors duration-150 ${
-              selectedSize === size
-                ? "border-black bg-black text-white"
-                : "border-black/20 text-black/60 hover:border-black hover:text-black"
-            }`}
-          >
-            {size}
-          </button>
-        ))}
+        {sizes.map((size) => {
+          const out = soldOut.has(size);
+          const selected = selectedSize === size;
+          return (
+            <button
+              key={size}
+              type="button"
+              disabled={out}
+              onClick={() => setSelectedSize(size)}
+              className={`px-4 py-2 text-[9px] tracking-widest uppercase border transition-colors duration-150 ${
+                out
+                  ? "border-black/10 text-black/25 line-through cursor-not-allowed"
+                  : selected
+                    ? "border-black bg-black text-white"
+                    : "border-black/20 text-black/60 hover:border-black hover:text-black"
+              }`}
+            >
+              {size}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -86,9 +95,9 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
         {/* Mobile sticky bottom bar */}
         <div className="md:hidden sticky bottom-0 z-10 bg-white border-t border-black/8 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] px-4 py-3 flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-sm font-black uppercase tracking-tight text-black truncate">
+            <h1 className="text-sm font-black uppercase tracking-tight text-black truncate">
               {product.name}
-            </h2>
+            </h1>
             <p className="text-xs text-black/60 shrink-0">{priceLabel}</p>
           </div>
           {sizeSelector}
