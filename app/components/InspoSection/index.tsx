@@ -2,9 +2,10 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import type { MotionValue } from "motion/react";
-import { ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 
 const TOTAL = 11;
 const RADIUS = 42; // % of the square container
@@ -67,6 +68,7 @@ export default function InspoSection() {
   const [filledCount, setFilledCount] = useState(0);
   const [labelFadingOut, setLabelFadingOut] = useState(false);
   const [maxScale, setMaxScale] = useState(80);
+  const [navTheme, setNavTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
     const calculate = () => {
@@ -87,9 +89,10 @@ export default function InspoSection() {
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     setFilledCount(Math.min(TOTAL, Math.round((v / FILL_END) * TOTAL)));
     setLabelFadingOut(v > FILL_END);
+    setNavTheme(v >= 0.87 ? "light" : "dark");
   });
 
-  const textOpacity = useTransform(scrollYProgress, [0.83, 0.9], [0, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0.83, 0.9, 1], [0, 1, 1]);
   // Plain CSS opacity (not a motion value) to avoid layer promotion that
   // disables subpixel font AA and makes the text look grey.
   const labelVisible = filledCount >= 1 && !labelFadingOut;
@@ -100,7 +103,7 @@ export default function InspoSection() {
 
   return (
     <div ref={wrapperRef} style={{ height: "1400vh" }}>
-      <section data-nav-theme="dark" className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
+      <section data-nav-theme={navTheme} className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
         {/* Corner accent dots — below the navbar, alternate filled as scroll progresses */}
         <div className="absolute top-20 right-5 flex flex-col gap-1.5 pointer-events-none">
           <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotAFilled ? "bg-white border-white" : "bg-transparent"}`} />
@@ -120,10 +123,10 @@ export default function InspoSection() {
         </p>
 
         {/* Centered square container keeps the circle perfectly round */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-10">
+        <div className="absolute inset-0 px-2 flex flex-col items-center justify-center gap-10">
           {/* Text label — changes with each newly filled dot */}
-          <div className="h-15 flex items-center justify-center pointer-events-none">
-            <p className="md:text-[20px] tracking-[0.22em] uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
+          <div className="h-20 flex items-center justify-center pointer-events-none">
+            <p className="text-lg text-pretty tracking-wide uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
               {TEXTS[filledCount] || TEXTS[1]}
             </p>
           </div>
@@ -139,6 +142,13 @@ export default function InspoSection() {
         <motion.div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6 gap-6" style={{ opacity: textOpacity }}>
           <p className="text-black text-lg md:text-2xl leading-relaxed text-center max-w-2xl whitespace-pre-line">{"This is what we strive to live by.\nA mindset of growth, balance, and accountability. Grounded in gratitude, driven by progress, and open to every part of the journey.\n\nTake what resonates. Move at your own pace. Keep evolving."}</p>
           <Image src="/Logo/9t7.svg" alt="9TSEVEN" width={10} height={10} className="w-5 h-5 invert p-0.5" style={{ width: "40px", height: "40px" }} />
+          <Link
+            href="/"
+            className="pointer-events-auto mt-2 inline-flex items-center gap-2 bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150"
+          >
+            <ArrowLeft size={12} strokeWidth={1.75} />
+            Back to home
+          </Link>
         </motion.div>
 
         {/* Bottom instruction — pulses gently, disappears once the first dot is reached */}
