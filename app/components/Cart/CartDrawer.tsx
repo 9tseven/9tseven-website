@@ -81,9 +81,9 @@ export default function CartDrawer() {
               <div className="shrink-0 border-t border-white/10 px-6 py-6 flex flex-col gap-4">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xs tracking-[0.22em] uppercase text-white/60">Subtotal</span>
-                  <span className="text-sm tracking-[0.1em] text-white">{formatPrice(cart.cost.subtotalAmount.amount, cart.cost.subtotalAmount.currencyCode)}</span>
+                  <span className="text-sm tracking-widest text-white">{formatPrice(cart.cost.subtotalAmount.amount, cart.cost.subtotalAmount.currencyCode)}</span>
                 </div>
-                <p className="text-[0.65rem] tracking-[0.1em] text-white/30 uppercase">Taxes and shipping calculated at checkout</p>
+                <p className="text-[0.65rem] tracking-widest text-white/30 uppercase">Taxes and shipping calculated at checkout</p>
                 <a href={cart.checkoutUrl} className="w-full bg-white text-black text-xs tracking-[0.22em] uppercase text-center py-4 hover:bg-white/90 transition-colors">
                   Check Out
                 </a>
