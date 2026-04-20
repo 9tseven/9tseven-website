@@ -126,7 +126,7 @@ export default function InspoSection() {
         <div className="absolute inset-0 px-2 flex flex-col items-center justify-center gap-10">
           {/* Text label — changes with each newly filled dot */}
           <div className="h-20 flex items-center justify-center pointer-events-none">
-            <p className="text-lg text-pretty tracking-wide uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
+            <p className="text-lg md:text-2xl text-pretty tracking-wide uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
               {TEXTS[filledCount] || TEXTS[1]}
             </p>
           </div>
@@ -142,10 +142,7 @@ export default function InspoSection() {
         <motion.div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6 gap-6" style={{ opacity: textOpacity }}>
           <p className="text-black text-lg md:text-2xl leading-relaxed text-center max-w-2xl whitespace-pre-line">{"This is what we strive to live by.\nA mindset of growth, balance, and accountability. Grounded in gratitude, driven by progress, and open to every part of the journey.\n\nTake what resonates. Move at your own pace. Keep evolving."}</p>
           <Image src="/Logo/9t7.svg" alt="9TSEVEN" width={10} height={10} className="w-5 h-5 invert p-0.5" style={{ width: "40px", height: "40px" }} />
-          <Link
-            href="/"
-            className="pointer-events-auto mt-2 inline-flex items-center gap-2 bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150"
-          >
+          <Link href="/" className="pointer-events-auto mt-2 inline-flex items-center gap-2 bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150">
             <ArrowLeft size={12} strokeWidth={1.75} />
             Back to home
           </Link>
