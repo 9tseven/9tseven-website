@@ -16,13 +16,14 @@ export default function DesktopNav() {
   const { openCart, totalQuantity } = useCart();
 
   const islandRef = useRef<HTMLDivElement>(null);
+  const homeRef = useRef<HTMLAnchorElement>(null);
   const communityRef = useRef<HTMLAnchorElement>(null);
   const aboutRef = useRef<HTMLAnchorElement>(null);
   const shopTriggerRef = useRef<HTMLButtonElement>(null);
   const cartRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
-    const itemRefs = [communityRef, aboutRef, shopTriggerRef, cartRef];
+    const itemRefs = [homeRef, communityRef, aboutRef, shopTriggerRef, cartRef];
 
     if (hoveredIndex === null || !islandRef.current) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -75,10 +76,22 @@ export default function DesktopNav() {
         </AnimatePresence>
 
         <Link
+          ref={homeRef}
+          href="/"
+          onMouseEnter={() => {
+            setHoveredIndex(0);
+            setShopOpen(false);
+          }}
+          className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+        >
+          Home
+        </Link>
+
+        <Link
           ref={communityRef}
           href="/community"
           onMouseEnter={() => {
-            setHoveredIndex(0);
+            setHoveredIndex(1);
             setShopOpen(false);
           }}
           className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
@@ -90,7 +103,7 @@ export default function DesktopNav() {
           ref={aboutRef}
           href="/about"
           onMouseEnter={() => {
-            setHoveredIndex(1);
+            setHoveredIndex(2);
             setShopOpen(false);
           }}
           className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
@@ -101,7 +114,7 @@ export default function DesktopNav() {
         <button
           ref={shopTriggerRef}
           onMouseEnter={() => {
-            setHoveredIndex(2);
+            setHoveredIndex(3);
             setShopOpen(true);
           }}
           className="relative flex items-center gap-1.5 px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
@@ -117,7 +130,7 @@ export default function DesktopNav() {
           onClick={openCart}
           aria-label={`Open cart, ${totalQuantity} items`}
           onMouseEnter={() => {
-            setHoveredIndex(3);
+            setHoveredIndex(4);
             setShopOpen(false);
           }}
           className="relative flex items-center gap-2 px-3.5 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
