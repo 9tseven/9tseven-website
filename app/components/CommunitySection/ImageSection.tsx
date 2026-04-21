@@ -40,7 +40,7 @@ export default function ImageSection() {
   });
 
   return (
-    <section className="px-20 md:p-20" data-nav-theme="light">
+    <section className="px-20 md:p-20 bg-white" data-nav-theme="light">
       <div ref={wrapperRef} style={{ height: `${N * 100}vh` }}>
         <div className="sticky top-0 h-screen flex items-center justify-center">
           {IMAGES.map((img, i) => (
