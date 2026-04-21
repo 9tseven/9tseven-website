@@ -36,7 +36,7 @@ export default function ParticleCanvas() {
       height: canvas.clientHeight,
     });
     const cycle = createShapeCycle();
-    if (prefersReducedMotion()) cycle.forceDrift();
+    if (prefersReducedMotion()) cycle.freeze();
 
     function resize() {
       if (!canvas || !ctx) return;
@@ -61,6 +61,11 @@ export default function ParticleCanvas() {
     );
     intersectionObserver.observe(canvas);
 
+    function onClick() {
+      cycle.skip(performance.now());
+    }
+    canvas.addEventListener("click", onClick);
+
     let rafId = 0;
     function frame(time: number) {
       rafId = requestAnimationFrame(frame);
@@ -76,6 +81,7 @@ export default function ParticleCanvas() {
       cancelAnimationFrame(rafId);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
+      canvas.removeEventListener("click", onClick);
     };
   }, [pointerRef]);
 

@@ -6,8 +6,6 @@ interface Particle {
   y: number;
   vx: number;
   vy: number;
-  homeX: number;
-  homeY: number;
 }
 
 export interface PointerState {
@@ -22,27 +20,19 @@ export interface ViewportSize {
 }
 
 const DAMPING = 0.85;
-const DRIFT_STIFFNESS = 0.006;
-const FORMING_STIFFNESS = 0.08;
-const HOLDING_STIFFNESS = 0.12;
-const DISSOLVING_STIFFNESS = 0.04;
-const DRIFT_NOISE_AMP = 18;
-const DRIFT_NOISE_FREQ = 0.0006;
-const HOLD_WOBBLE_AMP = 1.2;
-const HOLD_WOBBLE_FREQ = 0.003;
-const POINTER_RADIUS = 120;
+const FORMING_STIFFNESS = 0.025;
+const HOLDING_STIFFNESS = 0.035;
+const WOBBLE_AMP = 7;
+const WOBBLE_FREQ = 0.0012;
+const POINTER_RADIUS = 150;
 const POINTER_FORCE = 1800;
 
 function stiffnessFor(phase: CycleState["phase"]): number {
   switch (phase) {
-    case "drift":
-      return DRIFT_STIFFNESS;
     case "forming":
       return FORMING_STIFFNESS;
     case "holding":
       return HOLDING_STIFFNESS;
-    case "dissolving":
-      return DISSOLVING_STIFFNESS;
   }
 }
 
@@ -60,16 +50,15 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
   let size = viewport;
   const particles: Particle[] = [];
 
-  function resetHomes() {
+  function seedPositions() {
+    const shape = SHAPES[0];
     for (let i = 0; i < count; i++) {
+      const pt = shape.points[i % shape.points.length];
+      const [sx, sy] = mapShapePoint(pt, size);
       const p = particles[i] ?? ({} as Particle);
-      const hx = Math.random() * size.width;
-      const hy = Math.random() * size.height;
-      p.homeX = hx;
-      p.homeY = hy;
       if (particles[i] === undefined) {
-        p.x = hx;
-        p.y = hy;
+        p.x = sx;
+        p.y = sy;
         p.vx = 0;
         p.vy = 0;
         particles[i] = p;
@@ -78,47 +67,15 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
     particles.length = count;
   }
 
-  resetHomes();
+  seedPositions();
 
-  function driftTarget(i: number, time: number): [number, number] {
-    const p = particles[i];
-    const offsetX =
-      Math.sin(time * DRIFT_NOISE_FREQ + i * 0.37) * DRIFT_NOISE_AMP;
-    const offsetY =
-      Math.cos(time * DRIFT_NOISE_FREQ * 0.8 + i * 0.71) * DRIFT_NOISE_AMP;
-    return [p.homeX + offsetX, p.homeY + offsetY];
-  }
-
-  function shapeTarget(
-    i: number,
-    shapeIndex: number,
-    time: number,
-    withWobble: boolean
-  ): [number, number] {
+  function shapeTarget(i: number, shapeIndex: number, time: number): [number, number] {
     const shape = SHAPES[shapeIndex];
     const pt = shape.points[i % shape.points.length];
     const [sx, sy] = mapShapePoint(pt, size);
-    if (!withWobble) return [sx, sy];
-    const wx = Math.sin(time * HOLD_WOBBLE_FREQ + i * 0.9) * HOLD_WOBBLE_AMP;
-    const wy = Math.cos(time * HOLD_WOBBLE_FREQ + i * 1.3) * HOLD_WOBBLE_AMP;
+    const wx = Math.sin(time * WOBBLE_FREQ + i * 0.9) * WOBBLE_AMP;
+    const wy = Math.cos(time * WOBBLE_FREQ + i * 1.3) * WOBBLE_AMP;
     return [sx + wx, sy + wy];
-  }
-
-  function targetFor(
-    i: number,
-    cycle: CycleState,
-    time: number
-  ): [number, number] {
-    switch (cycle.phase) {
-      case "drift":
-        return driftTarget(i, time);
-      case "forming":
-        return shapeTarget(i, cycle.currentShapeIndex, time, false);
-      case "holding":
-        return shapeTarget(i, cycle.currentShapeIndex, time, true);
-      case "dissolving":
-        return driftTarget(i, time);
-    }
   }
 
   function applyPointer(p: Particle, pointer: PointerState) {
@@ -135,15 +92,12 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
   return {
     update(cycle: CycleState, pointer: PointerState, time: number) {
       const k = stiffnessFor(cycle.phase);
-      const pointerActive =
-        pointer.active &&
-        (cycle.phase === "drift" || cycle.phase === "dissolving");
       for (let i = 0; i < count; i++) {
         const p = particles[i];
-        const [tx, ty] = targetFor(i, cycle, time);
+        const [tx, ty] = shapeTarget(i, cycle.currentShapeIndex, time);
         p.vx += (tx - p.x) * k;
         p.vy += (ty - p.y) * k;
-        if (pointerActive) applyPointer(p, pointer);
+        if (pointer.active) applyPointer(p, pointer);
         p.vx *= DAMPING;
         p.vy *= DAMPING;
         p.x += p.vx;
@@ -165,7 +119,7 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
     resize(nextViewport: ViewportSize, nextCount?: number) {
       size = nextViewport;
       if (nextCount !== undefined) count = Math.min(nextCount, PARTICLE_COUNT);
-      resetHomes();
+      seedPositions();
     },
     particleCount(): number {
       return count;

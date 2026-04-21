@@ -4,12 +4,15 @@ import { argv } from "node:process";
 
 type Point = [number, number];
 
+type Mode = "blob" | "sample";
+
 interface Args {
   in: string;
   out: string;
   count: number;
   threshold: number;
   seed: number;
+  mode: Mode;
 }
 
 /** mulberry32 — a fast, seedable 32-bit PRNG. Returns values in [0, 1). */
@@ -25,7 +28,7 @@ function mulberry32(seed: number): () => number {
 }
 
 function parseArgs(): Args {
-  const args: Partial<Args> = { count: 2500, threshold: 180, seed: 42 };
+  const args: Partial<Args> = { count: 2500, threshold: 180, seed: 42, mode: "blob" };
   for (let i = 2; i < argv.length; i += 2) {
     const key = argv[i].replace(/^--/, "") as keyof Args;
     const value = argv[i + 1];
@@ -45,10 +48,16 @@ function parseArgs(): Args {
       case "out":
         args.out = value;
         break;
+      case "mode":
+        if (value !== "blob" && value !== "sample") {
+          throw new Error(`Invalid --mode value: ${value} (expected "blob" or "sample")`);
+        }
+        args.mode = value;
+        break;
     }
   }
   if (!args.in || !args.out) {
-    throw new Error("Usage: --in <path> --out <path> [--count N] [--threshold 0-255] [--seed N]");
+    throw new Error("Usage: --in <path> --out <path> [--count N] [--threshold 0-255] [--seed N] [--mode blob|sample]");
   }
   if (!Number.isFinite(args.count)) {
     throw new Error(`Invalid --count value: ${args.count}`);
@@ -109,6 +118,18 @@ function findBlobs(data: Buffer, width: number, height: number, threshold: numbe
   return centroids;
 }
 
+function samplePixels(data: Buffer, width: number, height: number, threshold: number): Point[] {
+  const out: Point[] = [];
+  for (let i = 0; i < data.length; i++) {
+    if (data[i] >= threshold) {
+      const x = i % width;
+      const y = (i - x) / width;
+      out.push([x, y]);
+    }
+  }
+  return out;
+}
+
 function normalizeCount(points: Point[], target: number, rand: () => number): Point[] {
   if (points.length === 0) {
     throw new Error("No blobs found above threshold — try a lower --threshold.");
@@ -155,8 +176,11 @@ async function main() {
   const args = parseArgs();
   const rand = mulberry32(args.seed);
   const { data, width, height } = await loadGreyscale(args.in);
-  const blobs = findBlobs(data, width, height, args.threshold);
-  const sized = normalizeCount(blobs, args.count, rand);
+  const raw =
+    args.mode === "blob"
+      ? findBlobs(data, width, height, args.threshold)
+      : samplePixels(data, width, height, args.threshold);
+  const sized = normalizeCount(raw, args.count, rand);
   const normalized = normalizeCoords(sized, width, height);
   const sourceImage = args.in.split("/").pop() ?? args.in;
   const output = {
@@ -166,7 +190,7 @@ async function main() {
   };
   await writeFile(args.out, JSON.stringify(output));
   console.log(
-    `Extracted ${blobs.length} blobs from ${args.in}, sampled to ${normalized.length}, wrote ${args.out}`
+    `Extracted ${raw.length} ${args.mode === "blob" ? "blobs" : "pixels"} from ${args.in}, sampled to ${normalized.length}, wrote ${args.out}`
   );
 }
 

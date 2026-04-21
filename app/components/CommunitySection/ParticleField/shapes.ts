@@ -3,6 +3,7 @@ import waves from "./shapes/waves.json";
 import diamond from "./shapes/diamond.json";
 import architecture from "./shapes/architecture.json";
 import crescent from "./shapes/crescent.json";
+import logo from "./shapes/9t7logo.json";
 
 export type Point = readonly [number, number];
 
@@ -18,6 +19,7 @@ export const SHAPES: readonly ShapeData[] = [
   diamond as unknown as ShapeData,
   architecture as unknown as ShapeData,
   crescent as unknown as ShapeData,
+  logo as unknown as ShapeData,
 ];
 
 export const SHAPE_COUNT = SHAPES.length;
