@@ -1,10 +1,11 @@
-import AsciiRun from "../components/CommunitySection/AsciiRun";
 import ImageSection from "../components/CommunitySection/ImageSection";
+import ParticleField from "../components/CommunitySection/ParticleField";
 
 export default function Community() {
   return (
     <main>
-      <ImageSection></ImageSection>
+      <ImageSection />
+      <ParticleField />
     </main>
   );
 }
