@@ -13,26 +13,17 @@ interface SlideIndicatorProps {
 
 const TEXT_TRANSITION = {
   type: "tween" as const,
-  duration: 0.18,
-  ease: [0, 0, 0.2, 1] as const,
+  duration: 0.4,
+  ease: [0.22, 1, 0.36, 1] as const,
 };
+
+const SMOOTH_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
-      {/* Hover heading — desktop only, shown only while hovering a segment */}
-      <div className="hidden md:flex justify-start mb-8 pointer-events-none overflow-hidden" style={{ height: "clamp(1rem, 2vw, 1.5rem)" }}>
-        <AnimatePresence mode="wait" initial={false}>
-          {hoveredIndex !== null && (
-            <motion.p key={`indicator-heading-${hoveredIndex}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em]" style={{ fontSize: "clamp(0.85rem, 1.6vw, 1.1rem)" }}>
-              {SLIDES[hoveredIndex].heading}
-            </motion.p>
-          )}
-        </AnimatePresence>
-      </div>
-
       {/* Segmented progress bar */}
       <div className="flex gap-1 w-full pointer-events-auto">
         {SLIDES.map((slide, i) => (
@@ -49,34 +40,53 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
           >
             {/* Segment bar — thumbnail slides up from here via absolute positioning */}
             <div className="relative h-10 flex items-end">
-              {/* Thumbnail — desktop only, absolutely positioned above the bar */}
+              {/* Thumbnail + heading — desktop only, absolutely positioned above the bar.
+                  clip-path (instead of overflow-hidden) clips vertically for the slide-up animation
+                  but allows the heading to extend horizontally past the narrow segment width. */}
               <div
-                className="hidden md:flex absolute bottom-0 left-0 w-full flex-col overflow-hidden transition-[opacity,max-height] duration-200 ease-in-out"
+                className="hidden md:flex absolute bottom-0 left-0 w-full flex-col"
                 style={{
-                  maxHeight: hoveredIndex === i ? "120px" : "0px",
+                  maxHeight: hoveredIndex === i ? "180px" : "0px",
                   opacity: hoveredIndex === i ? 1 : 0,
+                  clipPath: "inset(0 -9999px)",
+                  transition: `max-height 450ms ${SMOOTH_EASE}, opacity 300ms ${SMOOTH_EASE}`,
                 }}
               >
+                {/* Hover heading */}
+                <div className="flex justify-start mb-2" style={{ height: "clamp(0.7rem, 1.1vw, 0.9rem)", clipPath: "inset(0 -9999px)" }}>
+                  <AnimatePresence mode="wait" initial={false}>
+                    {hoveredIndex === i && (
+                      <motion.p key={`indicator-heading-${i}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em] whitespace-nowrap" style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.8rem)" }}>
+                        {slide.heading}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {/* Top framing line — matches hovered indicator style */}
                 <div
-                  className="w-full shrink-0 [transition:height_200ms_ease,background-color_300ms_ease]"
+                  className="w-full shrink-0"
                   style={{
                     height: i === current ? "5px" : "1px",
                     backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
+                    transition: `height 400ms ${SMOOTH_EASE}, background-color 400ms ${SMOOTH_EASE}`,
                   }}
                 />
                 {/* Thumbnail image */}
                 <div className="relative w-full grow" style={{ aspectRatio: "16/9" }}>
                   <Image src={slide.image} alt={`Slide ${i + 1} preview`} fill className="object-cover" sizes="(min-width: 768px) 5vw, 0px" />
+                  {/* Dark overlay on non-active slides */}
+                  {i !== current && <div className="absolute inset-0 bg-black/50 pointer-events-none" />}
                   {/* Light bleed from indicator line below */}
                   <div className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(255,255,255,0.60), transparent)" }} />
                 </div>
               </div>
 
               <div
-                className="relative z-10 w-full h-px group-hover:h-1.25 [transition:height_200ms_ease,background-color_300ms_ease]"
+                className="relative z-10 w-full h-px group-hover:h-1.25"
                 style={{
                   backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
+                  transition: `height 400ms ${SMOOTH_EASE}, background-color 400ms ${SMOOTH_EASE}`,
                 }}
               />
             </div>
