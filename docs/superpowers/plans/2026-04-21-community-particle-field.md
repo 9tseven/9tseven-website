@@ -17,24 +17,24 @@
 ## Task 1: Place reference images and scaffold folders
 
 **Files:**
-- Create (manual): `public/CommunitySection/reference/feather.jpg`
-- Create (manual): `public/CommunitySection/reference/galaxy.jpg`
-- Create (manual): `public/CommunitySection/reference/equalizer.jpg`
-- Create (manual): `public/CommunitySection/reference/architecture.jpg`
-- Create (manual): `public/CommunitySection/reference/crescent.jpg`
+- Create (manual): `public/CommunitySection/reference/feather.png`
+- Create (manual): `public/CommunitySection/reference/waves.png`
+- Create (manual): `public/CommunitySection/reference/diamond.png`
+- Create (manual): `public/CommunitySection/reference/architecture.png`
+- Create (manual): `public/CommunitySection/reference/crescent.png`
 - Create: `app/components/CommunitySection/ParticleField/shapes/.gitkeep`
 
 - [ ] **Step 1: Ask the user to place the 5 reference images**
 
 The 5 source photos from the 9t7 team must be placed at the exact paths below with the exact filenames (matches are used by the extraction script in Task 3):
 
-- `public/CommunitySection/reference/feather.jpg` — the wing/feather-shaped dot composition
-- `public/CommunitySection/reference/galaxy.jpg` — the scattered burst/cosmic composition
-- `public/CommunitySection/reference/equalizer.jpg` — the horizontal-lines composition
-- `public/CommunitySection/reference/architecture.jpg` — the vertical-columns-with-sweeps composition
-- `public/CommunitySection/reference/crescent.jpg` — the arc-fading-to-particles composition
+- `public/CommunitySection/reference/feather.png` — the wing/feather-shaped dot composition
+- `public/CommunitySection/reference/waves.png` — the scattered burst/cosmic composition
+- `public/CommunitySection/reference/diamond.png` — the horizontal-lines composition
+- `public/CommunitySection/reference/architecture.png` — the vertical-columns-with-sweeps composition
+- `public/CommunitySection/reference/crescent.png` — the arc-fading-to-particles composition
 
-File extensions may be `.jpg`, `.jpeg`, or `.png` — update filenames in the extraction script (Task 3) to match if they differ.
+File extensions may be `.png`, `.jpeg`, or `.png` — update filenames in the extraction script (Task 3) to match if they differ.
 
 Block until the user confirms the 5 images are in place.
 
@@ -256,8 +256,8 @@ git commit -m "feat: add offline shape extraction script"
 
 **Files:**
 - Create: `app/components/CommunitySection/ParticleField/shapes/feather.json`
-- Create: `app/components/CommunitySection/ParticleField/shapes/galaxy.json`
-- Create: `app/components/CommunitySection/ParticleField/shapes/equalizer.json`
+- Create: `app/components/CommunitySection/ParticleField/shapes/waves.json`
+- Create: `app/components/CommunitySection/ParticleField/shapes/diamond.json`
 - Create: `app/components/CommunitySection/ParticleField/shapes/architecture.json`
 - Create: `app/components/CommunitySection/ParticleField/shapes/crescent.json`
 
@@ -267,35 +267,35 @@ Run each command below. Each run prints to stdout: `Extracted <raw> blobs from <
 
 ```bash
 npx tsx scripts/extract-shape-points.ts \
-  --in public/CommunitySection/reference/feather.jpg \
+  --in public/CommunitySection/reference/feather.png \
   --out app/components/CommunitySection/ParticleField/shapes/feather.json \
   --count 2500 --threshold 180
 ```
 
 ```bash
 npx tsx scripts/extract-shape-points.ts \
-  --in public/CommunitySection/reference/galaxy.jpg \
-  --out app/components/CommunitySection/ParticleField/shapes/galaxy.json \
+  --in public/CommunitySection/reference/waves.png \
+  --out app/components/CommunitySection/ParticleField/shapes/waves.json \
   --count 2500 --threshold 180
 ```
 
 ```bash
 npx tsx scripts/extract-shape-points.ts \
-  --in public/CommunitySection/reference/equalizer.jpg \
-  --out app/components/CommunitySection/ParticleField/shapes/equalizer.json \
+  --in public/CommunitySection/reference/diamond.png \
+  --out app/components/CommunitySection/ParticleField/shapes/diamond.json \
   --count 2500 --threshold 180
 ```
 
 ```bash
 npx tsx scripts/extract-shape-points.ts \
-  --in public/CommunitySection/reference/architecture.jpg \
+  --in public/CommunitySection/reference/architecture.png \
   --out app/components/CommunitySection/ParticleField/shapes/architecture.json \
   --count 2500 --threshold 180
 ```
 
 ```bash
 npx tsx scripts/extract-shape-points.ts \
-  --in public/CommunitySection/reference/crescent.jpg \
+  --in public/CommunitySection/reference/crescent.png \
   --out app/components/CommunitySection/ParticleField/shapes/crescent.json \
   --count 2500 --threshold 180
 ```
@@ -332,8 +332,8 @@ Path: `app/components/CommunitySection/ParticleField/shapes.ts`
 
 ```ts
 import feather from "./shapes/feather.json";
-import galaxy from "./shapes/galaxy.json";
-import equalizer from "./shapes/equalizer.json";
+import waves from "./shapes/waves.json";
+import diamond from "./shapes/diamond.json";
 import architecture from "./shapes/architecture.json";
 import crescent from "./shapes/crescent.json";
 
@@ -347,8 +347,8 @@ export interface ShapeData {
 
 export const SHAPES: readonly ShapeData[] = [
   feather as ShapeData,
-  galaxy as ShapeData,
-  equalizer as ShapeData,
+  waves as ShapeData,
+  diamond as ShapeData,
   architecture as ShapeData,
   crescent as ShapeData,
 ];
@@ -1057,7 +1057,7 @@ With DevTools open, scroll through the page and confirm:
 - [ ] The dots drift continuously — no frozen frames — at roughly 60 fps (DevTools → Performance → Frame rate overlay).
 - [ ] Moving the cursor over the canvas pushes nearby particles aside; they recover smoothly when the cursor leaves.
 - [ ] After ~6–10 seconds of drift, the field forms a recognizable shape (compare against the corresponding reference image in `public/CommunitySection/reference/`), holds for ~2 seconds, then dissolves back into drift.
-- [ ] The five shapes appear in order `feather → galaxy → equalizer → architecture → crescent` and then loop.
+- [ ] The five shapes appear in order `feather → waves → diamond → architecture → crescent` and then loop.
 - [ ] During `forming` and `holding`, moving the cursor does not visibly deform the shape.
 
 - [ ] **Step 4: Mobile visual checklist**

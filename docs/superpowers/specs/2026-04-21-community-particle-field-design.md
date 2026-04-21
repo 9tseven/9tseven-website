@@ -6,7 +6,7 @@ A new full-bleed dark section on the community page, placed after the existing
 `ImageSection`. It renders a swarm of ~2500 white dots on black that drift
 ambiently and, every 10–15 seconds, coalesce briefly into one of five shapes
 inspired by physical dot-art reference images provided by the 9t7 team
-(feather, galaxy-burst, equalizer, architecture, crescent). On desktop the
+(feather, waves-burst, diamond, architecture, crescent). On desktop the
 cursor physically displaces particles; on mobile an "autopilot" runs the same
 animation with optional tap-to-scatter.
 
@@ -76,8 +76,8 @@ app/components/CommunitySection/
     shapes.ts              imports + exposes the 5 shape target arrays (typed)
     shapes/
       feather.json         [[x, y], ...] in normalized [-1, 1] space
-      galaxy.json
-      equalizer.json
+      waves.json
+      diamond.json
       architecture.json
       crescent.json
     useInteraction.ts      hook: pointer/touch -> disturbance point
@@ -86,11 +86,11 @@ scripts/
   extract-shape-points.ts  offline, run once per reference photo
 
 public/CommunitySection/reference/
-  feather.jpg              source images, kept for re-extraction
-  galaxy.jpg
-  equalizer.jpg
-  architecture.jpg
-  crescent.jpg
+  feather.png              source images, kept for re-extraction
+  waves.png
+  diamond.png
+  architecture.png
+  crescent.png
 ```
 
 ### Boundaries
@@ -130,13 +130,13 @@ count (default 2500), brightness threshold (default 180/255).
    preserved.
 7. Write JSON:
    ```json
-   { "points": [[x, y], ...], "sourceImage": "feather.jpg", "count": 2500 }
+   { "points": [[x, y], ...], "sourceImage": "feather.png", "count": 2500 }
    ```
 
 **Usage:**
 ```bash
 tsx scripts/extract-shape-points.ts \
-  --in public/CommunitySection/reference/feather.jpg \
+  --in public/CommunitySection/reference/feather.png \
   --out app/components/CommunitySection/ParticleField/shapes/feather.json \
   --count 2500 \
   --threshold 180
@@ -147,7 +147,7 @@ depends on threshold and sampling. Checking in the JSON makes the runtime
 reproducible, allows hand-editing, and removes image decoding from the build.
 
 **Consistent indexing across shapes:** particle `i` morphs from
-`feather[i] → galaxy[i] → equalizer[i] → architecture[i] → crescent[i]`.
+`feather[i] → waves[i] → diamond[i] → architecture[i] → crescent[i]`.
 Extraction order (flood-fill traversal) is essentially arbitrary, so morphs
 look chaotic-but-organic — which is the intent. No sorting step.
 
