@@ -31,7 +31,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
   };
 
   const rowBase =
-    "block w-full text-left text-white text-3xl font-light tracking-[0.08em] uppercase py-6 px-6 border-t border-white/10";
+    "block w-full text-left text-white text-2xl font-light tracking-[0.08em] uppercase py-5 px-6 border-t border-white/10";
 
   const entrance = (i: number) => ({
     initial: { opacity: 0, x: -16 },
@@ -62,7 +62,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
           </div>
 
           {/* Menu list */}
-          <div className="flex-1 pt-4 flex flex-col">
+          <div className="flex-1 min-h-0 overflow-y-auto pt-4 flex flex-col">
             <motion.div {...entrance(0)}>
               <Link href="/community" onClick={handleClose} className={rowBase}>
                 Community
@@ -116,7 +116,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
           </div>
 
           {/* Bottom lockup */}
-          <div className="mt-auto pb-6 flex items-center justify-center">
+          <div className="mt-auto shrink-0 pb-6 flex items-center justify-center">
             <BrandLockup variant="onDark" />
           </div>
         </motion.div>

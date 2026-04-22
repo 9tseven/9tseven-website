@@ -9,8 +9,8 @@ export interface CycleState {
   currentShapeIndex: number;
 }
 
-const FORMING_MS = 4000;
-const HOLDING_BASE_MS = 10000;
+const FORMING_MS = 5000;
+const HOLDING_BASE_MS = 3000;
 const HOLDING_JITTER_MS = 2000;
 
 function randomHoldingDuration(): number {

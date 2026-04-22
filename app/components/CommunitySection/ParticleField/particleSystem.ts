@@ -50,10 +50,14 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
   let size = viewport;
   const particles: Particle[] = [];
 
+  function shapePointIndex(i: number, totalPoints: number): number {
+    return Math.floor((i * totalPoints) / count);
+  }
+
   function seedPositions() {
     const shape = SHAPES[0];
     for (let i = 0; i < count; i++) {
-      const pt = shape.points[i % shape.points.length];
+      const pt = shape.points[shapePointIndex(i, shape.points.length)];
       const [sx, sy] = mapShapePoint(pt, size);
       const p = particles[i] ?? ({} as Particle);
       if (particles[i] === undefined) {
@@ -71,7 +75,7 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
 
   function shapeTarget(i: number, shapeIndex: number, time: number): [number, number] {
     const shape = SHAPES[shapeIndex];
-    const pt = shape.points[i % shape.points.length];
+    const pt = shape.points[shapePointIndex(i, shape.points.length)];
     const [sx, sy] = mapShapePoint(pt, size);
     const wx = Math.sin(time * WOBBLE_FREQ + i * 0.9) * WOBBLE_AMP;
     const wy = Math.cos(time * WOBBLE_FREQ + i * 1.3) * WOBBLE_AMP;

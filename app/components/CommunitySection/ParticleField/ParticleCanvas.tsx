@@ -61,10 +61,35 @@ export default function ParticleCanvas() {
     );
     intersectionObserver.observe(canvas);
 
-    function onClick() {
-      cycle.skip(performance.now());
+    const TAP_MAX_MS = 250;
+    const TAP_MAX_DIST = 10;
+    let tapStartTime = 0;
+    let tapStartX = 0;
+    let tapStartY = 0;
+    let tapCandidate = false;
+
+    function onPointerDown(e: PointerEvent) {
+      tapStartTime = performance.now();
+      tapStartX = e.clientX;
+      tapStartY = e.clientY;
+      tapCandidate = true;
     }
-    canvas.addEventListener("click", onClick);
+    function onPointerUp(e: PointerEvent) {
+      if (!tapCandidate) return;
+      tapCandidate = false;
+      const dt = performance.now() - tapStartTime;
+      const dx = e.clientX - tapStartX;
+      const dy = e.clientY - tapStartY;
+      if (dt <= TAP_MAX_MS && dx * dx + dy * dy <= TAP_MAX_DIST * TAP_MAX_DIST) {
+        cycle.skip(performance.now());
+      }
+    }
+    function onPointerCancel() {
+      tapCandidate = false;
+    }
+    canvas.addEventListener("pointerdown", onPointerDown);
+    canvas.addEventListener("pointerup", onPointerUp);
+    canvas.addEventListener("pointercancel", onPointerCancel);
 
     let rafId = 0;
     function frame(time: number) {
@@ -81,7 +106,9 @@ export default function ParticleCanvas() {
       cancelAnimationFrame(rafId);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
-      canvas.removeEventListener("click", onClick);
+      canvas.removeEventListener("pointerdown", onPointerDown);
+      canvas.removeEventListener("pointerup", onPointerUp);
+      canvas.removeEventListener("pointercancel", onPointerCancel);
     };
   }, [pointerRef]);
 
