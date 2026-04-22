@@ -1,8 +1,8 @@
 import { StaticImageData } from "next/image";
-import Photo1 from "../../../public/PhotoSection/MockPhotos/Community1.jpg";
-import Photo2 from "../../../public/PhotoSection/MockPhotos/Community2.jpg";
-import Photo3 from "../../../public/PhotoSection/MockPhotos/Community3.jpg";
-import Photo4 from "../../../public/PhotoSection/MockPhotos/Community4.jpg";
+import Photo1 from "../../../public/PhotoSection/MockPhotos/Community1.webp";
+import Photo2 from "../../../public/PhotoSection/MockPhotos/Community2.webp";
+import Photo3 from "../../../public/PhotoSection/MockPhotos/Community3.webp";
+import Photo4 from "../../../public/PhotoSection/MockPhotos/Community4.webp";
 
 interface Image {
   id: number;

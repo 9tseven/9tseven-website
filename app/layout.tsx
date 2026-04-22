@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Monsieur_La_Doulaise } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -41,6 +41,10 @@ export const metadata: Metadata = {
   description: "More than running",
 };
 
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -53,11 +57,13 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <LoadScreen />
-        <CartProvider>
-          <Navbar />
-          <SmoothScroll>{children}</SmoothScroll>
-          <Footer />
-        </CartProvider>
+        <SmoothScroll>
+          <CartProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </CartProvider>
+        </SmoothScroll>
       </body>
     </html>
   );
