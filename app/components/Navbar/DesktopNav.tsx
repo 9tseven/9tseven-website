@@ -18,12 +18,12 @@ export default function DesktopNav() {
   const islandRef = useRef<HTMLDivElement>(null);
   const homeRef = useRef<HTMLAnchorElement>(null);
   const communityRef = useRef<HTMLAnchorElement>(null);
-  const aboutRef = useRef<HTMLAnchorElement>(null);
+  const mantraRef = useRef<HTMLAnchorElement>(null);
   const shopTriggerRef = useRef<HTMLButtonElement>(null);
   const cartRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
-    const itemRefs = [homeRef, communityRef, aboutRef, shopTriggerRef, cartRef];
+    const itemRefs = [homeRef, communityRef, mantraRef, shopTriggerRef, cartRef];
 
     if (hoveredIndex === null || !islandRef.current) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -100,8 +100,8 @@ export default function DesktopNav() {
         </Link>
 
         <Link
-          ref={aboutRef}
-          href="/about"
+          ref={mantraRef}
+          href="/mantra"
           onMouseEnter={() => {
             setHoveredIndex(2);
             setShopOpen(false);

@@ -22,7 +22,7 @@ export default function Footer() {
   const [email, setEmail] = useState("");
 
   return (
-    <footer className="bg-[#ebebeb] text-black overflow-hidden">
+    <footer data-nav-theme="light" className="bg-[#ebebeb] text-black overflow-hidden">
       {/* Newsletter */}
       <div className="px-8 py-16 border-b border-black/10">
         <h2 className="text-sm font-bold tracking-[0.14em] uppercase mb-1.5">Join the Community</h2>

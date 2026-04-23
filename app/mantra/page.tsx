@@ -1,6 +1,6 @@
 import InspoSection from "../components/InspoSection";
 
-export default function AboutUs() {
+export default function Mantra() {
   return (
     <main>
       <InspoSection />

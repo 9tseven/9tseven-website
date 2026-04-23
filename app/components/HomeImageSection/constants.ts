@@ -19,12 +19,12 @@ export const PANELS: Panel[] = [
     href: "/products",
   },
   {
-    label: "Our Story",
-    leftText: "About",
+    label: "Our Mantra",
+    leftText: "Mantra",
     rightText: "[ Read more ]",
     image: "/PhotoSection/photo-section4.webp",
-    alt: "Our story",
-    href: "/about",
+    alt: "Our mantra",
+    href: "/mantra",
   },
   {
     label: "Our Community",
