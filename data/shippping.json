@@ -1,0 +1,43 @@
+{
+  "title": "SHIPPING POLICY",
+  "accordion": false,
+  "sections": [
+    {
+      "heading": "Order Processing",
+      "paragraphs": ["We do our best to process orders within 1 to 3 business days (excluding weekends and holidays) after receiving your order confirmation email.", "You will receive another notification once your order has been shipped.", "We use a shipping agent for domestic (DK) and EU orders. For international orders, we use PostNord, although we reserve the right to use other shipping providers if necessary.", "Please note: During periods of high demand (e.g., Black Friday, Cyber Monday, and Christmas), delivery may be slightly delayed. If you have not received your order within a reasonable timeframe, don't hesitate to get in touch with us."]
+    },
+    {
+      "heading": "Shipping Rates & Delivery Times",
+      "note": "The exact shipping fee will be calculated and shown at checkout.",
+      "rates": [
+        {
+          "region": "Denmark",
+          "estimatedDelivery": "2–4 business days after the order has been shipped",
+          "standardShipping": "43.00 DKK"
+        },
+        {
+          "region": "European Union",
+          "estimatedDelivery": "3–6 business days",
+          "standardShipping": "125.00 DKK"
+        },
+        {
+          "region": "International",
+          "estimatedDelivery": "Depends on destination country",
+          "standardShipping": "250.00 DKK"
+        }
+      ]
+    },
+    {
+      "heading": "Customs & Duties",
+      "paragraphs": ["Your order may be subject to import duties and taxes (including VAT) once the shipment reaches your country. 9TSEVEN is not responsible for these charges. They are the customer's responsibility."]
+    },
+    {
+      "heading": "Order Tracking",
+      "paragraphs": ["When your order has shipped, you will receive an email with a tracking number. Please allow up to 48 hours for tracking information to update.", "If you have not received your order within 10 days after the shipping confirmation, please contact us at info@9tseven.com with your name and order number."]
+    },
+    {
+      "heading": "Returns & Refunds",
+      "paragraphs": ["We accept returns within 14 days of delivery, provided the item is unused and in its original condition. We will refund the full order amount minus return shipping costs.", "If your order arrives damaged, please email us at info@9tseven.com with your order number and a photo of the item. We handle such issues case by case and will do our best to resolve the issue."]
+    }
+  ]
+}
