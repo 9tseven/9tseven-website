@@ -70,7 +70,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
             </motion.div>
 
             <motion.div {...entrance(1)}>
-              <Link href="/about" onClick={handleClose} className={rowBase}>
+              <Link href="/mantra" onClick={handleClose} className={rowBase}>
                 Mantra
               </Link>
             </motion.div>

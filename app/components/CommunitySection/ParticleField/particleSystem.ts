@@ -6,6 +6,32 @@ interface Particle {
   y: number;
   vx: number;
   vy: number;
+  tint: number;
+}
+
+const TINTS = ["rgba(255, 255, 255, 0.95)", "rgba(230, 230, 230, 0.85)", "rgba(200, 200, 200, 0.75)", "rgba(170, 170, 170, 0.65)"];
+
+function pickTint(i: number): number {
+  const h = Math.sin(i * 12.9898) * 43758.5453;
+  return Math.abs(Math.floor((h - Math.floor(h)) * TINTS.length)) % TINTS.length;
+}
+
+const GLOW_RADIUS = 4;
+const GLOW_SPRITE_SIZE = GLOW_RADIUS * 2;
+
+function createGlowSprite(): HTMLCanvasElement {
+  const c = document.createElement("canvas");
+  c.width = GLOW_SPRITE_SIZE;
+  c.height = GLOW_SPRITE_SIZE;
+  const g = c.getContext("2d");
+  if (!g) return c;
+  const grad = g.createRadialGradient(GLOW_RADIUS, GLOW_RADIUS, 0, GLOW_RADIUS, GLOW_RADIUS, GLOW_RADIUS);
+  grad.addColorStop(0, "rgba(255, 255, 255, 0.35)");
+  grad.addColorStop(0.5, "rgba(255, 255, 255, 0.1)");
+  grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, GLOW_SPRITE_SIZE, GLOW_SPRITE_SIZE);
+  return c;
 }
 
 export interface PointerState {
@@ -22,7 +48,7 @@ export interface ViewportSize {
 const DAMPING = 0.85;
 const FORMING_STIFFNESS = 0.025;
 const HOLDING_STIFFNESS = 0.035;
-const WOBBLE_AMP = 7;
+const WOBBLE_AMP = 4;
 const WOBBLE_FREQ = 0.0012;
 const POINTER_RADIUS = 150;
 const POINTER_FORCE = 1800;
@@ -49,6 +75,7 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
   let count = Math.min(particleCount, PARTICLE_COUNT);
   let size = viewport;
   const particles: Particle[] = [];
+  const glowSprite = createGlowSprite();
 
   function shapePointIndex(i: number, totalPoints: number): number {
     return Math.floor((i * totalPoints) / count);
@@ -65,6 +92,7 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
         p.y = sy;
         p.vx = 0;
         p.vy = 0;
+        p.tint = pickTint(i);
         particles[i] = p;
       }
     }
@@ -109,16 +137,26 @@ export function createParticleSystem(particleCount: number, viewport: ViewportSi
       }
     },
     draw(ctx: CanvasRenderingContext2D) {
-      ctx.fillStyle = "#000";
-      ctx.fillRect(0, 0, size.width, size.height);
-      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-      ctx.beginPath();
+      ctx.clearRect(0, 0, size.width, size.height);
+
+      ctx.globalCompositeOperation = "lighter";
       for (let i = 0; i < count; i++) {
         const p = particles[i];
-        ctx.moveTo(p.x + 1.2, p.y);
-        ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+        ctx.drawImage(glowSprite, p.x - GLOW_RADIUS, p.y - GLOW_RADIUS);
       }
-      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+
+      for (let t = 0; t < TINTS.length; t++) {
+        ctx.fillStyle = TINTS[t];
+        ctx.beginPath();
+        for (let i = 0; i < count; i++) {
+          const p = particles[i];
+          if (p.tint !== t) continue;
+          ctx.moveTo(p.x + 1.2, p.y);
+          ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      }
     },
     resize(nextViewport: ViewportSize, nextCount?: number) {
       size = nextViewport;

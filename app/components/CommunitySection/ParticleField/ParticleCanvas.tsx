@@ -115,7 +115,8 @@ export default function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="block h-full w-full"
+      className="block h-full w-full select-none"
+      style={{ WebkitTapHighlightColor: "transparent", WebkitUserSelect: "none" }}
       aria-hidden="true"
     />
   );

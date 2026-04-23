@@ -23,9 +23,9 @@ export const SLIDES = [
     accent: "radial-gradient(ellipse 80% 60% at 20% 50%, #181e12 0%, transparent 70%)",
     image: "/Hero/hero-img3.webp",
     video: "/Hero/hero-video.mp4",
-    heading: "Our story",
+    heading: "Our mantra",
     subheading: "Learn what drives us forward",
-    href: "/about",
+    href: "/mantra",
   },
   {
     id: 3,
