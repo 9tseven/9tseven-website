@@ -32,6 +32,6 @@ export const PANELS: Panel[] = [
     rightText: "[ Instagram ]",
     image: "/PhotoSection/photo-section7.webp",
     alt: "Our community",
-    href: "https://www.instagram.com/9tseven",
+    href: "https://www.instagram.com/9tseven_",
   },
 ];
