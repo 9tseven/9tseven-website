@@ -32,7 +32,7 @@ export function useProductCarousel() {
       const visible = isMobile ? 1 : isLarge ? 3 : 2;
       const pages = PRODUCTS.length / visible;
       const peek = isMobile ? 0 : PEEK_AMOUNT;
-      const w = Math.floor((containerWidth - CARD_GAP * (visible - 1) - peek) / visible);
+      const w = Math.floor((containerWidth - CARD_GAP * visible - 1 - peek) / (isMobile ? 1.2 : visible));
 
       const layoutChanged = visible !== visibleCardsRef.current;
 
@@ -57,16 +57,26 @@ export function useProductCarousel() {
     return () => ro.disconnect();
   }, [x]);
 
-  const pageWidth = useCallback(
-    () => visibleCardsRef.current * (cardWidthRef.current + CARD_GAP),
-    [],
-  );
+  const targetFor = useCallback((pageIndex: number) => {
+    const visible = visibleCardsRef.current;
+    const w = cardWidthRef.current;
+    const isMobile = visible === 1;
+
+    if (!isMobile) return -pageIndex * visible * (w + CARD_GAP);
+
+    if (pageIndex === 0) return 0;
+    const container = containerRef.current;
+    if (!container) return 0;
+    const groupWidth = visible * w + (visible - 1) * CARD_GAP;
+    const leadCardPos = pageIndex * visible * (w + CARD_GAP);
+    return (container.offsetWidth - groupWidth) / 2 - leadCardPos;
+  }, []);
 
   const snapTo = useCallback(
     (pageIndex: number) => {
       const pages = pageCountRef.current;
       const wrapped = ((pageIndex % pages) + pages) % pages;
-      animate(x, -wrapped * pageWidth(), {
+      animate(x, targetFor(wrapped), {
         type: "spring",
         stiffness: 320,
         damping: 36,
@@ -75,7 +85,7 @@ export function useProductCarousel() {
       setCurrent(wrapped);
       currentRef.current = wrapped;
     },
-    [x, pageWidth],
+    [x, targetFor],
   );
 
   const handleDragEnd = useCallback(
@@ -94,10 +104,7 @@ export function useProductCarousel() {
   const prev = useCallback(() => snapTo(currentRef.current - 1), [snapTo]);
   const next = useCallback(() => snapTo(currentRef.current + 1), [snapTo]);
 
-  const dragConstraintsLeft = useCallback(
-    () => -(pageCountRef.current - 1) * pageWidth(),
-    [pageWidth],
-  );
+  const dragConstraintsLeft = useCallback(() => targetFor(pageCountRef.current - 1), [targetFor]);
 
   return { current, cardWidth, visibleCards, pageCount, containerRef, x, handleDragEnd, dragConstraintsLeft, prev, next, snapTo };
 }
