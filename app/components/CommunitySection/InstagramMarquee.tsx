@@ -1,6 +1,24 @@
 import Image from "next/image";
-import { Instagram } from "lucide-react";
 import { IMAGES } from "./constants";
+
+function InstagramGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
 
 const INSTAGRAM_URL = "https://www.instagram.com/9tseven_/";
 const INSTAGRAM_HANDLE = "@9tseven_";
@@ -69,7 +87,7 @@ export default function InstagramMarquee() {
             {INSTAGRAM_HANDLE}
           </span>
           <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-white/70">
-            <Instagram className="h-4 w-4" aria-hidden="true" />
+            <InstagramGlyph className="h-4 w-4" />
             Visit our Instagram →
           </span>
         </div>
