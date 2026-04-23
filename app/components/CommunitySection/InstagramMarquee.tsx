@@ -1,5 +1,9 @@
 import Image from "next/image";
+import { Instagram } from "lucide-react";
 import { IMAGES } from "./constants";
+
+const INSTAGRAM_URL = "https://www.instagram.com/9tseven_/";
+const INSTAGRAM_HANDLE = "@9tseven_";
 
 export default function InstagramMarquee() {
   return (
@@ -18,8 +22,12 @@ export default function InstagramMarquee() {
         </div>
       </div>
 
-      <div
-        className="marquee-container relative overflow-hidden pb-20 md:pb-32"
+      <a
+        href={INSTAGRAM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit 9tseven on Instagram"
+        className="marquee-container group relative block overflow-hidden pb-20 outline-none md:pb-32"
         style={{
           maskImage:
             "linear-gradient(to right, transparent 0, black 64px, black calc(100% - 64px), transparent 100%)",
@@ -44,7 +52,28 @@ export default function InstagramMarquee() {
             </div>
           ))}
         </div>
-      </div>
+
+        {/* Gradient overlay — revealed on hover/focus */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 bottom-20 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 md:bottom-32"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%)",
+          }}
+        />
+
+        {/* CTA content — centered over the strip */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 bottom-20 flex translate-y-2 flex-col items-center justify-center gap-3 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 md:bottom-32">
+          <span className="text-2xl font-extrabold uppercase tracking-[-0.01em] text-white md:text-4xl">
+            {INSTAGRAM_HANDLE}
+          </span>
+          <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-white/70">
+            <Instagram className="h-4 w-4" aria-hidden="true" />
+            Visit our Instagram →
+          </span>
+        </div>
+      </a>
     </section>
   );
 }
