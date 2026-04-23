@@ -1,3 +1,6 @@
+import Image from "next/image";
+import { IMAGES } from "./constants";
+
 export default function InstagramMarquee() {
   return (
     <section data-nav-theme="dark" className="bg-black">
@@ -15,10 +18,23 @@ export default function InstagramMarquee() {
         </div>
       </div>
 
-      {/* Marquee strip — populated in Task 3 */}
       <div className="marquee-container relative overflow-hidden pb-20 md:pb-32">
         <div className="marquee-track flex w-max gap-4 md:gap-6">
-          {/* tiles go here */}
+          {[...IMAGES, ...IMAGES].map((img, i) => (
+            <div
+              key={`${img.id}-${i}`}
+              className="relative h-56 w-auto shrink-0 overflow-hidden rounded-sm md:h-80"
+              aria-hidden={i >= IMAGES.length ? true : undefined}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                sizes="(max-width: 768px) 224px, 320px"
+                className="h-full w-auto object-cover"
+                priority={false}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
