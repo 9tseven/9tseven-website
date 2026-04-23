@@ -18,7 +18,15 @@ export default function InstagramMarquee() {
         </div>
       </div>
 
-      <div className="marquee-container relative overflow-hidden pb-20 md:pb-32">
+      <div
+        className="marquee-container relative overflow-hidden pb-20 md:pb-32"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent 0, black 64px, black calc(100% - 64px), transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0, black 64px, black calc(100% - 64px), transparent 100%)",
+        }}
+      >
         <div className="marquee-track flex w-max gap-4 md:gap-6">
           {[...IMAGES, ...IMAGES].map((img, i) => (
             <div
