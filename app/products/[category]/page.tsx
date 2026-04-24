@@ -1,23 +1,41 @@
-// app/products/[category]/page.tsx
 import { notFound } from "next/navigation";
 import CategoryMarquee from "../components/CategoryMarquee";
 import ProductsGrid from "../components/ProductsGrid";
-import { PRODUCTS } from "../../components/FeaturedProductsSection/constants";
+import { shopifyClient } from "@/app/lib/shopify";
+import { GET_PRODUCTS } from "@/app/lib/queries/products";
+import { toProduct, type StorefrontProduct } from "@/app/components/FeaturedProductsSection/types";
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
 }
 
+const KNOWN_CATEGORIES = ["apparel", "accessories", "equipment", "new-arrivals"];
+
+function categorySlugToProductType(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
+  const slug = category.toLowerCase();
 
-  const filtered = PRODUCTS.filter(
-    (p) => p.category.toLowerCase() === category.toLowerCase()
-  );
+  const productType = categorySlugToProductType(slug);
 
-  // Unknown category (not a known slug and no products) → 404
-  const knownCategories = ["apparel", "accessories", "equipment", "new-arrivals"];
-  if (!knownCategories.includes(category.toLowerCase()) && filtered.length === 0) {
+  const { data, errors } = await shopifyClient.request(GET_PRODUCTS, {
+    variables: { first: 100, query: `product_type:'${productType}'` },
+  });
+
+  if (errors) {
+    throw new Error(`Shopify GET_PRODUCTS failed: ${JSON.stringify(errors)}`);
+  }
+
+  const edges = (data as { products: { edges: { node: StorefrontProduct }[] } } | undefined)?.products.edges ?? [];
+  const products = edges.map((e) => toProduct(e.node));
+
+  if (!KNOWN_CATEGORIES.includes(slug) && products.length === 0) {
     notFound();
   }
 
@@ -39,11 +57,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           ⇌&nbsp;&nbsp;Filter
         </button>
         <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">
-          {filtered.length} Products
+          {products.length} Products
         </span>
       </div>
 
-      <ProductsGrid products={filtered} />
+      <ProductsGrid products={products} />
     </main>
   );
 }

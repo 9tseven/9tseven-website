@@ -1,9 +1,21 @@
-// app/products/page.tsx
 import CategoryMarquee from "./components/CategoryMarquee";
 import ProductsGrid from "./components/ProductsGrid";
-import { PRODUCTS } from "../components/FeaturedProductsSection/constants";
+import { shopifyClient } from "@/app/lib/shopify";
+import { GET_PRODUCTS } from "@/app/lib/queries/products";
+import { toProduct, type StorefrontProduct } from "@/app/components/FeaturedProductsSection/types";
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const { data, errors } = await shopifyClient.request(GET_PRODUCTS, {
+    variables: { first: 100 },
+  });
+
+  if (errors) {
+    throw new Error(`Shopify GET_PRODUCTS failed: ${JSON.stringify(errors)}`);
+  }
+
+  const edges = (data as { products: { edges: { node: StorefrontProduct }[] } } | undefined)?.products.edges ?? [];
+  const products = edges.map((e) => toProduct(e.node));
+
   return (
     <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
       <CategoryMarquee text="ALL PRODUCTS" />
@@ -17,11 +29,11 @@ export default function ProductsPage() {
           ⇌&nbsp;&nbsp;Filter
         </button>
         <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">
-          {PRODUCTS.length} Products
+          {products.length} Products
         </span>
       </div>
 
-      <ProductsGrid products={PRODUCTS} />
+      <ProductsGrid products={products} />
     </main>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Product } from "../../../components/FeaturedProductsSection/constants";
+import type { Product } from "../../../components/FeaturedProductsSection/types";
 import AccordionItem from "@/app/components/Accordion/AccordionItem";
 import { SHIPPING_CONTENT } from "./shippingContent";
 import { MISSING_CONTENT } from "./fallbackContent";
@@ -26,7 +26,14 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
         isOpen={open === "description"}
         onToggle={() => toggle("description")}
       >
-        <p>{product.description ?? MISSING_CONTENT}</p>
+        {product.descriptionHtml ? (
+          <div
+            className="prose prose-sm max-w-none"
+            dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+          />
+        ) : (
+          <p>{MISSING_CONTENT}</p>
+        )}
       </AccordionItem>
 
       <AccordionItem
@@ -34,11 +41,7 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
         isOpen={open === "material"}
         onToggle={() => toggle("material")}
       >
-        {product.material ? (
-          <p className="whitespace-pre-line">{product.material}</p>
-        ) : (
-          <p>{MISSING_CONTENT}</p>
-        )}
+        <p>{MISSING_CONTENT}</p>
       </AccordionItem>
 
       <AccordionItem
@@ -46,7 +49,7 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
         isOpen={open === "sizing"}
         onToggle={() => toggle("sizing")}
       >
-        <p>{product.sizing ?? MISSING_CONTENT}</p>
+        <p>{MISSING_CONTENT}</p>
       </AccordionItem>
 
       <AccordionItem

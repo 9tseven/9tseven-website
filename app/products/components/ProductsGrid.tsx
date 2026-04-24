@@ -1,6 +1,6 @@
 // app/products/components/ProductsGrid.tsx
 import ProductCard from "../../components/FeaturedProductsSection/ProductCard";
-import type { Product } from "../../components/FeaturedProductsSection/constants";
+import type { Product } from "../../components/FeaturedProductsSection/types";
 
 interface ProductsGridProps {
   products: readonly Product[];
@@ -22,7 +22,7 @@ export default function ProductsGrid({ products }: ProductsGridProps) {
           <ProductCard
             key={product.id}
             product={product}
-            href={`/products/${product.category.toLowerCase()}/${product.id}`}
+            href={`/products/${product.category.toLowerCase()}/${product.handle}`}
             mobileLayout="stacked"
           />
         ))}

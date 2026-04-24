@@ -9,6 +9,7 @@ export type Product = BaseProduct & {
 export const PRODUCTS: Product[] = [
   {
     id: "0",
+    handle: "mock-0",
     category: "Apparel",
     name: "Product Name",
     price: 699,
@@ -21,6 +22,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "1",
+    handle: "mock-1",
     category: "Apparel",
     name: "Product Name",
     price: 699,
@@ -33,6 +35,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "2",
+    handle: "mock-2",
     category: "Accessories",
     name: "Product Name",
     price: 499,
@@ -45,6 +48,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "3",
+    handle: "mock-3",
     category: "Accessories",
     name: "Product Name",
     price: 499,
@@ -57,6 +61,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "4",
+    handle: "mock-4",
     category: "Apparel",
     name: "Product Name",
     price: 699,
@@ -69,6 +74,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "5",
+    handle: "mock-5",
     category: "Accessories",
     name: "Product Name",
     price: 499,
