@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import type { Product } from "../constants";
@@ -16,6 +16,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, cardWidth, href, mobileLayout = "overlay" }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
+  const [mobileIdx, setMobileIdx] = useState(0);
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const images = product.images as readonly string[];
 
@@ -25,14 +27,24 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
     if (href && !hasDragged.current) router.push(href);
   };
 
+  const handleMobileScroll = () => {
+    const el = scrollerRef.current;
+    if (!el || el.clientWidth === 0) return;
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    if (idx !== mobileIdx) setMobileIdx(Math.max(0, Math.min(images.length - 1, idx)));
+  };
+
+  const useMobileCarousel = mobileLayout === "stacked";
+
   return (
     <div
       className={`cursor-pointer ${cardWidth === undefined ? "w-full" : "shrink-0"}`}
       style={cardWidth === undefined ? undefined : { width: cardWidth }}
       onClick={handleClick}
     >
+      {/* Desktop image (also used on mobile when layout="overlay") */}
       <div
-        className="relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden group"
+        className={`${useMobileCarousel ? "hidden md:block" : ""} relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden group`}
         style={{ aspectRatio: "4 / 5" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
@@ -47,12 +59,10 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
           <Image src={images[hoverIdx]} alt={product.name} fill className="object-cover pointer-events-none" sizes="(max-width: 768px) 50vw, 25vw" draggable={false} />
         </div>
 
-        {/* New Arrival tag */}
         <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black">
           <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">New Arrival</span>
         </div>
 
-        {/* Image progress bar — desktop only */}
         {hasMultiple && hovered && (
           <div className="hidden md:flex w-[90%] justify-self-center absolute bottom-30 left-0 right-0 z-10 gap-px">
             {images.map((_, i) => (
@@ -61,11 +71,50 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
           </div>
         )}
 
-        {/* Product info panel (desktop hover overlay + mobile overlay when layout="overlay") */}
         <ProductCardInfo product={product} hovered={hovered} mobileLayout={mobileLayout} />
       </div>
 
-      {/* Stacked mobile info — rendered below image when opted in */}
+      {/* Mobile scroll-snap carousel (only when stacked layout) */}
+      {useMobileCarousel && (
+        <div
+          className="md:hidden relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden"
+          style={{ aspectRatio: "4 / 5" }}
+        >
+          <div
+            ref={scrollerRef}
+            onScroll={handleMobileScroll}
+            className="flex h-full w-full overflow-x-auto snap-x snap-mandatory overscroll-x-contain [&::-webkit-scrollbar]:hidden"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none", touchAction: "pan-x" } as React.CSSProperties}
+          >
+            {images.map((src, i) => (
+              <div key={i} className="relative shrink-0 w-full h-full snap-center">
+                <Image
+                  src={src}
+                  alt={product.name}
+                  fill
+                  className="object-cover pointer-events-none select-none"
+                  sizes="50vw"
+                  draggable={false}
+                  priority={i === 0}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black pointer-events-none">
+            <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">New Arrival</span>
+          </div>
+
+          {hasMultiple && (
+            <div className="flex w-[90%] justify-self-center absolute bottom-3 left-0 right-0 z-10 gap-px pointer-events-none">
+              {images.map((_, i) => (
+                <div key={i} className="h-0.5 flex-1 bg-white transition-opacity duration-150" style={{ opacity: i === mobileIdx ? 1 : 0.3 }} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {mobileLayout === "stacked" && <ProductCardStackedMobile product={product} />}
     </div>
   );
