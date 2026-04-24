@@ -1,3 +1,4 @@
+import renderWithEmails from "./renderWithEmails";
 import type { PolicySection } from "./types";
 
 interface SectionListProps {
@@ -18,7 +19,7 @@ export default function SectionList({ sections }: SectionListProps) {
               key={paragraphIndex}
               className="text-sm leading-relaxed text-black/70"
             >
-              {paragraph}
+              {renderWithEmails(paragraph)}
             </p>
           ))}
 
@@ -55,7 +56,7 @@ export default function SectionList({ sections }: SectionListProps) {
                   <dt className="uppercase tracking-[0.14em] text-[0.6rem] text-black/45 self-center">
                     {key}
                   </dt>
-                  <dd>{value}</dd>
+                  <dd>{renderWithEmails(value)}</dd>
                 </div>
               ))}
             </dl>

@@ -1,5 +1,6 @@
 import FaqList from "./FaqList";
 import SectionList from "./SectionList";
+import renderWithEmails from "./renderWithEmails";
 import type { PolicyPageData } from "./types";
 
 interface PolicyPageProps {
@@ -28,7 +29,7 @@ export default function PolicyPage({ data }: PolicyPageProps) {
           <div className="flex flex-col gap-4 mb-12">
             {data.intro.map((paragraph, index) => (
               <p key={index} className="text-sm leading-relaxed text-black/70">
-                {paragraph}
+                {renderWithEmails(paragraph)}
               </p>
             ))}
           </div>
