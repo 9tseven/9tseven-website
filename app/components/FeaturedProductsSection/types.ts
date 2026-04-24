@@ -1,11 +1,13 @@
 export type Product = {
   id: string;
+  handle: string;
   name: string;
   category: string;
   price: number;
   sizes: string[];
   soldOutSizes: string[];
   images: string[];
+  descriptionHtml?: string;
 };
 
 type StorefrontImage = { url: string; altText: string | null };
@@ -17,7 +19,9 @@ type StorefrontVariant = {
 
 export type StorefrontProduct = {
   id: string;
+  handle: string;
   title: string;
+  descriptionHtml?: string;
   productType: string;
   tags: string[];
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
@@ -41,11 +45,13 @@ export function toProduct(node: StorefrontProduct): Product {
 
   return {
     id: node.id,
+    handle: node.handle,
     name: node.title,
     category: node.productType || node.tags[0] || "",
     price: Number(node.priceRange.minVariantPrice.amount),
     sizes,
     soldOutSizes,
     images,
+    descriptionHtml: node.descriptionHtml,
   };
 }

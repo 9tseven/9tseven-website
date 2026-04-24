@@ -1,18 +1,30 @@
-// app/products/[category]/[id]/page.tsx
 import { notFound } from "next/navigation";
-import { PRODUCTS } from "../../../components/FeaturedProductsSection/constants";
+import { shopifyClient } from "@/app/lib/shopify";
+import { GET_PRODUCT_BY_HANDLE } from "@/app/lib/queries/products";
+import { toProduct, type StorefrontProduct } from "@/app/components/FeaturedProductsSection/types";
 import ProductDetailView from "../../components/ProductDetailView";
 
 interface ProductDetailPageProps {
-  params: Promise<{ category: string; id: string }>;
+  params: Promise<{ category: string; handle: string }>;
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const { id } = await params;
+  const { category, handle } = await params;
 
-  const product = PRODUCTS.find((p) => String(p.id) === id);
+  const { data, errors } = await shopifyClient.request(GET_PRODUCT_BY_HANDLE, {
+    variables: { handle },
+  });
 
-  if (!product) {
+  if (errors) {
+    throw new Error(`Shopify GET_PRODUCT_BY_HANDLE failed: ${JSON.stringify(errors)}`);
+  }
+
+  const node = (data as { product: StorefrontProduct | null } | undefined)?.product;
+  if (!node) notFound();
+
+  const product = toProduct(node);
+
+  if (product.category.toLowerCase() !== category.toLowerCase()) {
     notFound();
   }
 
