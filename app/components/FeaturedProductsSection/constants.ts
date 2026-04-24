@@ -1,6 +1,14 @@
-export const PRODUCTS = [
+import type { Product as BaseProduct } from "./types";
+
+export type Product = BaseProduct & {
+  description?: string;
+  material?: string;
+  sizing?: string;
+};
+
+export const PRODUCTS: Product[] = [
   {
-    id: 0,
+    id: "0",
     category: "Apparel",
     name: "Product Name",
     price: 699,
@@ -12,7 +20,7 @@ export const PRODUCTS = [
     sizing: "Model is 181cm and is wearing a size M. The product is true to size.",
   },
   {
-    id: 1,
+    id: "1",
     category: "Apparel",
     name: "Product Name",
     price: 699,
@@ -24,7 +32,7 @@ export const PRODUCTS = [
     sizing: "Model is 184cm and is wearing a size M. Runs slightly relaxed — size down for a fitted look.",
   },
   {
-    id: 2,
+    id: "2",
     category: "Accessories",
     name: "Product Name",
     price: 499,
@@ -36,7 +44,7 @@ export const PRODUCTS = [
     sizing: "One size. Fully adjustable.",
   },
   {
-    id: 3,
+    id: "3",
     category: "Accessories",
     name: "Product Name",
     price: 499,
@@ -48,7 +56,7 @@ export const PRODUCTS = [
     sizing: "One size. Designed to fit most.",
   },
   {
-    id: 4,
+    id: "4",
     category: "Apparel",
     name: "Product Name",
     price: 699,
@@ -60,7 +68,7 @@ export const PRODUCTS = [
     sizing: "Model is 178cm and is wearing a size S. Size up for a standard fit.",
   },
   {
-    id: 5,
+    id: "5",
     category: "Accessories",
     name: "Product Name",
     price: 499,
@@ -71,9 +79,7 @@ export const PRODUCTS = [
     material: "Full-grain leather · Solid brass hardware",
     sizing: "One size.",
   },
-] as const;
-
-export type Product = (typeof PRODUCTS)[number];
+];
 
 /** px gap between cards */
 export const CARD_GAP = 16;

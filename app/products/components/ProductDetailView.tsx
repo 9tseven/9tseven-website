@@ -13,12 +13,12 @@ interface ProductDetailViewProps {
 
 export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const router = useRouter();
-  const images = product.images as readonly string[];
-  const sizes = product.sizes as readonly string[];
+  const images = product.images;
+  const sizes = product.sizes;
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
-  const soldOut = new Set(product.soldOutSizes as readonly string[]);
+  const soldOut = new Set(product.soldOutSizes);
 
   const sizeSelector = (
     <div>
