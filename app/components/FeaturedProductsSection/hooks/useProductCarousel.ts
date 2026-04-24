@@ -2,12 +2,12 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useMotionValue, animate } from "motion/react";
-import { PRODUCTS, CARD_GAP, PEEK_AMOUNT } from "../constants";
+import { CARD_GAP, PEEK_AMOUNT } from "../constants";
 
 const MOBILE_BREAKPOINT = 640;
 const LARGE_BREAKPOINT = 1024;
 
-export function useProductCarousel() {
+export function useProductCarousel(productCount: number) {
   const [current, setCurrent] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
   const [visibleCards, setVisibleCards] = useState(3);
@@ -30,7 +30,7 @@ export function useProductCarousel() {
       const isLarge = containerWidth >= LARGE_BREAKPOINT;
 
       const visible = isMobile ? 1 : isLarge ? 3 : 2;
-      const pages = PRODUCTS.length / visible;
+      const pages = Math.ceil(productCount / visible);
       const peek = isMobile ? 0 : PEEK_AMOUNT;
       const w = Math.floor((containerWidth - CARD_GAP * visible - 1 - peek) / (isMobile ? 1.2 : visible));
 
@@ -55,7 +55,7 @@ export function useProductCarousel() {
     const ro = new ResizeObserver(update);
     ro.observe(container);
     return () => ro.disconnect();
-  }, [x]);
+  }, [x, productCount]);
 
   const targetFor = useCallback((pageIndex: number) => {
     const visible = visibleCardsRef.current;
