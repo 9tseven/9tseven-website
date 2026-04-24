@@ -2,7 +2,7 @@
 
 ## Goal
 
-Render five footer-linked content pages (FAQ, Privacy Policy, Return & Exchange, Shipping Policy, Terms of Service) from JSON data files using a single, slug-driven dynamic route. Adding or editing a page should only require editing its JSON file.
+Render five footer-linked content pages (FAQ, Privacy Policy, Return & Exchange, Shipping Policy, Terms of Service) from JSON files in the top-level `policies/` directory using a single, slug-driven dynamic route. Adding or editing a page should only require editing its JSON file.
 
 ## Scope
 
@@ -24,15 +24,15 @@ Single dynamic route: `app/[slug]/page.tsx`.
 - `generateStaticParams` returns exactly `['faq', 'privacy', 'returns', 'shipping', 'terms']`. This pins the valid slugs and prevents the route from catching unrelated top-level URLs.
 - Unknown slug → `notFound()`.
 - `export const dynamic = 'force-static'`. These pages have no runtime inputs.
-- Data is loaded via dynamic `import('@/data/' + slug + '.json')` inside the page component so Next.js tree-shakes correctly.
+- Data is loaded via dynamic `import('@/policies/' + slug + '.json')` inside the page component so Next.js tree-shakes correctly.
 - `generateMetadata` returns a `title` derived from the JSON `title` field (e.g. `"FAQ – 9TSEVEN"`).
 
 URL / file alignment (already done by the user):
-- `/faq` → `data/faq.json`
-- `/privacy` → `data/privacy.json`
-- `/returns` → `data/returns.json`
-- `/shipping` → `data/shipping.json`
-- `/terms` → `data/terms.json`
+- `/faq` → `policies/faq.json`
+- `/privacy` → `policies/privacy.json`
+- `/returns` → `policies/returns.json`
+- `/shipping` → `policies/shipping.json`
+- `/terms` → `policies/terms.json`
 
 Footer links in `app/components/Footer/index.tsx` already use these paths — no changes needed there.
 
