@@ -41,7 +41,7 @@ export default function Footer() {
           <p className="text-sm uppercase font-semibold">9TSEVEN</p>
           <p className="text-sm text-black/60 mt-1.5">Sølvgade 28, St. Th</p>
           <p className="text-sm text-black/60 mt-1.5">1307 København K</p>
-          <p className="text-[0.6rem] tracking-widest text-black/35 mt-1.5">© 2025 · 9TSEVEN</p>
+          <p className="text-[0.6rem] tracking-widest text-black/35 mt-1.5">© 2026 · 9TSEVEN</p>
         </div>
 
         <nav className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-2.5">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Product } from "../../../components/FeaturedProductsSection/constants";
-import AccordionItem from "./AccordionItem";
+import AccordionItem from "@/app/components/Accordion/AccordionItem";
 import { SHIPPING_CONTENT } from "./shippingContent";
 import { MISSING_CONTENT } from "./fallbackContent";
 
