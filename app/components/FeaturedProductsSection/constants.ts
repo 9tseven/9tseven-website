@@ -7,12 +7,9 @@ export const PRODUCTS = [
     sizes: ["XS", "S", "M", "L", "XL"],
     soldOutSizes: ["XS", "XL"],
     images: ["/ProductPlaceholder/p1.webp", "/ProductPlaceholder/p3.webp"],
-    description:
-      "Engineered for performance, constructed from a lightweight blend designed for breathability, moisture management, and to help you perform at your best.",
-    material:
-      "88% Polyester / 12% Spandex\nRace-ready fit · Minimal seams for comfort",
-    sizing:
-      "Model is 181cm and is wearing a size M. The product is true to size.",
+    description: "Engineered for performance, constructed from a lightweight blend designed for breathability, moisture management, and to help you perform at your best.",
+    material: "88% Polyester / 12% Spandex\nRace-ready fit · Minimal seams for comfort",
+    sizing: "Model is 181cm and is wearing a size M. The product is true to size.",
   },
   {
     id: 1,
@@ -22,12 +19,9 @@ export const PRODUCTS = [
     sizes: ["S", "M", "L"],
     soldOutSizes: ["L"],
     images: ["/ProductPlaceholder/p2.webp", "/ProductPlaceholder/p4.webp"],
-    description:
-      "A lightweight layer built for long miles. Breathable, fast-drying, and designed to move with you.",
-    material:
-      "92% Recycled Polyester / 8% Elastane\nRelaxed fit · Flatlock seams",
-    sizing:
-      "Model is 184cm and is wearing a size M. Runs slightly relaxed — size down for a fitted look.",
+    description: "A lightweight layer built for long miles. Breathable, fast-drying, and designed to move with you.",
+    material: "92% Recycled Polyester / 8% Elastane\nRelaxed fit · Flatlock seams",
+    sizing: "Model is 184cm and is wearing a size M. Runs slightly relaxed — size down for a fitted look.",
   },
   {
     id: 2,
@@ -37,10 +31,8 @@ export const PRODUCTS = [
     sizes: ["ONE SIZE"],
     soldOutSizes: [],
     images: ["/ProductPlaceholder/p3.webp", "/ProductPlaceholder/p5.webp"],
-    description:
-      "A minimal accessory refined for daily use. Lightweight, durable, and built to last through season after season.",
-    material:
-      "100% Cotton Twill\nAdjustable strap · Embroidered logo",
+    description: "A minimal accessory refined for daily use. Lightweight, durable, and built to last through season after season.",
+    material: "100% Cotton Twill\nAdjustable strap · Embroidered logo",
     sizing: "One size. Fully adjustable.",
   },
   {
@@ -51,10 +43,8 @@ export const PRODUCTS = [
     sizes: ["ONE SIZE"],
     soldOutSizes: [],
     images: ["/ProductPlaceholder/p4.webp", "/ProductPlaceholder/p1.webp"],
-    description:
-      "Designed for the road and the rest day alike. Quiet utility, soft-touch materials, and considered details.",
-    material:
-      "80% Nylon / 20% Spandex\nFour-way stretch · Reinforced stitching",
+    description: "Designed for the road and the rest day alike. Quiet utility, soft-touch materials, and considered details.",
+    material: "80% Nylon / 20% Spandex\nFour-way stretch · Reinforced stitching",
     sizing: "One size. Designed to fit most.",
   },
   {
@@ -65,12 +55,9 @@ export const PRODUCTS = [
     sizes: ["XS", "S", "M"],
     soldOutSizes: ["XS"],
     images: ["/ProductPlaceholder/p5.webp", "/ProductPlaceholder/p2.webp"],
-    description:
-      "A training staple engineered for high-output days. Wicks moisture fast, dries faster, and stays out of the way.",
-    material:
-      "100% Recycled Polyester\nAthletic fit · Laser-cut ventilation",
-    sizing:
-      "Model is 178cm and is wearing a size S. Size up for a standard fit.",
+    description: "A training staple engineered for high-output days. Wicks moisture fast, dries faster, and stays out of the way.",
+    material: "100% Recycled Polyester\nAthletic fit · Laser-cut ventilation",
+    sizing: "Model is 178cm and is wearing a size S. Size up for a standard fit.",
   },
   {
     id: 5,
@@ -80,10 +67,8 @@ export const PRODUCTS = [
     sizes: ["ONE SIZE"],
     soldOutSizes: [],
     images: ["/ProductPlaceholder/p2.webp", "/ProductPlaceholder/p5.webp"],
-    description:
-      "A small object, carefully made. Built from materials chosen for longevity over novelty.",
-    material:
-      "Full-grain leather · Solid brass hardware",
+    description: "A small object, carefully made. Built from materials chosen for longevity over novelty.",
+    material: "Full-grain leather · Solid brass hardware",
     sizing: "One size.",
   },
 ] as const;

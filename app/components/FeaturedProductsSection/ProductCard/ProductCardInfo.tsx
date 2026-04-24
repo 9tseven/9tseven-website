@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import type { Product } from "../constants";
+import type { Product } from "../types";
 
 interface ProductCardInfoProps {
   product: Product;

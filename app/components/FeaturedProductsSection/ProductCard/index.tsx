@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import type { Product } from "../constants";
+import type { Product } from "../types";
 import { useImageSlider } from "./useImageSlider";
 import ProductCardInfo, { ProductCardStackedMobile } from "./ProductCardInfo";
 
@@ -17,7 +17,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, cardWidth, href, mobileLayout = "overlay" }: ProductCardProps) {
   const [hovered, setHovered] = useState(false);
   const router = useRouter();
-  const images = product.images as readonly string[];
+  const images = product.images;
 
   const { hoverIdx, hasMultiple, hasDragged, handleCardMouseMove, handleCardMouseLeave, handlePointerDown, handlePointerMove } = useImageSlider({ images });
 
