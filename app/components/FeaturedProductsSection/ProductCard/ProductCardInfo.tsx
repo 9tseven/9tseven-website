@@ -70,7 +70,7 @@ function StackedMobileContent({ product }: { product: Product }) {
       onPointerDown={(e) => e.stopPropagation()}
     >
       <p className="text-[9px] tracking-[0.18em] uppercase text-black/45">{product.category}</p>
-      <p className="text-[11px] font-semibold tracking-[0.06em] uppercase text-black leading-tight mt-1">{product.name}</p>
+      <p className="text-[11px] font-semibold tracking-[0.06em] uppercase text-black leading-tight mt-1 line-clamp-2 min-h-[2lh]">{product.name}</p>
       <p className="text-[10px] text-black/70 mt-1.5">
         DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         {onSale && (
