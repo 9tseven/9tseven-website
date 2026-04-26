@@ -26,9 +26,9 @@ function InfoContent({ product }: { product: Product }) {
           <span className="text-[8px] tracking-[0.12em] uppercase font-medium leading-none">Add to cart</span>
         </button>
       </div>
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-start justify-between gap-2">
         <p className="text-[9px] text-black/60 shrink-0">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-        <div className="flex gap-1">
+        <div className="flex flex-wrap justify-end gap-1">
           {(product.sizes as readonly string[]).map((s) => {
             const out = soldOut.has(s);
             const selected = selectedSize === s;
@@ -54,7 +54,12 @@ function StackedMobileContent({ product }: { product: Product }) {
   const soldOut = new Set(product.soldOutSizes as readonly string[]);
 
   return (
-    <div className="flex flex-col px-0.5 pt-3 pb-1" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
+    <div
+      className="flex flex-col px-0.5 pt-3 pb-1"
+      style={{ minHeight: "clamp(200px, 28vw, 260px)" }}
+      onClick={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
+    >
       <p className="text-[9px] tracking-[0.18em] uppercase text-black/45">{product.category}</p>
       <p className="text-[11px] font-semibold tracking-[0.06em] uppercase text-black leading-tight mt-1">{product.name}</p>
       <p className="text-[10px] text-black/70 mt-1.5">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>

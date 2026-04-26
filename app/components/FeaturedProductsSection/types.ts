@@ -31,9 +31,22 @@ export type StorefrontProduct = {
   variants: { edges: { node: StorefrontVariant }[] };
 };
 
+const SIZE_ORDER = ["xxs", "xs", "s", "m", "l", "xl", "xxl", "xxxl"];
+
+function sortSizes(values: readonly string[]): string[] {
+  return [...values].sort((a, b) => {
+    const ai = SIZE_ORDER.indexOf(a.toLowerCase());
+    const bi = SIZE_ORDER.indexOf(b.toLowerCase());
+    if (ai === -1 && bi === -1) return a.localeCompare(b, undefined, { numeric: true });
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+}
+
 export function toProduct(node: StorefrontProduct): Product {
   const sizeOption = node.options.find((o) => o.name.toLowerCase() === "size");
-  const sizes = sizeOption?.values ?? [];
+  const sizes = sortSizes(sizeOption?.values ?? []);
 
   const soldOutSizes = node.variants.edges
     .map((e) => e.node)
