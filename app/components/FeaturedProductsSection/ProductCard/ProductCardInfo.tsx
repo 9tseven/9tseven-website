@@ -13,6 +13,7 @@ interface ProductCardInfoProps {
 function InfoContent({ product }: { product: Product }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const soldOut = new Set(product.soldOutSizes as readonly string[]);
+  const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
 
   return (
     <div className="flex flex-col gap-1.5" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
@@ -29,7 +30,12 @@ function InfoContent({ product }: { product: Product }) {
         )}
       </div>
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[9px] text-black/60 shrink-0">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        <p className="text-[9px] text-black/60 shrink-0">
+          DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          {onSale && (
+            <span className="ml-1.5 line-through text-black/30">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+          )}
+        </p>
         <div className="flex flex-wrap justify-end gap-1">
           {(product.sizes as readonly string[]).map((s) => {
             const out = soldOut.has(s);
@@ -54,6 +60,7 @@ function InfoContent({ product }: { product: Product }) {
 function StackedMobileContent({ product }: { product: Product }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const soldOut = new Set(product.soldOutSizes as readonly string[]);
+  const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
 
   return (
     <div
@@ -64,7 +71,12 @@ function StackedMobileContent({ product }: { product: Product }) {
     >
       <p className="text-[9px] tracking-[0.18em] uppercase text-black/45">{product.category}</p>
       <p className="text-[11px] font-semibold tracking-[0.06em] uppercase text-black leading-tight mt-1">{product.name}</p>
-      <p className="text-[10px] text-black/70 mt-1.5">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+      <p className="text-[10px] text-black/70 mt-1.5">
+        DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        {onSale && (
+          <span className="ml-1.5 line-through text-black/30">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+        )}
+      </p>
       <div className="flex flex-wrap gap-1 mt-2">
         {(product.sizes as readonly string[]).map((s) => {
           const out = soldOut.has(s);
