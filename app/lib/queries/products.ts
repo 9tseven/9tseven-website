@@ -32,6 +32,12 @@ const PRODUCT_FIELDS = `
       node {
         id
         availableForSale
+        price {
+          amount
+        }
+        compareAtPrice {
+          amount
+        }
         selectedOptions {
           name
           value
