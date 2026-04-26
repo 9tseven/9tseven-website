@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add Sale, Few Left, Sold Out, and (real) New Arrival tags to product cards, plus a grey-out treatment for sold-out products.
+**Goal:** Add Sale, Sold Out, and (real) New Arrival tags to product cards, plus a grey-out treatment for sold-out products. **Few Left is deferred** — the Storefront API token lacks `unauthenticated_read_product_inventory` and including `quantityAvailable` causes the entire query to fail. Path back to enabling Few Left is documented in the spec.
 
-**Architecture:** Extend the Shopify GraphQL query and the `Product` type with `compareAtPrice`, `totalInventory`, `isSoldOut`, and `isNewArrival`. Add a single `ProductCardTags` component that picks at most one tag per side based on a fixed priority. In `ProductCard`, replace the hardcoded "New Arrival" `<div>` with the new component, apply opacity+grayscale when sold out, and hide the "Add to cart" button in `ProductCardInfo` when sold out.
+**Architecture:** Extend the Shopify GraphQL query and the `Product` type with `compareAtPrice`, `isSoldOut`, and `isNewArrival`. Add a single `ProductCardTags` component that picks at most one tag per side based on a fixed priority. In `ProductCard`, replace the hardcoded "New Arrival" `<div>` with the new component, apply opacity+grayscale when sold out, and hide the "Add to cart" button in `ProductCardInfo` when sold out.
 
 **Tech Stack:** Next.js 16, React 19, Tailwind v4, `@shopify/storefront-api-client`, TypeScript.
 
@@ -33,9 +33,9 @@
 **Files:**
 - Modify: `app/lib/queries/products.ts:30-41` (variants block inside `PRODUCT_FIELDS`)
 
-- [ ] **Step 1: Add price, compareAtPrice, and quantityAvailable to the variant subselection**
+- [ ] **Step 1: Add price and compareAtPrice to the variant subselection**
 
-Replace the `variants` block in `PRODUCT_FIELDS` so it reads:
+`quantityAvailable` is intentionally excluded — see the spec's "Risks / Open Questions" section. Replace the `variants` block in `PRODUCT_FIELDS` so it reads:
 
 ```graphql
 variants(first: 50) {
@@ -43,7 +43,6 @@ variants(first: 50) {
     node {
       id
       availableForSale
-      quantityAvailable
       price {
         amount
       }
@@ -96,7 +95,6 @@ const PRODUCT_FIELDS = `
       node {
         id
         availableForSale
-        quantityAvailable
         price {
           amount
         }
@@ -142,7 +140,7 @@ Expected: Build succeeds. (TypeScript won't catch GraphQL syntax errors but buil
 
 ```bash
 git add app/lib/queries/products.ts
-git commit -m "feat(products): query compareAtPrice, quantityAvailable, and price per variant"
+git commit -m "feat(products): query compareAtPrice and price per variant"
 ```
 
 ---
@@ -160,14 +158,13 @@ Replace the `StorefrontVariant` type definition (lines 14-18 of the current file
 type StorefrontVariant = {
   id: string;
   availableForSale: boolean;
-  quantityAvailable: number | null;
   price: { amount: string };
   compareAtPrice: { amount: string } | null;
   selectedOptions: { name: string; value: string }[];
 };
 ```
 
-- [ ] **Step 2: Extend the `Product` type with the four new derived fields**
+- [ ] **Step 2: Extend the `Product` type with the three new derived fields**
 
 Replace the `Product` type definition (lines 1-11) with:
 
@@ -179,7 +176,6 @@ export type Product = {
   category: string;
   price: number;
   compareAtPrice: number | null;
-  totalInventory: number | null;
   isSoldOut: boolean;
   isNewArrival: boolean;
   sizes: string[];
@@ -214,11 +210,6 @@ export function toProduct(node: StorefrontProduct): Product {
     .filter((n): n is number => n !== null && n > 0);
   const compareAtPrice = compareAtPrices.length > 0 ? Math.max(...compareAtPrices) : null;
 
-  const quantities = variants.map((v) => v.quantityAvailable);
-  const totalInventory = quantities.some((q) => q === null)
-    ? null
-    : quantities.reduce<number>((sum, q) => sum + (q ?? 0), 0);
-
   const isNewArrival = node.tags.some((t) => t.toLowerCase() === "new-arrival");
 
   return {
@@ -228,7 +219,6 @@ export function toProduct(node: StorefrontProduct): Product {
     category: node.productType || node.tags[0] || "",
     price: Number(node.priceRange.minVariantPrice.amount),
     compareAtPrice,
-    totalInventory,
     isSoldOut,
     isNewArrival,
     sizes,
@@ -248,7 +238,7 @@ Expected: Build will likely **fail** — `app/components/FeaturedProductsSection
 
 ```bash
 git add app/components/FeaturedProductsSection/types.ts
-git commit -m "feat(products): derive isSoldOut, isNewArrival, compareAtPrice, totalInventory in toProduct"
+git commit -m "feat(products): derive isSoldOut, isNewArrival, compareAtPrice in toProduct"
 ```
 
 ---
@@ -313,12 +303,7 @@ export default function ProductCardTags({ product }: ProductCardTagsProps) {
   const right = product.isSoldOut ? "Sold Out" : product.isNewArrival ? "New Arrival" : null;
 
   const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
-  const fewLeft =
-    !product.isSoldOut &&
-    !onSale &&
-    product.totalInventory !== null &&
-    product.totalInventory <= 3;
-  const left = onSale ? "Sale" : fewLeft ? "Few Left" : null;
+  const left = onSale ? "Sale" : null;
 
   return (
     <>
@@ -351,7 +336,7 @@ Expected: Build succeeds.
 
 ```bash
 git add app/components/FeaturedProductsSection/ProductCard/ProductCardTags.tsx
-git commit -m "feat(products): add ProductCardTags component for Sale/Few Left/Sold Out/New Arrival"
+git commit -m "feat(products): add ProductCardTags component for Sale/Sold Out/New Arrival"
 ```
 
 ---
@@ -527,13 +512,13 @@ Expected: Next.js boots on `http://localhost:3000` (or another port if 3000 is i
 
 Navigate to `http://localhost:3000/products` and visually confirm against the Shopify catalog:
 
-- A normal product (not sold out, not on sale, not "new-arrival" tagged, plenty of stock): no tag on either side.
+- A normal product (not sold out, not on sale, not "new-arrival" tagged): no tag on either side.
 - A product tagged `new-arrival` in Shopify: "NEW ARRIVAL" badge on the **top-right**.
 - A product with at least one variant where `compareAtPrice > price`: "SALE" badge on the **top-left**.
-- A product with `≤ 3` total inventory across variants and not on sale: "FEW LEFT" badge on the **top-left**.
 - A product where every variant is `availableForSale: false`: "SOLD OUT" badge on the **top-right**, image is `opacity-60 grayscale`, no "Add to cart" button on hover (desktop) or stacked layout (mobile), but clicking the card still navigates to the detail page.
-- A product that qualifies for both "Sale" and "Few Left": only "SALE" shows (Sale wins).
 - A product that qualifies for both "Sold Out" and "New Arrival": only "SOLD OUT" shows (Sold Out wins).
+
+(Few Left is deferred — see the spec for the path to enabling it later.)
 
 If your live Shopify catalog doesn't currently have a product in each state, temporarily flip variants/tags/inventory in the Shopify admin to test (and restore afterwards).
 
@@ -560,7 +545,7 @@ If the smoke test surfaces any issue, fix it in a new commit referencing the fai
 ## Verification Checklist (post-implementation)
 
 - [ ] `npm run build` succeeds.
-- [ ] All four tag states render in the right slots with correct priority.
+- [ ] All three shipped tag states (Sale, Sold Out, New Arrival) render in the right slots with correct priority.
 - [ ] Sold-out cards: opacity 60% + grayscale, no Add-to-cart button, click-through still works.
 - [ ] No regressions on the homepage carousel, category pages, or product detail pages.
 - [ ] No new dependencies added to `package.json`.
