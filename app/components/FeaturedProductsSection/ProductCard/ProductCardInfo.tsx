@@ -21,10 +21,12 @@ function InfoContent({ product }: { product: Product }) {
           <p className="text-[8px] tracking-[0.15em] uppercase text-black/40 mb-0.5">{product.category}</p>
           <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight truncate">{product.name}</p>
         </div>
-        <button type="button" onPointerDown={(e) => e.stopPropagation()} className="shrink-0 flex items-center justify-center gap-1.5 px-3 h-7 bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
-          <span className="text-[15px] leading-none font-light">+</span>
-          <span className="text-[8px] tracking-[0.12em] uppercase font-medium leading-none">Add to cart</span>
-        </button>
+        {!product.isSoldOut && (
+          <button type="button" onPointerDown={(e) => e.stopPropagation()} className="shrink-0 flex items-center justify-center gap-1.5 px-3 h-7 bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
+            <span className="text-[15px] leading-none font-light">+</span>
+            <span className="text-[8px] tracking-[0.12em] uppercase font-medium leading-none">Add to cart</span>
+          </button>
+        )}
       </div>
       <div className="flex items-start justify-between gap-2">
         <p className="text-[9px] text-black/60 shrink-0">DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
@@ -79,10 +81,12 @@ function StackedMobileContent({ product }: { product: Product }) {
           );
         })}
       </div>
-      <button type="button" onPointerDown={(e) => e.stopPropagation()} className="mt-3 w-full flex items-center justify-center gap-2 h-9 bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
-        <span className="text-[15px] leading-none font-light">+</span>
-        <span className="text-[9px] tracking-[0.15em] uppercase font-medium leading-none">Add to cart</span>
-      </button>
+      {!product.isSoldOut && (
+        <button type="button" onPointerDown={(e) => e.stopPropagation()} className="mt-3 w-full flex items-center justify-center gap-2 h-9 bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
+          <span className="text-[15px] leading-none font-light">+</span>
+          <span className="text-[9px] tracking-[0.15em] uppercase font-medium leading-none">Add to cart</span>
+        </button>
+      )}
     </div>
   );
 }
