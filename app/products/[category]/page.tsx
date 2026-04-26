@@ -45,23 +45,25 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     .join(" ");
 
   return (
-    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
+    <main data-nav-theme="light" className="min-h-screen pt-16">
       <CategoryMarquee text={label} />
 
-      <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
-        <button
-          type="button"
-          className="text-[9px] tracking-[0.2em] uppercase text-black/50 border border-black/20 px-3 py-1.5"
-          disabled
-        >
-          ⇌&nbsp;&nbsp;Filter
-        </button>
-        <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">
-          {products.length} Products
-        </span>
-      </div>
+      <div className="bg-white max-w-[1800px] mx-auto">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+          <button
+            type="button"
+            className="text-[9px] tracking-[0.2em] uppercase text-black/50 border border-black/20 px-3 py-1.5"
+            disabled
+          >
+            ⇌&nbsp;&nbsp;Filter
+          </button>
+          <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">
+            {products.length} Products
+          </span>
+        </div>
 
-      <ProductsGrid products={products} />
+        <ProductsGrid products={products} />
+      </div>
     </main>
   );
 }

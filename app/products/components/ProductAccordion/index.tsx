@@ -6,7 +6,7 @@ import AccordionItem from "@/app/components/Accordion/AccordionItem";
 import { SHIPPING_CONTENT } from "./shippingContent";
 import { MISSING_CONTENT } from "./fallbackContent";
 
-type Section = "description" | "material" | "sizing" | "shipping";
+type Section = "material" | "sizing" | "shipping";
 
 interface ProductAccordionProps {
   product: Product;
@@ -21,11 +21,7 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
 
   return (
     <div className="border-t border-black/8">
-      <AccordionItem
-        title="Description"
-        isOpen={open === "description"}
-        onToggle={() => toggle("description")}
-      >
+      <div className="border-b border-black/8 py-4 text-xs text-black/70 leading-relaxed">
         {product.descriptionHtml ? (
           <div
             className="prose prose-sm max-w-none"
@@ -34,7 +30,7 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
         ) : (
           <p>{MISSING_CONTENT}</p>
         )}
-      </AccordionItem>
+      </div>
 
       <AccordionItem
         title="Material"

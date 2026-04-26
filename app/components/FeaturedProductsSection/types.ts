@@ -4,6 +4,9 @@ export type Product = {
   name: string;
   category: string;
   price: number;
+  compareAtPrice: number | null;
+  isSoldOut: boolean;
+  isNewArrival: boolean;
   sizes: string[];
   soldOutSizes: string[];
   images: string[];
@@ -14,6 +17,8 @@ type StorefrontImage = { url: string; altText: string | null };
 type StorefrontVariant = {
   id: string;
   availableForSale: boolean;
+  price: { amount: string };
+  compareAtPrice: { amount: string } | null;
   selectedOptions: { name: string; value: string }[];
 };
 
@@ -31,17 +36,40 @@ export type StorefrontProduct = {
   variants: { edges: { node: StorefrontVariant }[] };
 };
 
+const SIZE_ORDER = ["xxs", "xs", "s", "m", "l", "xl", "xxl", "xxxl"];
+
+function sortSizes(values: readonly string[]): string[] {
+  return [...values].sort((a, b) => {
+    const ai = SIZE_ORDER.indexOf(a.toLowerCase());
+    const bi = SIZE_ORDER.indexOf(b.toLowerCase());
+    if (ai === -1 && bi === -1) return a.localeCompare(b, undefined, { numeric: true });
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+}
+
 export function toProduct(node: StorefrontProduct): Product {
   const sizeOption = node.options.find((o) => o.name.toLowerCase() === "size");
-  const sizes = sizeOption?.values ?? [];
+  const sizes = sortSizes(sizeOption?.values ?? []);
 
-  const soldOutSizes = node.variants.edges
-    .map((e) => e.node)
+  const variants = node.variants.edges.map((e) => e.node);
+
+  const soldOutSizes = variants
     .filter((v) => !v.availableForSale)
     .flatMap((v) => v.selectedOptions.filter((o) => o.name.toLowerCase() === "size").map((o) => o.value));
 
   const imageUrls = node.images.edges.map((e) => e.node.url);
   const images = imageUrls.length > 0 ? imageUrls : node.featuredImage ? [node.featuredImage.url] : [];
+
+  const isSoldOut = variants.length > 0 && variants.every((v) => !v.availableForSale);
+
+  const compareAtPrices = variants
+    .map((v) => (v.compareAtPrice ? Number(v.compareAtPrice.amount) : null))
+    .filter((n): n is number => n !== null && n > 0);
+  const compareAtPrice = compareAtPrices.length > 0 ? Math.max(...compareAtPrices) : null;
+
+  const isNewArrival = node.tags.some((t) => t.toLowerCase() === "new-arrival");
 
   return {
     id: node.id,
@@ -49,6 +77,9 @@ export function toProduct(node: StorefrontProduct): Product {
     name: node.title,
     category: node.productType || node.tags[0] || "",
     price: Number(node.priceRange.minVariantPrice.amount),
+    compareAtPrice,
+    isSoldOut,
+    isNewArrival,
     sizes,
     soldOutSizes,
     images,

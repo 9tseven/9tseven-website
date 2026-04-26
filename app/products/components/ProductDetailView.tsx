@@ -43,10 +43,16 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
     </button>
   );
 
-  const priceLabel = `DKK ${product.price.toLocaleString("da-DK", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+  const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
+  const formatPrice = (n: number) => n.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const priceLabel = (
+    <>
+      DKK {formatPrice(product.price)}
+      {onSale && (
+        <span className="ml-2 line-through text-black/30">DKK {formatPrice(product.compareAtPrice!)}</span>
+      )}
+    </>
+  );
 
   return (
     <div className="flex flex-col md:flex-row">
