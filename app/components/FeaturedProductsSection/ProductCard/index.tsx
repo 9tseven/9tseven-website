@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { Product } from "../types";
 import { useImageSlider } from "./useImageSlider";
 import ProductCardInfo, { ProductCardStackedMobile } from "./ProductCardInfo";
+import ProductCardTags from "./ProductCardTags";
 
 interface ProductCardProps {
   product: Product;
@@ -44,7 +45,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
     >
       {/* Desktop image (also used on mobile when layout="overlay") */}
       <div
-        className={`${useMobileCarousel ? "hidden md:block" : ""} relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden group`}
+        className={`${useMobileCarousel ? "hidden md:block" : ""} relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden group${product.isSoldOut ? " opacity-60 grayscale" : ""}`}
         style={{ aspectRatio: "4 / 5" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
@@ -59,9 +60,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
           <Image src={images[hoverIdx]} alt={product.name} fill className="object-cover pointer-events-none" sizes="(max-width: 768px) 50vw, 25vw" draggable={false} />
         </div>
 
-        <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black">
-          <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">New Arrival</span>
-        </div>
+        <ProductCardTags product={product} />
 
         {hasMultiple && hovered && (
           <div className="hidden md:flex w-[90%] justify-self-center absolute bottom-30 left-0 right-0 z-10 gap-px">
@@ -77,7 +76,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
       {/* Mobile scroll-snap carousel (only when stacked layout) */}
       {useMobileCarousel && (
         <div
-          className="md:hidden relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden"
+          className={`md:hidden relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden${product.isSoldOut ? " opacity-60 grayscale" : ""}`}
           style={{ aspectRatio: "4 / 5" }}
         >
           <div
@@ -101,9 +100,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
             ))}
           </div>
 
-          <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black pointer-events-none">
-            <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">New Arrival</span>
-          </div>
+          <ProductCardTags product={product} />
 
           {hasMultiple && (
             <div className="flex w-[90%] justify-self-center absolute bottom-3 left-0 right-0 z-10 gap-px pointer-events-none">
