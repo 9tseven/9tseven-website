@@ -28,6 +28,11 @@ function buildShopifyQuery(slug: string, tag: string | undefined): string | unde
   return `${baseFilter} AND tag:'${tag}'`;
 }
 
+function sanitizeTag(tag: string | undefined): string | undefined {
+  if (!tag) return undefined;
+  return /^[a-z0-9-]+$/.test(tag) ? tag : undefined;
+}
+
 function marqueeLabel(slug: string, tag: string | undefined): string {
   if (tag) return tag.toUpperCase().replace(/-/g, " ");
   return slug
@@ -38,7 +43,8 @@ function marqueeLabel(slug: string, tag: string | undefined): string {
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category } = await params;
-  const { tag } = await searchParams;
+  const { tag: rawTag } = await searchParams;
+  const tag = sanitizeTag(rawTag);
   const slug = category.toLowerCase();
 
   const query = buildShopifyQuery(slug, tag);
