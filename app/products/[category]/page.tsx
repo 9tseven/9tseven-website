@@ -7,6 +7,7 @@ import { toProduct, type StorefrontProduct } from "@/app/components/FeaturedProd
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
+  searchParams: Promise<{ tag?: string }>;
 }
 
 const KNOWN_CATEGORIES = ["apparel", "accessories", "equipment", "new-arrivals"];
@@ -18,14 +19,32 @@ function categorySlugToProductType(slug: string): string {
     .join(" ");
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+function buildShopifyQuery(slug: string, tag: string | undefined): string | undefined {
+  const baseFilter =
+    slug === "new-arrivals"
+      ? `tag:'new-arrival'`
+      : `product_type:'${categorySlugToProductType(slug)}'`;
+  if (!tag) return baseFilter;
+  return `${baseFilter} AND tag:'${tag}'`;
+}
+
+function marqueeLabel(slug: string, tag: string | undefined): string {
+  if (tag) return tag.toUpperCase().replace(/-/g, " ");
+  return slug
+    .split("-")
+    .map((w) => w.toUpperCase())
+    .join(" ");
+}
+
+export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category } = await params;
+  const { tag } = await searchParams;
   const slug = category.toLowerCase();
 
-  const productType = categorySlugToProductType(slug);
+  const query = buildShopifyQuery(slug, tag);
 
   const { data, errors } = await shopifyClient.request(GET_PRODUCTS, {
-    variables: { first: 100, query: `product_type:'${productType}'` },
+    variables: { first: 100, query },
   });
 
   if (errors) {
@@ -39,10 +58,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const label = category
-    .split("-")
-    .map((w) => w.toUpperCase())
-    .join(" ");
+  const label = marqueeLabel(slug, tag);
 
   return (
     <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
