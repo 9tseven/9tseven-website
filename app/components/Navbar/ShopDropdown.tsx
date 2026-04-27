@@ -93,7 +93,7 @@ function ProductPreviewPanel({ category, items, onShopLinkClick }: ProductPrevie
           ? items.slice(0, 3).map((item) => {
               const href = `/products/${categorySlug(item.productType)}/${item.handle}`;
               return (
-                <Link key={item.handle} href={href} onClick={onShopLinkClick} className="flex-1 flex flex-col gap-1.5 group">
+                <Link key={item.handle} href={href} onClick={onShopLinkClick} className="flex-1 min-w-0 flex flex-col gap-1.5 group">
                   <div className="w-full aspect-3/4 rounded-lg bg-white/6 overflow-hidden relative group-hover:bg-white/10 transition-colors duration-150">
                     {item.image ? (
                       <Image
@@ -114,7 +114,7 @@ function ProductPreviewPanel({ category, items, onShopLinkClick }: ProductPrevie
               );
             })
           : [1, 2, 3].map((n) => (
-              <div key={n} className="flex-1 flex flex-col gap-1.5">
+              <div key={n} className="flex-1 min-w-0 flex flex-col gap-1.5">
                 <div className="w-full aspect-3/4 rounded-lg bg-white/6 border border-dashed border-white/15 flex items-center justify-center">
                   <span className="text-white/20 text-xs">▣</span>
                 </div>
