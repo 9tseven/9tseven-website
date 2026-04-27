@@ -1,16 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { SHOP_MENU } from "./constants";
+import type { NavPreviews, PreviewItem } from "./types";
 
 interface ShopDropdownProps {
   shopOpen: boolean;
+  previews: NavPreviews;
   onShopLinkClick: () => void;
 }
 
-export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdownProps) {
+function categorySlug(productType: string): string {
+  return productType.toLowerCase().replace(/\s+/g, "-");
+}
+
+function previewsForHref(href: string, previews: NavPreviews): PreviewItem[] {
+  if (href === "/products/new-arrivals") return previews.newArrivals;
+  if (href === "/products") return previews.allProducts;
+  return [];
+}
+
+export default function ShopDropdown({ shopOpen, previews, onShopLinkClick }: ShopDropdownProps) {
   const [activeCategory, setActiveCategory] = useState(0);
   const category = SHOP_MENU[activeCategory];
 
@@ -49,21 +62,11 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
                     ))}
                   </div>
                 ) : (
-                  <div className="p-4 flex flex-col gap-3">
-                    <div className="flex gap-3 items-start">
-                      {[1, 2, 3].map((n) => (
-                        <Link key={n} href={`${category.href}?product=${n}`} onClick={onShopLinkClick} className="flex-1 flex flex-col gap-1.5 group">
-                          <div className="w-full aspect-3/4 rounded-lg bg-white/6 border border-dashed border-white/15 flex items-center justify-center group-hover:bg-white/10 transition-colors duration-150">
-                            <span className="text-white/20 text-xs">▣</span>
-                          </div>
-                          <span className="text-[0.6rem] tracking-widest uppercase text-white/35 text-center group-hover:text-white/60 transition-colors duration-150">Product_0{n}</span>
-                        </Link>
-                      ))}
-                    </div>
-                    <Link href={category.href} onClick={onShopLinkClick} className="self-end text-[0.62rem] tracking-[0.12em] uppercase text-white/35 hover:text-white transition-colors duration-150">
-                      See all →
-                    </Link>
-                  </div>
+                  <ProductPreviewPanel
+                    category={category}
+                    items={previewsForHref(category.href, previews)}
+                    onShopLinkClick={onShopLinkClick}
+                  />
                 )}
               </motion.div>
             </AnimatePresence>
@@ -71,5 +74,57 @@ export default function ShopDropdown({ shopOpen, onShopLinkClick }: ShopDropdown
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+interface ProductPreviewPanelProps {
+  category: { label: string; href: string; type: "products" };
+  items: PreviewItem[];
+  onShopLinkClick: () => void;
+}
+
+function ProductPreviewPanel({ category, items, onShopLinkClick }: ProductPreviewPanelProps) {
+  const hasItems = items.length > 0;
+
+  return (
+    <div className="p-4 flex flex-col gap-3">
+      <div className="flex gap-3 items-start">
+        {hasItems
+          ? items.slice(0, 3).map((item) => {
+              const href = `/products/${categorySlug(item.productType)}/${item.handle}`;
+              return (
+                <Link key={item.handle} href={href} onClick={onShopLinkClick} className="flex-1 min-w-0 flex flex-col gap-1.5 group">
+                  <div className="w-full aspect-3/4 rounded-lg bg-white/6 overflow-hidden relative group-hover:bg-white/10 transition-colors duration-150">
+                    {item.image ? (
+                      <Image
+                        src={item.image.url}
+                        alt={item.image.altText ?? item.title}
+                        fill
+                        sizes="116px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <span className="absolute inset-0 flex items-center justify-center text-white/20 text-xs">▣</span>
+                    )}
+                  </div>
+                  <span className="text-[0.6rem] tracking-widest uppercase text-white/35 text-center group-hover:text-white/60 transition-colors duration-150 truncate">
+                    {item.title}
+                  </span>
+                </Link>
+              );
+            })
+          : [1, 2, 3].map((n) => (
+              <div key={n} className="flex-1 min-w-0 flex flex-col gap-1.5">
+                <div className="w-full aspect-3/4 rounded-lg bg-white/6 border border-dashed border-white/15 flex items-center justify-center">
+                  <span className="text-white/20 text-xs">▣</span>
+                </div>
+                <span className="text-[0.6rem] tracking-widest uppercase text-white/35 text-center">Product_0{n}</span>
+              </div>
+            ))}
+      </div>
+      <Link href={category.href} onClick={onShopLinkClick} className="self-end text-[0.62rem] tracking-[0.12em] uppercase text-white/35 hover:text-white transition-colors duration-150">
+        See all →
+      </Link>
+    </div>
   );
 }

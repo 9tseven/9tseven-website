@@ -7,9 +7,9 @@ import { ShoppingCart, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ShopDropdown from "./ShopDropdown";
 import { useCart } from "@/app/context/CartContext";
-import type { PillStyle } from "./types";
+import type { PillStyle, NavPreviews } from "./types";
 
-export default function DesktopNav() {
+export default function DesktopNav({ previews }: { previews: NavPreviews }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [shopOpen, setShopOpen] = useState(false);
   const [pill, setPill] = useState<PillStyle | null>(null);
@@ -146,6 +146,7 @@ export default function DesktopNav() {
       {/* Floating dropdown panel */}
       <ShopDropdown
         shopOpen={shopOpen}
+        previews={previews}
         onShopLinkClick={() => {
           setShopOpen(false);
           setHoveredIndex(null);

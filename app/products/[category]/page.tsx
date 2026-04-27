@@ -7,6 +7,7 @@ import { toProduct, type StorefrontProduct } from "@/app/components/FeaturedProd
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
+  searchParams: Promise<{ tag?: string }>;
 }
 
 const KNOWN_CATEGORIES = ["apparel", "accessories", "equipment", "new-arrivals"];
@@ -18,14 +19,38 @@ function categorySlugToProductType(slug: string): string {
     .join(" ");
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+function buildShopifyQuery(slug: string, tag: string | undefined): string | undefined {
+  const baseFilter =
+    slug === "new-arrivals"
+      ? `tag:'new-arrival'`
+      : `product_type:'${categorySlugToProductType(slug)}'`;
+  if (!tag) return baseFilter;
+  return `${baseFilter} AND tag:'${tag}'`;
+}
+
+function sanitizeTag(tag: string | undefined): string | undefined {
+  if (!tag) return undefined;
+  return /^[a-z0-9-]+$/.test(tag) ? tag : undefined;
+}
+
+function marqueeLabel(slug: string, tag: string | undefined): string {
+  if (tag) return tag.toUpperCase().replace(/-/g, " ");
+  return slug
+    .split("-")
+    .map((w) => w.toUpperCase())
+    .join(" ");
+}
+
+export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const { category } = await params;
+  const { tag: rawTag } = await searchParams;
+  const tag = sanitizeTag(rawTag);
   const slug = category.toLowerCase();
 
-  const productType = categorySlugToProductType(slug);
+  const query = buildShopifyQuery(slug, tag);
 
   const { data, errors } = await shopifyClient.request(GET_PRODUCTS, {
-    variables: { first: 100, query: `product_type:'${productType}'` },
+    variables: { first: 100, query },
   });
 
   if (errors) {
@@ -39,27 +64,18 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const label = category
-    .split("-")
-    .map((w) => w.toUpperCase())
-    .join(" ");
+  const label = marqueeLabel(slug, tag);
 
   return (
-    <main data-nav-theme="light" className="min-h-screen pt-16">
+    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
       <CategoryMarquee text={label} />
 
-      <div className="bg-white max-w-[1800px] mx-auto">
+      <div className="mx-auto">
         <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
-          <button
-            type="button"
-            className="text-[9px] tracking-[0.2em] uppercase text-black/50 border border-black/20 px-3 py-1.5"
-            disabled
-          >
+          <button type="button" className="text-[9px] tracking-[0.2em] uppercase text-black/50 border border-black/20 px-3 py-1.5" disabled>
             ⇌&nbsp;&nbsp;Filter
           </button>
-          <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">
-            {products.length} Products
-          </span>
+          <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">{products.length} Products</span>
         </div>
 
         <ProductsGrid products={products} />
