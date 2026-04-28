@@ -20,8 +20,6 @@ export function useImageSlider({ images }: UseImageSliderOptions) {
     setHoverIdx(Math.floor(ratio * images.length));
   };
 
-  const handleCardMouseLeave = () => setHoverIdx(0);
-
   const handlePointerDown = (e: React.PointerEvent) => {
     hasDragged.current = false;
     pointerStartX.current = e.clientX;
@@ -31,5 +29,5 @@ export function useImageSlider({ images }: UseImageSliderOptions) {
     if (Math.abs(e.clientX - pointerStartX.current) > 8) hasDragged.current = true;
   };
 
-  return { hoverIdx, hasMultiple, hasDragged, handleCardMouseMove, handleCardMouseLeave, handlePointerDown, handlePointerMove };
+  return { hoverIdx, hasMultiple, hasDragged, handleCardMouseMove, handlePointerDown, handlePointerMove };
 }

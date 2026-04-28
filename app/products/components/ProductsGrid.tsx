@@ -15,7 +15,7 @@ export default function ProductsGrid({ products }: ProductsGridProps) {
     <div className="w-full px-3 py-3">
       <div className="mx-auto grid grid-cols-2 lg:grid-cols-3 gap-2">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} href={`/products/${product.category.toLowerCase()}/${product.handle}`} mobileLayout="stacked" />
+          <ProductCard key={product.id} product={product} href={`/products/${product.category.toLowerCase()}/${product.handle}`} mobileLayout="stacked" desktopInfo="static" />
         ))}
       </div>
     </div>
