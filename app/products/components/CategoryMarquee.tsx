@@ -7,7 +7,10 @@ interface CategoryMarqueeProps {
 export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
   // Two identical copies side-by-side. The animation translates -50% so the
   // second copy slides into view exactly where the first ended — zero gap.
-  const repeated = Array(12).fill(text).join("\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0");
+  // Each copy ends with the same separator it uses internally, so the seam
+  // between the two side-by-side copies matches the rhythm within a copy.
+  const SEP = "\u00A0".repeat(8);
+  const repeated = Array(12).fill(text).join(SEP) + SEP;
 
   return (
     <div
@@ -16,15 +19,16 @@ export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
     >
       <style>{`
         @keyframes marquee-scroll {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
+          from { transform: translate3d(0, 0, 0); }
+          to   { transform: translate3d(-50%, 0, 0); }
         }
       `}</style>
       <div
         className="flex whitespace-nowrap"
         style={{
-          animation: "marquee-scroll 20s linear infinite",
+          animation: "marquee-scroll 60s linear infinite",
           willChange: "transform",
+          backfaceVisibility: "hidden",
         }}
       >
         {/* Two copies — second picks up where first ends */}
