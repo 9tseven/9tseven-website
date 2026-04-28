@@ -6,6 +6,7 @@ import Image from "next/image";
 import Slide from "./Slide";
 import SlideIndicator from "./SlideIndicator";
 import HeroOverlayText from "./HeroOverlayText";
+import HeroLogo3D from "./HeroLogo3D";
 import { useSlider } from "./hooks/useSlider";
 import { useAutoSlide } from "./hooks/useAutoSlide";
 import { SLIDES } from "./constants";
@@ -64,6 +65,9 @@ export default function HeroSection() {
           ))}
         </motion.div>
       </div>
+
+      {/* 3D logo — centered, translucent glass treatment */}
+      <HeroLogo3D />
 
       {/* Logo — centered bottom */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none w-17 md:w-25">
