@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { Product } from "../types";
+import { useCart } from "@/app/context/CartContext";
 
 interface ProductCardInfoProps {
   product: Product;
@@ -10,10 +11,27 @@ interface ProductCardInfoProps {
   mobileLayout?: "overlay" | "stacked";
 }
 
+function resolveVariant(product: Product, selectedSize: string | null) {
+  if (product.sizes.length > 0) {
+    return product.variants.find((v) => v.size === selectedSize) ?? null;
+  }
+  return product.variants[0] ?? null;
+}
+
 function InfoContent({ product }: { product: Product }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const { addLine, openCart, pending } = useCart();
   const soldOut = new Set(product.soldOutSizes as readonly string[]);
   const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
+
+  const selectedVariant = resolveVariant(product, selectedSize);
+  const canAddToCart = selectedVariant !== null && selectedVariant.availableForSale && !pending;
+
+  const handleAddToCart = () => {
+    if (!selectedVariant) return;
+    addLine(selectedVariant.id, 1);
+    openCart();
+  };
 
   return (
     <div className="flex flex-col gap-1.5" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
@@ -23,18 +41,16 @@ function InfoContent({ product }: { product: Product }) {
           <p className="text-[10px] font-semibold tracking-[0.08em] uppercase text-black leading-tight truncate">{product.name}</p>
         </div>
         {!product.isSoldOut && (
-          <button type="button" onPointerDown={(e) => e.stopPropagation()} className="shrink-0 flex items-center justify-center gap-1.5 px-3 h-7 bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
+          <button type="button" onClick={handleAddToCart} onPointerDown={(e) => e.stopPropagation()} disabled={!canAddToCart} aria-label={product.sizes.length > 0 && !selectedSize ? "Select a size to add to cart" : "Add to cart"} className="shrink-0 flex items-center justify-center gap-1.5 px-3 h-7 bg-black text-white hover:bg-black/80 transition-colors duration-200 disabled:bg-black/30 disabled:cursor-not-allowed">
             <span className="text-[15px] leading-none font-light">+</span>
-            <span className="text-[8px] tracking-[0.12em] uppercase font-medium leading-none">Add to cart</span>
+            <span className="text-[8px] tracking-[0.12em] uppercase font-medium leading-none">{pending ? "Adding…" : "Add to cart"}</span>
           </button>
         )}
       </div>
       <div className="flex items-start justify-between gap-2">
         <p className="text-[9px] text-black/60 shrink-0">
           DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          {onSale && (
-            <span className="ml-1.5 line-through text-black/30">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-          )}
+          {onSale && <span className="ml-1.5 line-through text-black/30">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>}
         </p>
         <div className="flex flex-wrap justify-end gap-1">
           {(product.sizes as readonly string[]).map((s) => {
@@ -59,23 +75,26 @@ function InfoContent({ product }: { product: Product }) {
 
 function StackedMobileContent({ product }: { product: Product }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const { addLine, openCart, pending } = useCart();
   const soldOut = new Set(product.soldOutSizes as readonly string[]);
   const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
 
+  const selectedVariant = resolveVariant(product, selectedSize);
+  const canAddToCart = selectedVariant !== null && selectedVariant.availableForSale && !pending;
+
+  const handleAddToCart = () => {
+    if (!selectedVariant) return;
+    addLine(selectedVariant.id, 1);
+    openCart();
+  };
+
   return (
-    <div
-      className="flex flex-col px-0.5 pt-3 pb-1"
-      style={{ minHeight: "clamp(200px, 28vw, 260px)" }}
-      onClick={(e) => e.stopPropagation()}
-      onPointerDown={(e) => e.stopPropagation()}
-    >
+    <div className="flex flex-col px-0.5 pt-3 pb-1" style={{ minHeight: "clamp(200px, 28vw, 260px)" }} onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
       <p className="text-[9px] tracking-[0.18em] uppercase text-black/45">{product.category}</p>
       <p className="text-[11px] font-semibold tracking-[0.06em] uppercase text-black leading-tight mt-1 line-clamp-2 min-h-[2lh]">{product.name}</p>
       <p className="text-[10px] text-black/70 mt-1.5">
         DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        {onSale && (
-          <span className="ml-1.5 line-through text-black/30">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-        )}
+        {onSale && <span className="ml-1.5 line-through text-black/30">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>}
       </p>
       <div className="flex flex-wrap gap-1 mt-2">
         {(product.sizes as readonly string[]).map((s) => {
@@ -94,9 +113,9 @@ function StackedMobileContent({ product }: { product: Product }) {
         })}
       </div>
       {!product.isSoldOut && (
-        <button type="button" onPointerDown={(e) => e.stopPropagation()} className="mt-3 w-full flex items-center justify-center gap-2 h-9 bg-black text-white hover:bg-black/80 transition-colors duration-200" aria-label="Add to cart">
+        <button type="button" onClick={handleAddToCart} onPointerDown={(e) => e.stopPropagation()} disabled={!canAddToCart} aria-label={product.sizes.length > 0 && !selectedSize ? "Select a size to add to cart" : "Add to cart"} className="mt-3 w-full flex items-center justify-center gap-2 h-9 bg-black text-white hover:bg-black/80 transition-colors duration-200 disabled:bg-black/30 disabled:cursor-not-allowed">
           <span className="text-[15px] leading-none font-light">+</span>
-          <span className="text-[9px] tracking-[0.15em] uppercase font-medium leading-none">Add to cart</span>
+          <span className="text-[9px] tracking-[0.15em] uppercase font-medium leading-none">{pending ? "Adding…" : product.sizes.length > 0 && !selectedSize ? "Select size" : "Add to cart"}</span>
         </button>
       )}
     </div>
