@@ -1,3 +1,9 @@
+export type ProductVariant = {
+  id: string;
+  size: string | null;
+  availableForSale: boolean;
+};
+
 export type Product = {
   id: string;
   handle: string;
@@ -10,6 +16,7 @@ export type Product = {
   sizes: string[];
   soldOutSizes: string[];
   images: string[];
+  variants: ProductVariant[];
   descriptionHtml?: string;
 };
 
@@ -71,6 +78,15 @@ export function toProduct(node: StorefrontProduct): Product {
 
   const isNewArrival = node.tags.some((t) => t.toLowerCase() === "new-arrival");
 
+  const productVariants: ProductVariant[] = variants.map((v) => {
+    const sizeOpt = v.selectedOptions.find((o) => o.name.toLowerCase() === "size");
+    return {
+      id: v.id,
+      size: sizeOpt ? sizeOpt.value : null,
+      availableForSale: v.availableForSale,
+    };
+  });
+
   return {
     id: node.id,
     handle: node.handle,
@@ -83,6 +99,7 @@ export function toProduct(node: StorefrontProduct): Product {
     sizes,
     soldOutSizes,
     images,
+    variants: productVariants,
     descriptionHtml: node.descriptionHtml,
   };
 }

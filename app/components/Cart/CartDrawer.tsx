@@ -6,9 +6,11 @@ import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "@/app/context/CartContext";
 
 export default function CartDrawer() {
-  const { cart, isOpen, closeCart, removeLine, updateLine } = useCart();
+  const { cart, isOpen, pending, closeCart, removeLine, updateLine } = useCart();
 
   const formatPrice = (amount: string, currencyCode: string) => new Intl.NumberFormat("en-US", { style: "currency", currency: currencyCode }).format(parseFloat(amount));
+
+  const lines = cart?.lines ?? [];
 
   return (
     <AnimatePresence>
@@ -29,7 +31,7 @@ export default function CartDrawer() {
 
             {/* Item list */}
             <div className="flex-1 overflow-y-auto px-6 py-6 flex flex-col gap-6">
-              {cart.lines.length === 0 ? (
+              {lines.length === 0 ? (
                 <div className="flex-1 flex items-center justify-center">
                   <div className="flex flex-col items-center gap-4 text-white/30">
                     <ShoppingCart size={32} strokeWidth={1} />
@@ -37,7 +39,7 @@ export default function CartDrawer() {
                   </div>
                 </div>
               ) : (
-                cart.lines.map((line) => (
+                lines.map((line) => (
                   <div key={line.id} className="flex gap-4">
                     {/* Image */}
                     <div className="w-16 h-16 shrink-0 bg-white/5 rounded flex items-center justify-center">
@@ -58,15 +60,15 @@ export default function CartDrawer() {
                       {/* Quantity + Remove */}
                       <div className="flex items-center gap-4 mt-1">
                         <div className="flex items-center gap-3">
-                          <button onClick={() => updateLine(line.id, line.quantity - 1)} aria-label="Decrease quantity" disabled={line.quantity === 1} className="text-white/40 hover:text-white transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
+                          <button onClick={() => updateLine(line.id, line.quantity - 1)} aria-label="Decrease quantity" disabled={pending || line.quantity === 1} className="text-white/40 hover:text-white transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
                             −
                           </button>
                           <span className="text-xs text-white/70 tabular-nums">{line.quantity}</span>
-                          <button onClick={() => updateLine(line.id, line.quantity + 1)} aria-label="Increase quantity" className="text-white/40 hover:text-white transition-colors text-sm leading-none">
+                          <button onClick={() => updateLine(line.id, line.quantity + 1)} aria-label="Increase quantity" disabled={pending} className="text-white/40 hover:text-white transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
                             +
                           </button>
                         </div>
-                        <button onClick={() => removeLine(line.id)} aria-label={`Remove ${line.merchandise.product.title} from cart`} className="text-[0.65rem] tracking-[0.14em] uppercase text-white/30 hover:text-white/70 transition-colors underline underline-offset-2">
+                        <button onClick={() => removeLine(line.id)} aria-label={`Remove ${line.merchandise.product.title} from cart`} disabled={pending} className="text-[0.65rem] tracking-[0.14em] uppercase text-white/30 hover:text-white/70 transition-colors underline underline-offset-2 disabled:opacity-30 disabled:cursor-not-allowed">
                           Remove
                         </button>
                       </div>
@@ -77,7 +79,7 @@ export default function CartDrawer() {
             </div>
 
             {/* Footer */}
-            {cart.lines.length > 0 && (
+            {cart && lines.length > 0 && (
               <div className="shrink-0 border-t border-white/10 px-6 py-6 flex flex-col gap-4">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xs tracking-[0.22em] uppercase text-white/60">Subtotal</span>

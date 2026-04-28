@@ -5,6 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { Product } from "../../components/FeaturedProductsSection/types";
+import { useCart } from "@/app/context/CartContext";
 import ProductAccordion from "./ProductAccordion";
 
 interface ProductDetailViewProps {
@@ -13,12 +14,23 @@ interface ProductDetailViewProps {
 
 export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const router = useRouter();
+  const { addLine, openCart, pending } = useCart();
   const images = product.images;
   const sizes = product.sizes;
+  const hasSizes = sizes.length > 0;
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   const soldOut = new Set(product.soldOutSizes);
+
+  const selectedVariant = hasSizes ? product.variants.find((v) => v.size === selectedSize) ?? null : product.variants[0] ?? null;
+  const canAddToCart = selectedVariant !== null && selectedVariant.availableForSale && !pending;
+
+  const handleAddToCart = () => {
+    if (!selectedVariant) return;
+    addLine(selectedVariant.id, 1);
+    openCart();
+  };
 
   const sizeSelector = (
     <div>
@@ -38,8 +50,8 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
   );
 
   const addToCartButton = (
-    <button type="button" className="w-full bg-black text-white text-[9px] tracking-[0.25em] uppercase py-4 hover:bg-black/80 transition-colors duration-200">
-      Add to cart
+    <button type="button" onClick={handleAddToCart} disabled={!canAddToCart} className="w-full bg-black text-white text-[9px] tracking-[0.25em] uppercase py-4 hover:bg-black/80 transition-colors duration-200 disabled:bg-black/30 disabled:cursor-not-allowed">
+      {pending ? "Adding…" : hasSizes && !selectedSize ? "Select size" : product.isSoldOut ? "Sold out" : "Add to cart"}
     </button>
   );
 
