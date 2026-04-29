@@ -36,7 +36,7 @@ export default function HeroSection() {
   );
 
   return (
-    <section data-nav-theme="dark" className="relative w-full h-[85svh] md:h-screen overflow-hidden select-none" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <section data-nav-theme="dark" className="relative w-full h-[85svh] md:h-[90vh] overflow-hidden select-none" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       {/* Filmstrip container */}
       <div ref={containerRef} className="w-full h-full">
         <motion.div
