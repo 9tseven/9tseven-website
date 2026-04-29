@@ -2,13 +2,11 @@
 
 import * as React from "react";
 import { useEffect, useRef } from "react";
-import { createNoise2D } from "simplex-noise";
 
 interface Point {
   x: number;
   y: number;
   wave: { x: number; y: number };
-  cursor: { x: number; y: number; vx: number; vy: number };
 }
 
 interface WavesProps {
@@ -16,18 +14,9 @@ interface WavesProps {
   strokeColor?: string;
   strokeWidth?: number;
   backgroundColor?: string;
-  pointerSize?: number;
-  showPointerDot?: boolean;
 }
 
-export function Waves({
-  className = "",
-  strokeColor = "#ffffff",
-  strokeWidth = 1,
-  backgroundColor = "transparent",
-  pointerSize = 0.5,
-  showPointerDot = true,
-}: WavesProps) {
+export function Waves({ className = "", strokeColor = "#ffffff", strokeWidth = 1, backgroundColor = "transparent" }: WavesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -36,23 +25,14 @@ export function Waves({
     const svg = svgRef.current;
     if (!container || !svg) return;
 
-    const noise = createNoise2D();
-    const mouse = {
-      x: -10,
-      y: 0,
-      lx: 0,
-      ly: 0,
-      sx: 0,
-      sy: 0,
-      v: 0,
-      vs: 0,
-      a: 0,
-      set: false,
-    };
     let lines: Point[][] = [];
     let paths: SVGPathElement[] = [];
     let bounding: DOMRect | null = null;
     let raf = 0;
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const linesGroup = svg.querySelector<SVGGElement>("[data-waves-lines]");
+    if (!linesGroup) return;
 
     function setSize() {
       bounding = container!.getBoundingClientRect();
@@ -68,10 +48,10 @@ export function Waves({
       paths = [];
       lines = [];
 
-      const xGap = 8;
-      const yGap = 8;
-      const oWidth = width + 200;
-      const oHeight = height + 30;
+      const xGap = 11;
+      const yGap = 14;
+      const oWidth = width + 400;
+      const oHeight = height + 600;
       const totalLines = Math.ceil(oWidth / xGap);
       const totalPoints = Math.ceil(oHeight / yGap);
       const xStart = (width - xGap * totalLines) / 2;
@@ -84,119 +64,64 @@ export function Waves({
             x: xStart + xGap * i,
             y: yStart + yGap * j,
             wave: { x: 0, y: 0 },
-            cursor: { x: 0, y: 0, vx: 0, vy: 0 },
           });
         }
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        const path = document.createElementNS(svgNS, "path");
         path.setAttribute("fill", "none");
         path.setAttribute("stroke", strokeColor);
         path.setAttribute("stroke-width", String(strokeWidth));
-        svg!.appendChild(path);
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        linesGroup!.appendChild(path);
         paths.push(path);
         lines.push(points);
       }
-    }
-
-    function updateMousePosition(x: number, y: number) {
-      if (!bounding) return;
-      mouse.x = x - bounding.left;
-      mouse.y = y - bounding.top + window.scrollY;
-      if (!mouse.set) {
-        mouse.sx = mouse.x;
-        mouse.sy = mouse.y;
-        mouse.lx = mouse.x;
-        mouse.ly = mouse.y;
-        mouse.set = true;
-      }
-      container!.style.setProperty("--x", `${mouse.sx}px`);
-      container!.style.setProperty("--y", `${mouse.sy}px`);
     }
 
     function onResize() {
       setSize();
       setLines();
     }
-    function onMouseMove(e: MouseEvent) {
-      updateMousePosition(e.pageX, e.pageY);
-    }
-    function onTouchMove(e: TouchEvent) {
-      e.preventDefault();
-      const t = e.touches[0];
-      updateMousePosition(t.clientX, t.clientY);
-    }
 
     function movePoints(time: number) {
       lines.forEach((points) => {
         points.forEach((p) => {
-          const move =
-            noise(
-              (p.x + time * 0.008) * 0.003,
-              (p.y + time * 0.003) * 0.002,
-            ) * 8;
-          p.wave.x = Math.cos(move) * 12;
-          p.wave.y = Math.sin(move) * 6;
-
-          const dx = p.x - mouse.sx;
-          const dy = p.y - mouse.sy;
-          const d = Math.hypot(dx, dy);
-          const l = Math.max(175, mouse.vs);
-          if (d < l) {
-            const s = 1 - d / l;
-            const f = Math.cos(d * 0.001) * s;
-            p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00035;
-            p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00035;
-          }
-
-          p.cursor.vx += (0 - p.cursor.x) * 0.01;
-          p.cursor.vy += (0 - p.cursor.y) * 0.01;
-          p.cursor.vx *= 0.95;
-          p.cursor.vy *= 0.95;
-          p.cursor.x += p.cursor.vx;
-          p.cursor.y += p.cursor.vy;
-          p.cursor.x = Math.min(50, Math.max(-50, p.cursor.x));
-          p.cursor.y = Math.min(50, Math.max(-50, p.cursor.y));
+          const t = time * 0.0001;
+          const n1 = Math.sin(p.x * 0.013 + t * 1.5);
+          const n2 = Math.sin(p.y * 0.0083 - t * 1.1);
+          const n3 = Math.sin((p.x - p.y) * 0.0071 + t * 0.7);
+          const n4 = Math.cos((p.x + p.y * 0.7) * 0.0049 + t * 2.1);
+          const swirl = n1 + n2 * 0.8 + n3 * 0.6 + n4 * 0.5;
+          const angle = swirl * Math.PI * 0.65;
+          const amp = 20 + n3 * 6;
+          p.wave.x = Math.cos(angle) * amp;
+          p.wave.y = Math.sin(angle * 1.3) * amp * 0.6;
         });
       });
-    }
-
-    function moved(p: Point, withCursor = true) {
-      return {
-        x: p.x + p.wave.x + (withCursor ? p.cursor.x : 0),
-        y: p.y + p.wave.y + (withCursor ? p.cursor.y : 0),
-      };
     }
 
     function drawLines() {
       lines.forEach((points, lIndex) => {
         if (points.length < 2 || !paths[lIndex]) return;
-        const first = moved(points[0], false);
-        let d = `M ${first.x} ${first.y}`;
-        for (let i = 1; i < points.length; i++) {
-          const c = moved(points[i]);
-          d += `L ${c.x} ${c.y}`;
+        const x0 = points[0].x + points[0].wave.x;
+        const y0 = points[0].y + points[0].wave.y;
+        let d = `M ${x0} ${y0}`;
+        for (let i = 1; i < points.length - 1; i++) {
+          const p = points[i];
+          const next = points[i + 1];
+          const cx = p.x + p.wave.x;
+          const cy = p.y + p.wave.y;
+          const mx = (cx + next.x + next.wave.x) / 2;
+          const my = (cy + next.y + next.wave.y) / 2;
+          d += ` Q ${cx} ${cy} ${mx} ${my}`;
         }
+        const last = points[points.length - 1];
+        d += ` T ${last.x + last.wave.x} ${last.y + last.wave.y}`;
         paths[lIndex].setAttribute("d", d);
       });
     }
 
     function tick(time: number) {
-      mouse.sx += (mouse.x - mouse.sx) * 0.1;
-      mouse.sy += (mouse.y - mouse.sy) * 0.1;
-
-      const dx = mouse.x - mouse.lx;
-      const dy = mouse.y - mouse.ly;
-      const d = Math.hypot(dx, dy);
-
-      mouse.v = d;
-      mouse.vs += (d - mouse.vs) * 0.1;
-      mouse.vs = Math.min(100, mouse.vs);
-      mouse.lx = mouse.x;
-      mouse.ly = mouse.y;
-      mouse.a = Math.atan2(dy, dx);
-
-      container!.style.setProperty("--x", `${mouse.sx}px`);
-      container!.style.setProperty("--y", `${mouse.sy}px`);
-
       movePoints(time);
       drawLines();
       raf = requestAnimationFrame(tick);
@@ -206,16 +131,28 @@ export function Waves({
     setLines();
 
     window.addEventListener("resize", onResize);
-    window.addEventListener("mousemove", onMouseMove);
-    container.addEventListener("touchmove", onTouchMove, { passive: false });
 
-    raf = requestAnimationFrame(tick);
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const start = () => {
+      if (motionQuery.matches) {
+        movePoints(0);
+        drawLines();
+      } else {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    const onMotionChange = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      start();
+    };
+    motionQuery.addEventListener("change", onMotionChange);
+    start();
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("mousemove", onMouseMove);
-      container.removeEventListener("touchmove", onTouchMove);
+      motionQuery.removeEventListener("change", onMotionChange);
       paths.forEach((p) => p.remove());
     };
   }, [strokeColor, strokeWidth]);
@@ -224,38 +161,28 @@ export function Waves({
     <div
       ref={containerRef}
       className={`relative overflow-hidden ${className}`}
-      style={
-        {
-          backgroundColor,
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          "--x": "-0.5rem",
-          "--y": "50%",
-        } as React.CSSProperties
-      }
+      style={{
+        backgroundColor,
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+      }}
     >
-      <svg
-        ref={svgRef}
-        className="block w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
-      />
-      {showPointerDot && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: `${pointerSize}rem`,
-            height: `${pointerSize}rem`,
-            background: strokeColor,
-            borderRadius: "50%",
-            transform: "translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0)",
-            willChange: "transform",
-          }}
-        />
-      )}
+      <svg ref={svgRef} className="block w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="waves-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.5" result="blurSoft" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blurWide" />
+            <feMerge>
+              <feMergeNode in="blurWide" />
+              <feMergeNode in="blurSoft" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g data-waves-lines filter="url(#waves-glow)" />
+      </svg>
     </div>
   );
 }
