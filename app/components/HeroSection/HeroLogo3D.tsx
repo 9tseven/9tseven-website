@@ -30,7 +30,7 @@ export default function HeroLogo3D() {
     <div aria-hidden className="absolute inset-0 z-5 flex items-center justify-center pointer-events-none">
       <div
         style={{
-          width: "min(40vw, 80vh, 800px)",
+          width: "min(40vw, max(80vh, 569px), 800px)",
           aspectRatio: `${LOGO_ASPECT}`,
         }}
       >

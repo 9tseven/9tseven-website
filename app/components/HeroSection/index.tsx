@@ -36,7 +36,7 @@ export default function HeroSection() {
   );
 
   return (
-    <section data-nav-theme="dark" className="relative w-full h-[85svh] md:h-[90vh] overflow-hidden select-none" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <section data-nav-theme="dark" className="relative w-full h-[85svh] md:h-[90vh] min-h-160 overflow-hidden select-none" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       {/* Filmstrip container */}
       <div ref={containerRef} className="w-full h-full">
         <motion.div
@@ -61,7 +61,7 @@ export default function HeroSection() {
           whileDrag={{ cursor: "grabbing" }}
         >
           {SLIDES.map((slide) => (
-            <Slide key={slide.id} id={slide.id} bg={slide.bg} accent={slide.accent} image={slide.image} video={"video" in slide ? slide.video : undefined} slideCount={SLIDES.length} />
+            <Slide key={slide.id} id={slide.id} bg={slide.bg} accent={slide.accent} image={slide.image} video={"video" in slide ? slide.video : undefined} slideCount={SLIDES.length} isActive={current === slide.id} />
           ))}
         </motion.div>
       </div>
