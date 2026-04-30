@@ -1,72 +1,45 @@
-"use client";
+import { shopifyClient } from "@/app/lib/shopify";
+import { GET_ARTICLES } from "@/app/lib/queries/articles";
+import BlogStack from "./BlogStack";
+import type { BlogPost } from "./constants";
 
-import { useState, useCallback, useRef } from "react";
-import { useLenis } from "lenis/react";
-import { BLOG_POSTS } from "./constants";
-import BlogPostCard from "./BlogPostCard";
+type ShopifyArticle = {
+  id: string;
+  handle: string;
+  title: string;
+  excerpt: string | null;
+  image: { url: string; altText: string | null } | null;
+  blog: { handle: string; title: string };
+};
 
-const NAVBAR_H = 60;
-
-export default function BlogSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLElement | null)[]>([]);
-  const lenis = useLenis();
-
-  const [peekHeights, setPeekHeights] = useState<number[]>(() => new Array(BLOG_POSTS.length).fill(72));
-
-  const updatePeek = useCallback((index: number, height: number) => {
-    setPeekHeights((prev) => {
-      if (prev[index] === height) return prev;
-      const next = [...prev];
-      next[index] = height;
-      return next;
-    });
-  }, []);
-
-  const tops = BLOG_POSTS.map((_, i) => NAVBAR_H + peekHeights.slice(0, i).reduce((a, b) => a + b, 0));
-
-  const handleCardClick = (index: number) => {
-    if (!sectionRef.current || !headerRef.current) return;
-
-    const scroll = lenis?.scroll ?? window.scrollY;
-    const sectionDocTop = sectionRef.current.getBoundingClientRect().top + scroll;
-    const headerH = headerRef.current.offsetHeight;
-
-    let sumPrevCardHeights = 0;
-    for (let i = 0; i < index; i++) {
-      sumPrevCardHeights += cardRefs.current[i]?.offsetHeight ?? 0;
-    }
-
-    const naturalCardTop = sectionDocTop + headerH + sumPrevCardHeights;
-    const targetScroll = naturalCardTop - tops[index];
-
-    lenis?.scrollTo(targetScroll, { duration: 1.2 });
+type ArticlesResponse = {
+  articles: {
+    edges: { node: ShopifyArticle }[];
   };
+};
 
-  return (
-    <section ref={sectionRef} data-nav-theme="light" className="relative bg-white">
-      <div ref={headerRef} className="p-5 md:p-0 flex items-start justify-between">
-        <div className="hidden md:block md:w-1/2 h-22" />
-        <div className="flex flex-col justify-center gap-1 h-22 py-2 md:w-1/2">
-          <h2 className="text-2xl font-bold text-black">Journal</h2>
-          <p className="text-xl text-black">Recent work, moments, and ongoing process.</p>
-        </div>
-      </div>
+export default async function BlogSection() {
+  const { data, errors } = await shopifyClient.request(GET_ARTICLES, {
+    variables: { first: 5 },
+  });
 
-      {BLOG_POSTS.map((post, index) => (
-        <BlogPostCard
-          key={post.id}
-          post={post}
-          index={index}
-          top={tops[index]}
-          onPeekHeight={(h) => updatePeek(index, h)}
-          articleRef={(el) => {
-            cardRefs.current[index] = el;
-          }}
-          onClick={() => handleCardClick(index)}
-        />
-      ))}
-    </section>
-  );
+  if (errors || !data) {
+    throw new Error(`Shopify GET_ARTICLES failed: ${JSON.stringify(errors)}`);
+  }
+
+  const typed = data as ArticlesResponse;
+
+  const posts: BlogPost[] = typed.articles.edges
+    .map((e) => e.node)
+    .filter((node): node is ShopifyArticle & { image: { url: string; altText: string | null } } => node.image !== null)
+    .map((node) => ({
+      id: node.id,
+      tag: `( ${node.blog.handle.toUpperCase()} )`,
+      title: node.title,
+      body: node.excerpt ?? "",
+      image: node.image.url,
+      alt: node.image.altText ?? node.title,
+    }));
+
+  return <BlogStack posts={posts} />;
 }
