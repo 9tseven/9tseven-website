@@ -6,7 +6,7 @@ import type { BlogPost } from "./constants";
 type ShopifyArticle = {
   id: string;
   title: string;
-  excerpt: string | null;
+  excerptHtml: string | null;
   image: { url: string; altText: string | null } | null;
   blog: { handle: string };
 };
@@ -16,6 +16,25 @@ type ArticlesResponse = {
     edges: { node: ShopifyArticle }[];
   };
 };
+
+const HTML_ENTITIES: Record<string, string> = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&nbsp;": " ",
+};
+
+function htmlToText(html: string): string {
+  return html
+    .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/\s*(p|div|li|h[1-6])\s*>/gi, "\n\n")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[a-z#0-9]+;/gi, (m) => HTML_ENTITIES[m.toLowerCase()] ?? m)
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
 
 export default async function BlogSection() {
   const { data, errors } = await shopifyClient.request<ArticlesResponse>(GET_ARTICLES, {
@@ -33,7 +52,7 @@ export default async function BlogSection() {
       id: node.id,
       tag: `( ${node.blog.handle.toUpperCase()} )`,
       title: node.title,
-      body: node.excerpt ?? "",
+      body: htmlToText(node.excerptHtml ?? ""),
       image: node.image.url,
       alt: node.image.altText ?? node.title,
     }));

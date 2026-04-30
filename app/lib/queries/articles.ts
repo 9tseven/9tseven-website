@@ -5,7 +5,7 @@ query GetArticles($first: Int!) {
       node {
         id
         title
-        excerpt
+        excerptHtml
         image {
           url
           altText
