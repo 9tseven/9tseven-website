@@ -8,9 +8,10 @@ interface SlideProps {
   image: string;
   video?: string;
   slideCount: number;
+  isActive: boolean;
 }
 
-export default function Slide({ id, bg, accent, image, video, slideCount }: SlideProps) {
+export default function Slide({ id, bg, accent, image, video, slideCount, isActive }: SlideProps) {
   return (
     <div
       className="relative h-full shrink-0"
@@ -30,8 +31,11 @@ export default function Slide({ id, bg, accent, image, video, slideCount }: Slid
         }}
       />
 
-      {/* Hero media */}
-      {video ? <video src={video} autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover pointer-events-none" /> : <Image src={image} alt={`Hero slide ${id + 1}`} fill className="object-cover pointer-events-none" sizes="100vw" priority={id === 0} draggable={false} />}
+      {/* Image — always rendered; doubles as poster for video slides */}
+      <Image src={image} alt={`Hero slide ${id + 1}`} fill className="object-cover pointer-events-none" sizes="100vw" priority={id === 0} draggable={false} />
+
+      {/* Video — mounted only when slide is active so the network request is canceled when the user swipes away */}
+      {video && isActive && <video src={video} autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover pointer-events-none" />}
 
       {/* Readability overlay */}
       <div className="absolute inset-0 bg-black/40 pointer-events-none" />
