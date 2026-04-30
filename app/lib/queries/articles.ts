@@ -4,7 +4,6 @@ query GetArticles($first: Int!) {
     edges {
       node {
         id
-        handle
         title
         excerpt
         image {
@@ -13,7 +12,6 @@ query GetArticles($first: Int!) {
         }
         blog {
           handle
-          title
         }
       }
     }

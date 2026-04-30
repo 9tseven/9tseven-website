@@ -5,11 +5,10 @@ import type { BlogPost } from "./constants";
 
 type ShopifyArticle = {
   id: string;
-  handle: string;
   title: string;
   excerpt: string | null;
   image: { url: string; altText: string | null } | null;
-  blog: { handle: string; title: string };
+  blog: { handle: string };
 };
 
 type ArticlesResponse = {
@@ -19,7 +18,7 @@ type ArticlesResponse = {
 };
 
 export default async function BlogSection() {
-  const { data, errors } = await shopifyClient.request(GET_ARTICLES, {
+  const { data, errors } = await shopifyClient.request<ArticlesResponse>(GET_ARTICLES, {
     variables: { first: 5 },
   });
 
@@ -27,9 +26,7 @@ export default async function BlogSection() {
     throw new Error(`Shopify GET_ARTICLES failed: ${JSON.stringify(errors)}`);
   }
 
-  const typed = data as ArticlesResponse;
-
-  const posts: BlogPost[] = typed.articles.edges
+  const posts: BlogPost[] = data.articles.edges
     .map((e) => e.node)
     .filter((node): node is ShopifyArticle & { image: { url: string; altText: string | null } } => node.image !== null)
     .map((node) => ({
