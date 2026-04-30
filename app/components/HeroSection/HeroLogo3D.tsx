@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Waves } from "./Waves";
 
 const LOGO_ASPECT = 2000 / 1283;
@@ -13,6 +14,18 @@ const FEATHERED_MASK = `url("data:image/svg+xml;utf8,${encodeURIComponent(
 )}")`;
 
 export default function HeroLogo3D() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  if (!isDesktop) return null;
+
   return (
     <div aria-hidden className="absolute inset-0 z-5 flex items-center justify-center pointer-events-none">
       <div
