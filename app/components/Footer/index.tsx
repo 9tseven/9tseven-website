@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import BrandLockup from "../BrandLockup";
+import { body, header } from "motion/react-client";
+import { subscribeToNewsletter } from "@/app/actions/newsletter";
 
 const POLICY_LINKS = [
   { label: "Return & Exchange", href: "/returns" },
@@ -20,6 +22,23 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "already" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMessage(null);
+
+    const result = await subscribeToNewsletter(email);
+    if (result.ok) {
+      setStatus(result.alreadySubscribed ? "already" : "success");
+      setEmail("");
+    } else {
+      setStatus("error");
+      setErrorMessage(result.error);
+    }
+  };
 
   return (
     <footer data-nav-theme="light" className="bg-[#ebebeb] text-black overflow-hidden">
@@ -27,12 +46,13 @@ export default function Footer() {
       <div className="px-8 py-16 border-b border-black/10">
         <h2 className="text-sm font-bold tracking-[0.14em] uppercase mb-1.5">Join the Community</h2>
         <p className="text-[0.7rem] tracking-[0.08em] text-black/45 mb-5">Sign up to the newsletter and join the community</p>
-        <form className="flex" onSubmit={(e) => e.preventDefault()}>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL" className="font-mono flex-1 bg-white px-4 py-3 text-[0.65rem] tracking-[0.14em] uppercase placeholder:text-black/30 outline-none border border-black/8 border-r-0" />
-          <button type="submit" className="bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150 whitespace-nowrap">
-            Sign Up
+        <form className="flex" onSubmit={handleSubmit}>
+          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL" className="font-mono flex-1 bg-white px-4 py-3 text-[0.65rem] tracking-[0.14em] uppercase placeholder:text-black/30 outline-none border border-black/8 border-r-0" />
+          <button type="submit" disabled={status === "loading"} className="bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150 whitespace-nowrap">
+            {status === "loading" ? "Signing up" : status === "success" ? "Subscribed" : status === "already" ? "Already signed up" : status === "error" ? "Error signing up" : "Sign up"}
           </button>
         </form>
+        {status === "error" && errorMessage && <p className="mt-3 text-[0.65rem] tracking-[0.14em] uppercase text-red-700">{errorMessage}</p>}
       </div>
 
       {/* Info + links row */}
