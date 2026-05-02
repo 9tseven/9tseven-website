@@ -18,7 +18,7 @@ export default function FeaturedProductsSection({ products }: { products: Produc
       <div ref={containerRef} className="w-full overflow-hidden">
         <motion.div className="flex" style={{ x, gap: CARD_GAP, cursor: "grab" }} drag="x" dragConstraints={{ left: dragConstraintsLeft(), right: 0 }} dragElastic={0.06} dragMomentum={false} onDragEnd={handleDragEnd} whileDrag={{ cursor: "grabbing" }}>
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} cardWidth={cardWidth} />
+            <ProductCard key={product.id} product={product} cardWidth={cardWidth} href={`/products/${product.category.toLowerCase()}/${product.handle}`} />
           ))}
         </motion.div>
       </div>
