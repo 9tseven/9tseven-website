@@ -39,7 +39,7 @@ function InfoContent({ product }: { product: Product }) {
       <div className="flex items-center gap-2">
         <div className="flex flex-1 min-w-0 flex-col gap-1">
           <p className="text-[clamp(8px,0.6vw,10px)] tracking-widest uppercase text-black/45 leading-none">{product.category}</p>
-          <p className="text-[clamp(10px,0.8vw,12px)] font-semibold tracking-widest uppercase text-black leading-none truncate">{product.name}</p>
+          <p className="text-[clamp(10px,0.8vw,12px)] font-semibold tracking-widest uppercase text-black line-clamp-2 leading-tight min-h-[2lh] md:line-clamp-none md:truncate md:leading-none md:min-h-0">{product.name}</p>
         </div>
         {!product.isSoldOut && (
           <button type="button" onClick={handleAddToCart} onPointerDown={(e) => e.stopPropagation()} disabled={!canAddToCart} aria-label={product.sizes.length > 0 && !selectedSize ? "Select a size to add to cart" : "Add to cart"} className="shrink-0 flex items-center justify-center gap-1 px-3 h-7 bg-black text-white hover:bg-black/80 transition-colors duration-200 cursor-pointer disabled:bg-black/30 disabled:cursor-default">
@@ -51,14 +51,14 @@ function InfoContent({ product }: { product: Product }) {
       <div className="flex items-center justify-between gap-2">
         <p className="text-[clamp(9px,0.7vw,11px)] tracking-wide font-semibold text-pretty text-black/65 shrink-0">
           DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          {onSale && <span className="ml-1.5 font-normal line-through text-black/35">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>}
+          {onSale && <span className="block font-normal line-through text-black/35 md:inline md:ml-1.5">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>}
         </p>
-        <div className="flex flex-wrap justify-end gap-1">
+        <div className="flex flex-nowrap justify-end gap-1 md:flex-wrap">
           {(product.sizes as readonly string[]).map((s) => {
             const out = soldOut.has(s);
             const selected = selectedSize === s;
             return (
-              <button key={s} type="button" disabled={out} onClick={() => setSelectedSize(selected ? null : s)} className={`text-[clamp(10px,0.8vw,12px)] tracking-[0.05em] uppercase font-medium px-2.5 py-2 leading-none relative transition-colors duration-150 cursor-pointer ${out ? "text-black/25 bg-black/5" : selected ? "bg-black text-white" : "text-black/70 bg-black/8 hover:bg-black/15 cursor-pointer"}`}>
+              <button key={s} type="button" disabled={out} onClick={() => setSelectedSize(selected ? null : s)} className={`text-[clamp(10px,0.8vw,12px)] tracking-[0.05em] uppercase font-medium px-2 py-1.5 md:px-2.5 md:py-2 leading-none relative transition-colors duration-150 cursor-pointer ${out ? "text-black/25 bg-black/5" : selected ? "bg-black text-white" : "text-black/70 bg-black/8 hover:bg-black/15 cursor-pointer"}`}>
                 {s}
                 {out && (
                   <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden preserveAspectRatio="none">
