@@ -47,12 +47,18 @@ export default function Footer() {
         <h2 className="text-sm font-bold tracking-[0.14em] uppercase mb-1.5">Join the Community</h2>
         <p className="text-[0.7rem] tracking-[0.08em] text-black/45 mb-5">Sign up to the newsletter and join the community</p>
         <form className="flex" onSubmit={handleSubmit}>
-          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL" className="font-mono flex-1 bg-white px-4 py-3 text-[0.65rem] tracking-[0.14em] uppercase placeholder:text-black/30 outline-none border border-black/8 border-r-0" />
+          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL" className="font-mono flex-1 min-w-0 bg-white px-4 py-3 text-[16px] md:text-[0.65rem] tracking-[0.14em] uppercase placeholder:text-black/30 outline-none border border-black/8 border-r-0" />
           <button type="submit" disabled={status === "loading"} className="bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150 whitespace-nowrap">
-            {status === "loading" ? "Signing up" : status === "success" ? "Subscribed" : status === "already" ? "Already signed up" : status === "error" ? "Error signing up" : "Sign up"}
+            <span className="md:hidden">{status === "loading" ? "Signing up" : "Sign up"}</span>
+            <span className="hidden md:inline">{status === "loading" ? "Signing up" : status === "success" ? "Subscribed" : status === "already" ? "Already signed up" : status === "error" ? "Error signing up" : "Sign up"}</span>
           </button>
         </form>
-        {status === "error" && errorMessage && <p className="mt-3 text-[0.65rem] tracking-[0.14em] uppercase text-red-700">{errorMessage}</p>}
+        {status !== "idle" && status !== "loading" && (
+          <p className={`md:hidden mt-3 text-[0.65rem] tracking-[0.14em] uppercase ${status === "error" ? "text-red-700" : "text-black/65"}`}>
+            {status === "error" ? errorMessage : status === "already" ? "Already signed up" : "Subscribed"}
+          </p>
+        )}
+        {status === "error" && errorMessage && <p className="hidden md:block mt-3 text-[0.65rem] tracking-[0.14em] uppercase text-red-700">{errorMessage}</p>}
       </div>
 
       {/* Info + links row */}
