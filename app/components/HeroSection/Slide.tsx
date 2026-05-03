@@ -1,24 +1,23 @@
 import Image from "next/image";
-import { GRAIN_SVG } from "./constants";
+import { GRAIN_SVG, ACCENT_GRADIENT } from "./constants";
 
 interface SlideProps {
   id: number;
   bg: string;
-  accent: string;
   image: string;
   video?: string;
   slideCount: number;
   isActive: boolean;
 }
 
-export default function Slide({ id, bg, accent, image, video, slideCount, isActive }: SlideProps) {
+export default function Slide({ id, bg, image, video, slideCount, isActive }: SlideProps) {
   return (
     <div
       className="relative h-full shrink-0"
       style={{
         width: `${100 / slideCount}%`,
         backgroundColor: bg,
-        backgroundImage: accent,
+        backgroundImage: ACCENT_GRADIENT,
       }}
     >
       {/* Grain overlay */}

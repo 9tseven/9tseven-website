@@ -1,8 +1,11 @@
-export const SLIDES = [
+import type { HeroSlide } from "./types";
+
+export const ACCENT_GRADIENT = "radial-gradient(ellipse 80% 60% at 50% 50%, #1a1a1a 0%, transparent 70%)";
+
+export const SLIDES: HeroSlide[] = [
   {
     id: 0,
     bg: "#0d0c0a",
-    accent: "radial-gradient(ellipse 80% 60% at 30% 70%, #1f1c16 0%, transparent 70%)",
     image: "/Hero/hero-img1.webp",
     heading: "Shop now",
     subheading: "Explore our latest collection",
@@ -11,7 +14,6 @@ export const SLIDES = [
   {
     id: 1,
     bg: "#0a0c0d",
-    accent: "radial-gradient(ellipse 80% 60% at 70% 30%, #141c20 0%, transparent 70%)",
     image: "/Hero/hero-img2.webp",
     heading: "New arrivals",
     subheading: "Fresh drops for the season",
@@ -20,9 +22,8 @@ export const SLIDES = [
   {
     id: 2,
     bg: "#0c0d0a",
-    accent: "radial-gradient(ellipse 80% 60% at 20% 50%, #181e12 0%, transparent 70%)",
     image: "/Hero/hero-img3.webp",
-    video: "/Hero/hero-video.mp4",
+    video: "/Hero/hero-video.webm",
     heading: "Our mantra",
     subheading: "Learn what drives us forward",
     href: "/mantra",
@@ -30,7 +31,6 @@ export const SLIDES = [
   {
     id: 3,
     bg: "#0d0a0c",
-    accent: "radial-gradient(ellipse 80% 60% at 80% 60%, #1e141c 0%, transparent 70%)",
     image: "/Hero/hero-img4.webp",
     heading: "Join the community",
     subheading: "Be part of the movement",
@@ -39,7 +39,6 @@ export const SLIDES = [
   {
     id: 4,
     bg: "#0b0b0b",
-    accent: "radial-gradient(ellipse 80% 60% at 50% 40%, #1a1a14 0%, transparent 70%)",
     image: "/Hero/hero-img5.webp",
     heading: "The collection",
     subheading: "Discover every piece",
