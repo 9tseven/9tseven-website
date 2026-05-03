@@ -2,9 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useMotionValue, animate } from "motion/react";
-import { SLIDES } from "../constants";
 
-export function useSlider() {
+export function useSlider(slideCount: number) {
   const [current, setCurrent] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);
   const slideWidthRef = useRef(0);
@@ -25,7 +24,7 @@ export function useSlider() {
 
   const snapTo = useCallback(
     (index: number) => {
-      const clamped = Math.max(0, Math.min(index, SLIDES.length - 1));
+      const clamped = Math.max(0, Math.min(index, slideCount - 1));
       animate(x, -clamped * slideWidthRef.current, {
         type: "spring",
         stiffness: 320,
@@ -35,7 +34,7 @@ export function useSlider() {
       setCurrent(clamped);
       currentRef.current = clamped;
     },
-    [x],
+    [x, slideCount],
   );
 
   // Horizontal trackpad/wheel scroll changes slide
@@ -76,7 +75,7 @@ export function useSlider() {
 
   const prev = useCallback(() => snapTo(current - 1), [current, snapTo]);
   const next = useCallback(() => snapTo(current + 1), [current, snapTo]);
-  const nextLooping = useCallback(() => snapTo((currentRef.current + 1) % SLIDES.length), [snapTo]);
+  const nextLooping = useCallback(() => snapTo((currentRef.current + 1) % slideCount), [snapTo, slideCount]);
 
   return { current, slideWidth, containerRef, x, handleDragEnd, prev, next, nextLooping, goTo: snapTo };
 }

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { SLIDES } from "./constants";
+import type { HeroSlide } from "./types";
 
 interface SlideIndicatorProps {
   current: number;
+  slides: HeroSlide[];
   onPrev: () => void;
   onNext: () => void;
   onGoTo: (index: number) => void;
@@ -18,14 +19,14 @@ const TEXT_TRANSITION = {
 
 const SMOOTH_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
-export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
+export default function SlideIndicator({ current, slides, onPrev, onNext, onGoTo }: SlideIndicatorProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className="absolute bottom-8 right-8 w-1/4 z-10 pointer-events-none">
-      {/* Segmented progress bar */}
+      {/* Progress bar */}
       <div className="flex gap-1 w-full pointer-events-auto">
-        {SLIDES.map((slide, i) => (
+        {slides.map((slide, i) => (
           <button
             type="button"
             key={i}
@@ -37,11 +38,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
             className="flex-1 group"
             aria-label={`Go to slide ${i + 1}`}
           >
-            {/* Segment bar — heading slides up from here via absolute positioning */}
             <div className="relative h-10 flex items-end">
-              {/* Hover heading — desktop only, absolutely positioned above the bar.
-                  clip-path (instead of overflow-hidden) clips vertically for the slide-up animation
-                  but allows the heading to extend horizontally past the narrow segment width. */}
               <div
                 className="hidden md:flex absolute bottom-2 left-0 w-full justify-start"
                 style={{
@@ -76,7 +73,7 @@ export default function SlideIndicator({ current, onPrev, onNext, onGoTo }: Slid
       <div className="flex items-center justify-between mt-4 pointer-events-auto">
         <span className="font-mono text-white/40 text-[0.65rem] tracking-[0.2em] tabular-nums">
           {String(current + 1).padStart(2, "0")}&nbsp;/&nbsp;
-          {String(SLIDES.length).padStart(2, "0")}
+          {String(slides.length).padStart(2, "0")}
         </span>
         <div className="flex items-center gap-3">
           <button onClick={onPrev} aria-label="Previous slide" className="text-white/40 hover:text-white transition-colors duration-200">

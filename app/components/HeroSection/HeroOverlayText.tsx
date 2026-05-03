@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { SLIDES } from "./constants";
+import type { HeroSlide } from "./types";
 
 interface HeroOverlayTextProps {
   current: number;
+  slides: HeroSlide[];
 }
 
 const TEXT_TRANSITION = {
@@ -14,8 +15,8 @@ const TEXT_TRANSITION = {
   ease: [0.65, 0, 0.35, 1] as const,
 };
 
-export default function HeroOverlayText({ current }: HeroOverlayTextProps) {
-  const slide = SLIDES[current];
+export default function HeroOverlayText({ current, slides }: HeroOverlayTextProps) {
+  const slide = slides[current];
 
   return (
     <div
