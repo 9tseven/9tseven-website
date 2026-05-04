@@ -18,6 +18,8 @@ export type Product = {
   images: string[];
   variants: ProductVariant[];
   descriptionHtml?: string;
+  material?: string;
+  sizing?: string;
 };
 
 type StorefrontImage = { url: string; altText: string | null };
@@ -41,6 +43,8 @@ export type StorefrontProduct = {
   featuredImage: StorefrontImage | null;
   images: { edges: { node: StorefrontImage }[] };
   variants: { edges: { node: StorefrontVariant }[] };
+  material?: { value: string } | null;
+  sizing?: { value: string } | null;
 };
 
 const SIZE_ORDER = ["xxs", "xs", "s", "m", "l", "xl", "xxl", "xxxl"];
@@ -101,5 +105,7 @@ export function toProduct(node: StorefrontProduct): Product {
     images,
     variants: productVariants,
     descriptionHtml: node.descriptionHtml,
+    material: node.material?.value,
+    sizing: node.sizing?.value,
   };
 }
