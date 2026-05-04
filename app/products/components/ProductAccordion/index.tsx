@@ -37,7 +37,7 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
         isOpen={open === "material"}
         onToggle={() => toggle("material")}
       >
-        <p>{MISSING_CONTENT}</p>
+        <p>{product.material || MISSING_CONTENT}</p>
       </AccordionItem>
 
       <AccordionItem
@@ -45,7 +45,7 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
         isOpen={open === "sizing"}
         onToggle={() => toggle("sizing")}
       >
-        <p>{MISSING_CONTENT}</p>
+        <p>{product.sizing || MISSING_CONTENT}</p>
       </AccordionItem>
 
       <AccordionItem

@@ -63,6 +63,8 @@ export const GET_PRODUCT_BY_HANDLE = `
 query GetProductByHandle($handle: String!) {
   product(handle: $handle) {
     ${PRODUCT_FIELDS}
+    material: metafield(namespace: "custom", key: "custom_material_description") { value }
+    sizing: metafield(namespace: "custom", key: "custom_size_description") { value }
   }
 }
 `;
