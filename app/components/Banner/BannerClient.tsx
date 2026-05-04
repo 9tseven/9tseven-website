@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
 
 interface BannerClientProps {
@@ -10,17 +9,6 @@ interface BannerClientProps {
 
 export default function BannerClient({ text, closeButton }: BannerClientProps) {
   const lenis = useLenis();
-  const [closed, setClosed] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (sessionStorage.getItem("bannerClosed") === "1") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setClosed(true);
-    }
-  }, []);
-
-  if (closed) return null;
 
   const handleScroll = () => {
     const target = document.getElementById("newsletter");
@@ -32,19 +20,28 @@ export default function BannerClient({ text, closeButton }: BannerClientProps) {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleScroll();
+    }
+  };
+
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();
     sessionStorage.setItem("bannerClosed", "1");
     delete document.documentElement.dataset.bannerOpen;
-    setClosed(true);
   };
 
   return (
-    <button
-      type="button"
+    <div
+      data-banner
+      role="button"
+      tabIndex={0}
       onClick={handleScroll}
+      onKeyDown={handleKeyDown}
       aria-label={`${text} — sign up`}
-      className="fixed top-0 left-0 right-0 z-[60] h-10 bg-black text-white flex items-center justify-center px-12 md:px-16 cursor-pointer hover:bg-black/90 transition-colors duration-150"
+      className="fixed top-0 left-0 right-0 z-[60] h-10 bg-black text-white flex items-center justify-center px-6 md:px-10 cursor-pointer hover:bg-black/90 transition-colors duration-150"
     >
       <span className="text-[0.7rem] tracking-[0.14em] uppercase font-semibold truncate">
         {text}
@@ -59,6 +56,6 @@ export default function BannerClient({ text, closeButton }: BannerClientProps) {
           ×
         </button>
       )}
-    </button>
+    </div>
   );
 }
