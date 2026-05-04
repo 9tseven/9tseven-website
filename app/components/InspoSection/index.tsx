@@ -104,7 +104,6 @@ export default function InspoSection() {
   return (
     <div ref={wrapperRef} style={{ height: "1400vh" }}>
       <section data-nav-theme={navTheme} className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
-        {/* Corner accent dots — below the navbar, alternate filled as scroll progresses */}
         <div className="absolute top-20 right-5 flex flex-col gap-1.5 pointer-events-none">
           <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotAFilled ? "bg-white border-white" : "bg-transparent"}`} />
           <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotBFilled ? "bg-white border-white" : "bg-transparent"}`} />
@@ -124,7 +123,6 @@ export default function InspoSection() {
 
         {/* Centered square container keeps the circle perfectly round */}
         <div className="absolute inset-0 px-2 flex flex-col items-center justify-center gap-10">
-          {/* Text label — changes with each newly filled dot */}
           <div className="h-20 flex items-center justify-center pointer-events-none">
             <p className="text-lg md:text-2xl text-pretty tracking-wide uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
               {TEXTS[filledCount] || TEXTS[1]}

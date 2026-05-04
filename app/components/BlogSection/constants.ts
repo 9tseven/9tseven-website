@@ -7,4 +7,6 @@ export type BlogPost = {
   body: string;
   image: string;
   alt: string;
+  link: { text: string; url: string } | null;
+  date: string | null;
 };
