@@ -259,7 +259,13 @@ Then immediately after the existing `html[data-load-seen] [data-load-screen] { d
 html[data-banner-open] {
   --banner-h: 2.5rem;
 }
+
+html:not([data-banner-open]) [data-banner] {
+  display: none;
+}
 ```
+
+The first rule sets the banner-height variable (read by the navbar). The second rule hides the SSR-rendered `<div data-banner>` whenever `<html>` lacks `data-banner-open` — this is what prevents the hydration flash for returning visitors who dismissed the banner in the same session. The pre-hydration script in Task 7 sets `data-banner-open` synchronously before paint, so the banner is shown or hidden from the first frame without waiting for React hydration.
 
 - [ ] **Step 2: Verify lint and build still parse the CSS**
 
