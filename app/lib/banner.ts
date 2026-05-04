@@ -9,11 +9,15 @@ export type Banner = {
 
 type FieldNode = { key: string; value: string | null };
 type BannerResponse = {
-  metaobjects: { edges: { node: { id: string; fields: FieldNode[] } }[] };
+  metaobjects: { edges: { node: { fields: FieldNode[] } }[] };
 };
 
 function parseBoolean(value: string | null | undefined): boolean {
   return value === "true";
+}
+
+function fieldMap(fields: FieldNode[]): Partial<Record<string, FieldNode>> {
+  return Object.fromEntries(fields.map((f) => [f.key, f]));
 }
 
 export const getBanner = cache(async (): Promise<Banner | null> => {
@@ -24,11 +28,11 @@ export const getBanner = cache(async (): Promise<Banner | null> => {
     const node = (data as BannerResponse).metaobjects.edges[0]?.node;
     if (!node) return null;
 
-    const fields = Object.fromEntries(node.fields.map((f) => [f.key, f.value]));
-    const text = fields.banner_text;
+    const f = fieldMap(node.fields);
+    const text = f.banner_text?.value;
     if (!text) return null;
 
-    return { text, closeButton: parseBoolean(fields.close_button) };
+    return { text, closeButton: parseBoolean(f.close_button?.value) };
   } catch (err) {
     console.error("[getBanner] Failed to load banner:", err);
     return null;
