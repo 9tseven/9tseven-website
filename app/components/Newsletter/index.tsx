@@ -37,7 +37,7 @@ export default function Newsletter() {
   }, [state.kind]);
 
   return (
-    <div className="px-8 py-16 border-b border-black/10">
+    <div id="newsletter" className="px-8 py-16 border-b border-black/10">
       <h2 className="text-sm font-bold tracking-[0.14em] uppercase mb-1.5">Join the Community</h2>
       <p className="text-[0.7rem] tracking-[0.08em] text-black/45 mb-5">Sign up to the newsletter and join the community</p>
       <form className="flex flex-col gap-2 md:flex-row md:gap-0" onSubmit={handleSubmit}>

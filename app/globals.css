@@ -4,6 +4,7 @@
 :root {
   --background: #0b0b0b;
   --foreground: #e8e4dc;
+  --banner-h: 0px;
 }
 
 html {
@@ -26,6 +27,14 @@ body {
 
 html[data-load-seen] [data-load-screen] {
   display: none !important;
+}
+
+html[data-banner-open] {
+  --banner-h: 2.5rem;
+}
+
+html:not([data-banner-open]) [data-banner] {
+  display: none;
 }
 
 @layer base {
