@@ -15,7 +15,7 @@ export default function BrandLockup({ variant, className = "" }: BrandLockupProp
       className={`flex items-center justify-center gap-[4vw] px-[2vw] py-[4vw] overflow-hidden ${colorClass} ${className}`}
     >
       <img
-        src="/Logo/9t7.svg"
+        src="/images/Logo/9t7.svg"
         alt="9t7 logo"
         className={`w-[18vw] shrink-0 ${imgInvert} object-contain`}
       />

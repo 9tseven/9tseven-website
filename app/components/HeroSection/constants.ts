@@ -6,7 +6,7 @@ export const SLIDES: HeroSlide[] = [
   {
     id: 0,
     bg: "#0d0c0a",
-    image: "/Hero/hero-img1.webp",
+    image: "/images/Hero/hero-img1.webp",
     heading: "Shop now",
     subheading: "Explore our latest collection",
     href: "/products",
@@ -14,7 +14,7 @@ export const SLIDES: HeroSlide[] = [
   {
     id: 1,
     bg: "#0a0c0d",
-    image: "/Hero/hero-img2.webp",
+    image: "/images/Hero/hero-img2.webp",
     heading: "New arrivals",
     subheading: "Fresh drops for the season",
     href: "/products",
@@ -22,8 +22,8 @@ export const SLIDES: HeroSlide[] = [
   {
     id: 2,
     bg: "#0c0d0a",
-    image: "/Hero/hero-img3.webp",
-    video: "/Hero/hero-video.webm",
+    image: "/images/Hero/hero-img3.webp",
+    video: "/images/Hero/hero-video.webm",
     heading: "Our mantra",
     subheading: "Learn what drives us forward",
     href: "/mantra",
@@ -31,7 +31,7 @@ export const SLIDES: HeroSlide[] = [
   {
     id: 3,
     bg: "#0d0a0c",
-    image: "/Hero/hero-img4.webp",
+    image: "/images/Hero/hero-img4.webp",
     heading: "Join the community",
     subheading: "Be part of the movement",
     href: "/community",
@@ -39,7 +39,7 @@ export const SLIDES: HeroSlide[] = [
   {
     id: 4,
     bg: "#0b0b0b",
-    image: "/Hero/hero-img5.webp",
+    image: "/images/Hero/hero-img5.webp",
     heading: "The collection",
     subheading: "Discover every piece",
     href: "/products",

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a `FeaturedProductsSection` component — a swipeable, wrapping product carousel with a segmented progress indicator and per-card hover info panels — and mount it on the homepage after `ManifestoSection`.
+**Goal:** Build a `FeaturedProductsSection` component — a swipeable, wrapping product carousel with a segmented progress indicator and per-card hover info panels — and mount it on the homepage after `HeroSection`.
 
 **Architecture:** A dedicated `useProductCarousel` hook owns all drag/snap/wrap state and exposes `x` (MotionValue), `current`, `cardWidth`, `containerRef`, `handleDragEnd`, `prev`, and `next`. The section shell composes `ProductCard` and `ProductCarouselIndicator` using those values. No state lives in the section component itself.
 
@@ -19,7 +19,7 @@
 | Create | `app/components/FeaturedProductsSection/ProductCard.tsx` | Grey placeholder card + animated hover info panel |
 | Create | `app/components/FeaturedProductsSection/ProductCarouselIndicator.tsx` | Segmented bar + counter + prev/next arrows |
 | Create | `app/components/FeaturedProductsSection/index.tsx` | Section shell — composes all parts |
-| Modify | `app/page.tsx` | Mount `<FeaturedProductsSection />` after `<ManifestoSection />` |
+| Modify | `app/page.tsx` | Mount `<FeaturedProductsSection />` after `<HeroSection />` |
 
 ---
 
@@ -361,14 +361,12 @@ Replace the entire contents of `app/page.tsx` with:
 
 ```tsx
 import HeroSection from "./components/HeroSection";
-import ManifestoSection from "./components/ManifestoSection";
 import FeaturedProductsSection from "./components/FeaturedProductsSection";
 
 export default function Home() {
   return (
     <main>
       <HeroSection />
-      <ManifestoSection />
       <FeaturedProductsSection />
     </main>
   );
@@ -382,7 +380,7 @@ Expected: server starts on `http://localhost:3000` with no compilation errors in
 
 - [ ] **Step 3: Verify the section renders**
 
-Open `http://localhost:3000` and scroll past the Manifesto section. Check:
+Open `http://localhost:3000` and scroll to the Featured Products section. Check:
 - White section with `( FEATURED PRODUCTS )` label at the top
 - Two grey cards visible with a sliver of a third peeking on the right
 - Segmented progress bar bottom-right showing `01 / 04`

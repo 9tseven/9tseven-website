@@ -128,7 +128,6 @@ Add both sections to `app/page.tsx` after `FeaturedProductsSection`:
 
 ```tsx
 <HeroSection />
-<ManifestoSection />
 <FeaturedProductsSection />
 <HomeImageSection />
 <BrandStatementSection />
@@ -138,6 +137,6 @@ Add both sections to `app/page.tsx` after `FeaturedProductsSection`:
 
 ## What is not changing
 
-- `HeroSection`, `ManifestoSection`, `FeaturedProductsSection` are untouched
+- `HeroSection`, `FeaturedProductsSection` are untouched
 - Global font (`Figtree`) and layout remain as-is
 - No new dependencies — uses existing Framer Motion, Next.js Image, and React hooks

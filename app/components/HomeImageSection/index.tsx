@@ -4,12 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect } from "react";
 import { PANELS, type Panel } from "./constants";
+import "./HomeImageSection.css";
 
 function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cursorTextRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Touch devices synthesize mouseenter/mousemove on tap. Bail so the
+    // cursor-text stays put at its initial top:24px and CSS handles visibility.
+    if (window.matchMedia("(hover: none)").matches) return;
+
     const wrapper = wrapperRef.current;
     const cursorText = cursorTextRef.current;
     if (!wrapper || !cursorText) return;
@@ -54,8 +59,6 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
       wrapper!.classList.remove("is-hovered");
     }
 
-    // Mouse events never fire on touch-only devices — no JS guard needed.
-    // Mobile always-visible state is handled via CSS @media (hover: none).
     wrapper.addEventListener("mouseenter", onMouseEnter);
     wrapper.addEventListener("mousemove", onMouseMove);
     wrapper.addEventListener("mouseleave", onMouseLeave);

@@ -18,7 +18,7 @@ export default function BrandStatementSection() {
       <p className="text-[11px] leading-[1.8] tracking-[0.02em] text-black/45 max-w-100 text-center mb-13">Rooted in identity, shaped by culture, and driven by community — our expression is a reflection of where we come from and where we&apos;re going.</p>
 
       {/* Logo */}
-      <Image src="/Logo/9t7.svg" alt="9TSEVEN" width={80} height={80} className="w-20 h-auto invert" />
+      <Image src="/images/Logo/9t7.svg" alt="9TSEVEN" width={80} height={80} className="w-20 h-auto invert" />
     </section>
   );
 }

@@ -33,10 +33,10 @@ RootLayout (server)
 
 ## Compatibility
 
-Lenis 1.x drives the native `window.scrollY` directly (no CSS transform on the page). Motion's `useScroll` in `ManifestoSection` reads `window.scrollY`, so scroll-driven animations continue to work unchanged and will feel smoother as a side effect.
+Lenis 1.x drives the native `window.scrollY` directly (no CSS transform on the page). Motion's `useScroll` reads `window.scrollY`, so scroll-driven animations continue to work unchanged and will feel smoother as a side effect.
 
 ## Verification
 
 - Page scrolls smoothly on all routes
-- ManifestoSection scroll animations trigger correctly
+- Scroll-driven animations trigger correctly
 - No hydration warnings or console errors
