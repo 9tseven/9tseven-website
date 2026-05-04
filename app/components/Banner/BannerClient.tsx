@@ -20,15 +20,7 @@ export default function BannerClient({ text, closeButton }: BannerClientProps) {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      handleScroll();
-    }
-  };
-
-  const handleClose = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClose = () => {
     sessionStorage.setItem("bannerClosed", "1");
     delete document.documentElement.dataset.bannerOpen;
   };
@@ -36,16 +28,18 @@ export default function BannerClient({ text, closeButton }: BannerClientProps) {
   return (
     <div
       data-banner
-      role="button"
-      tabIndex={0}
-      onClick={handleScroll}
-      onKeyDown={handleKeyDown}
-      aria-label={`${text} — sign up`}
-      className="fixed top-0 left-0 right-0 z-[60] h-10 bg-black text-white flex items-center justify-center px-6 md:px-10 cursor-pointer hover:bg-black/90 transition-colors duration-150"
+      className="fixed top-0 left-0 right-0 z-[60] h-10 bg-black text-white"
     >
-      <span className="text-[0.7rem] tracking-[0.14em] uppercase font-semibold truncate">
-        {text}
-      </span>
+      <button
+        type="button"
+        onClick={handleScroll}
+        aria-label={`${text} — sign up`}
+        className="w-full h-full flex items-center justify-center px-6 md:px-10 cursor-pointer hover:bg-black/90 transition-colors duration-150"
+      >
+        <span className="text-[0.7rem] tracking-[0.14em] uppercase font-semibold truncate">
+          {text}
+        </span>
+      </button>
       {closeButton && (
         <button
           type="button"
