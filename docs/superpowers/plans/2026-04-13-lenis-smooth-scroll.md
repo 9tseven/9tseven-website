@@ -133,7 +133,7 @@ export default function RootLayout({
 
 Run: `npm run dev`
 
-Open `http://localhost:3000` in a browser. Scroll the page — it should feel noticeably smoother/eased compared to native scroll. Scroll through to the ManifestoSection and confirm the text reveal and image fade-in animations still trigger correctly.
+Open `http://localhost:3000` in a browser. Scroll the page — it should feel noticeably smoother/eased compared to native scroll. Confirm any scroll-driven animations still trigger correctly.
 
 Check the browser console: no hydration warnings, no errors about Lenis.
 

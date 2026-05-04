@@ -6,7 +6,7 @@
 
 ## Overview
 
-A Featured Products section placed directly after `ManifestoSection` on the homepage. Editorial carousel showing 4 placeholder product cards, advancing one card at a time, wrapping infinitely. Matches the visual language of the site (sparse typography, Lucide icons, motion/react animations).
+A Featured Products section placed directly after `HeroSection` on the homepage. Editorial carousel showing 4 placeholder product cards, advancing one card at a time, wrapping infinitely. Matches the visual language of the site (sparse typography, Lucide icons, motion/react animations).
 
 ---
 
@@ -22,7 +22,7 @@ app/components/FeaturedProductsSection/
   constants.ts                   — PRODUCTS array (4 placeholder entries)
 ```
 
-`app/page.tsx` gets `<FeaturedProductsSection />` appended after `<ManifestoSection />`.
+`app/page.tsx` gets `<FeaturedProductsSection />` appended after `<HeroSection />`.
 
 ---
 
@@ -128,7 +128,6 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
-      <ManifestoSection />
       <FeaturedProductsSection />
     </main>
   );
