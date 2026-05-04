@@ -75,7 +75,7 @@ export default function HeroSectionClient({ slides }: HeroSectionClientProps) {
 
       {/* Logo — centered bottom */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none w-17 md:w-25">
-        <Image src="/Logo/9t7.svg" alt="9TSEVEN" width={500} height={500} className="w-full h-auto" style={{ width: "100%", height: "auto" }} priority />
+        <Image src="/images/Logo/9t7.svg" alt="9TSEVEN" width={500} height={500} className="w-full h-auto" style={{ width: "100%", height: "auto" }} priority />
       </div>
 
       <HeroOverlayText current={current} slides={slides} />
