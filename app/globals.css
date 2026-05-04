@@ -24,7 +24,7 @@ html[data-load-seen] [data-load-screen] {
 }
 
 html[data-banner-open] {
-  --banner-h: 2.5rem;
+  --banner-h: 2rem;
 }
 
 html:not([data-banner-open]) [data-banner] {
