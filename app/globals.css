@@ -77,3 +77,49 @@ html[data-load-seen] [data-load-screen] {
     animation: none;
   }
 }
+
+@keyframes text-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes text-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.text-marquee {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.text-marquee > * {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.text-marquee--left {
+  animation: text-marquee-left 30s linear infinite;
+}
+
+.text-marquee--right {
+  animation: text-marquee-right 30s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-marquee--left,
+  .text-marquee--right {
+    animation: none;
+  }
+}

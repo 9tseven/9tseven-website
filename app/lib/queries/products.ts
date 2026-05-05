@@ -5,6 +5,7 @@ const PRODUCT_FIELDS = `
   descriptionHtml
   productType
   tags
+  createdAt
   priceRange {
     minVariantPrice {
       amount

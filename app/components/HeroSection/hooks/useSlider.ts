@@ -16,11 +16,12 @@ export function useSlider(slideCount: number) {
       const w = containerRef.current?.offsetWidth ?? 0;
       setSlideWidth(w);
       slideWidthRef.current = w;
+      x.set(-currentRef.current * w);
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, []);
+  }, [x]);
 
   const snapTo = useCallback(
     (index: number) => {
