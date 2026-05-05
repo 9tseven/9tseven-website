@@ -2,45 +2,77 @@
 @import "tailwindcss";
 
 @theme {
-  /* Translucent dark panel (dropdowns, overlays) */
-  --color-overlay: rgba(18, 18, 18, 0.7);
+  /* ── Background base ───────────────────────────────────────────── */
+  --color-bg: #0b0b0b;
+  --color-paper: #e8e4dc;
 
-  /* Translucent white-tint surfaces (tiles, hover states, active pills) */
-  --color-surface: rgb(255 255 255 / 0.06);
+  /* ── Foreground (text/icons on dark) ───────────────────────────── */
+  --color-fg: #ffffff;
+  --color-fg-muted: rgb(255 255 255 / 0.7);
+  --color-fg-subtle: rgb(255 255 255 / 0.5);
+  --color-fg-faint: rgb(255 255 255 / 0.35);
+  --color-fg-ghost: rgb(255 255 255 / 0.2);
+
+  /* ── Foreground (text/icons on light) ──────────────────────────── */
+  --color-ink: #0b0b0b;
+  --color-ink-muted: rgb(0 0 0 / 0.7);
+  --color-ink-subtle: rgb(0 0 0 / 0.5);
+  --color-ink-faint: rgb(0 0 0 / 0.3);
+  --color-ink-ghost: rgb(0 0 0 / 0.2);
+
+  /* ── Surfaces (white tints on dark) ────────────────────────────── */
+  --color-surface: rgb(255 255 255 / 0.05);
   --color-surface-hover: rgb(255 255 255 / 0.1);
-  --color-surface-subtle: rgb(255 255 255 / 0.04);
-  --color-surface-soft: rgb(255 255 255 / 0.07);
-  --color-surface-active: rgb(255 255 255 / 0.09);
+  --color-surface-strong: rgb(255 255 255 / 0.15);
 
-  /* Borders & dividers */
-  --color-divider: rgb(255 255 255 / 0.07);
-  --color-edge: rgb(255 255 255 / 0.08);
-  --color-edge-muted: rgb(255 255 255 / 0.15);
+  /* ── Surfaces (black tints on light) ───────────────────────────── */
+  --color-tint: rgb(0 0 0 / 0.05);
+  --color-tint-hover: rgb(0 0 0 / 0.1);
+  --color-tint-strong: rgb(0 0 0 / 0.2);
+
+  /* ── Edges & dividers ──────────────────────────────────────────── */
+  --color-edge: rgb(255 255 255 / 0.1);
   --color-edge-strong: rgb(255 255 255 / 0.2);
 
-  /* Foreground (text & icons) — opacity-stepped white scale */
-  --color-fg: #ffffff;
-  --color-fg-strong: rgb(255 255 255 / 0.8);
-  --color-fg-soft: rgb(255 255 255 / 0.6);
-  --color-fg-secondary: rgb(255 255 255 / 0.55);
-  --color-fg-tertiary: rgb(255 255 255 / 0.45);
-  --color-fg-muted: rgb(255 255 255 / 0.4);
-  --color-fg-caption: rgb(255 255 255 / 0.35);
-  --color-fg-faint: rgb(255 255 255 / 0.2);
+  /* ── Overlays ──────────────────────────────────────────────────── */
+  --color-overlay: rgba(18, 18, 18, 0.7);
 
-  /* Elevation */
+  /* ── Typography — families ─────────────────────────────────────── */
+  --font-sans: var(--font-open-sauce-sans), sans-serif;
+  --font-display: var(--font-monsieur);
+
+  /* ── Typography — tracking ─────────────────────────────────────── */
+  --tracking-tight: -0.05em;
+  --tracking-label: 0.14em;
+  --tracking-eyebrow: 0.2em;
+  --tracking-display: 0.28em;
+
+  /* ── Motion — durations ────────────────────────────────────────── */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+
+  /* ── Elevation ─────────────────────────────────────────────────── */
   --shadow-overlay: 0 16px 40px rgb(0 0 0 / 0.35);
-}
 
-:root {
-  --background: #0b0b0b;
-  --foreground: #e8e4dc;
+  /* ── Legacy aliases (DELETED in Task 9) ────────────────────────── */
+  --color-fg-strong: var(--color-fg-muted);
+  --color-fg-soft: var(--color-fg-muted);
+  --color-fg-secondary: var(--color-fg-subtle);
+  --color-fg-tertiary: var(--color-fg-subtle);
+  --color-fg-caption: var(--color-fg-faint);
+  --color-fg-faint-legacy: var(--color-fg-ghost);
+  --color-surface-subtle: var(--color-surface);
+  --color-surface-soft: var(--color-surface-hover);
+  --color-surface-active: var(--color-surface-hover);
+  --color-divider: var(--color-edge);
+  --color-edge-muted: var(--color-edge-strong);
 }
 
 html {
-  font-family: var(--font-open-sauce-sans), sans-serif;
-  background: var(--background);
-  color: var(--foreground);
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-paper);
 }
 
 body {

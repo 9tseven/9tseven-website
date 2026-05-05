@@ -106,7 +106,7 @@ function ProductPreviewPanel({ category, items, onShopLinkClick }: ProductPrevie
         const href = `/products/${categorySlug(item.productType)}/${item.handle}`;
         return (
           <Link key={item.handle} href={href} onClick={onShopLinkClick} className="flex flex-col gap-1.5 group" style={tileStyle}>
-            <div className="w-full aspect-3/4 rounded-lg bg-surface overflow-hidden relative group-hover:bg-surface-hover transition-colors duration-150">{item.image ? <Image src={item.image.url} alt={item.image.altText ?? item.title} fill sizes={`${TILE_WIDTH}px`} className="object-cover" /> : <span className="absolute inset-0 flex items-center justify-center text-fg-faint text-xs">▣</span>}</div>
+            <div className="w-full aspect-3/4 rounded-lg bg-surface overflow-hidden relative group-hover:bg-surface-hover transition-colors duration-150">{item.image ? <Image src={item.image.url} alt={item.image.altText ?? item.title} fill sizes={`${TILE_WIDTH}px`} className="object-cover" /> : <span className="absolute inset-0 flex items-center justify-center text-fg-ghost text-xs">▣</span>}</div>
             <span className="text-[0.6rem] tracking-widest uppercase text-fg-caption text-center group-hover:text-fg-soft transition-colors duration-150 truncate">{item.title}</span>
           </Link>
         );
@@ -114,7 +114,7 @@ function ProductPreviewPanel({ category, items, onShopLinkClick }: ProductPrevie
       {Array.from({ length: placeholderCount }).map((_, n) => (
         <div key={`placeholder-${n}`} className="flex flex-col gap-1.5" style={tileStyle}>
           <div className="w-full aspect-3/4 rounded-lg bg-surface border border-dashed border-edge-muted flex items-center justify-center">
-            <span className="text-fg-faint text-xs">▣</span>
+            <span className="text-fg-ghost text-xs">▣</span>
           </div>
           <span className="text-[0.6rem] tracking-widest uppercase text-fg-caption text-center">Product_0{n + 1}</span>
         </div>
