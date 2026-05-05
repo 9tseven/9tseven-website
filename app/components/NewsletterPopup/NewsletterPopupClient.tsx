@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLenis } from "lenis/react";
-import { subscribeToNewsletter } from "@/app/actions/newsletter";
 import Image from "next/image";
 import type { BannerImage } from "@/app/lib/banner";
+import { NEWSLETTER_BUTTON_LABEL, useNewsletterForm } from "@/app/components/Newsletter/useNewsletterForm";
 
 interface NewsletterPopupClientProps {
   title: string;
@@ -18,21 +18,10 @@ const LOAD_KEY = "loadScreenSeen";
 const LOAD_POLL_MS = 100;
 const LOAD_POLL_TIMEOUT_MS = 8000;
 
-type State = { kind: "idle" | "loading" | "success" | "already" } | { kind: "error"; message: string };
-
-const BUTTON_LABEL = {
-  idle: "Sign up",
-  loading: "Signing up",
-  success: "Subscribed",
-  already: "Already signed up",
-  error: "Error signing up",
-} as const;
-
 export default function NewsletterPopupClient({ title, body, image }: NewsletterPopupClientProps) {
   const lenis = useLenis();
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [state, setState] = useState<State>({ kind: "idle" });
+  const { email, setEmail, state, handleSubmit } = useNewsletterForm();
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -95,34 +84,18 @@ export default function NewsletterPopupClient({ title, body, image }: Newsletter
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  useEffect(() => {
-    if (state.kind !== "error") return;
-    const id = setTimeout(() => setState({ kind: "idle" }), 5000);
-    return () => clearTimeout(id);
-  }, [state.kind]);
-
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setState({ kind: "loading" });
-    const result = await subscribeToNewsletter(email);
-    if (result.ok) {
-      setState({ kind: result.alreadySubscribed ? "already" : "success" });
-      setEmail("");
-    } else {
-      setState({ kind: "error", message: result.error });
-    }
-  };
-
   return (
     <AnimatePresence>
       {open && (
         <motion.div role="dialog" aria-modal="true" aria-labelledby="newsletter-popup-title" className="fixed inset-0 z-[90] flex items-center justify-center bg-black/60 px-6" onClick={() => setOpen(false)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25, ease: "easeOut" }}>
-          <motion.div ref={dialogRef} onClick={(e) => e.stopPropagation()} className="relative w-[min(92vw,56rem)] bg-white text-black shadow-2xl grid grid-cols-2 gap-[clamp(0.25rem,0.5vw,0.5rem)]" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.25, ease: "easeOut" }}>
-            <Image src={image.url} alt={image.alt} width={image.width} height={image.height} className="w-full h-full object-cover" />
+          <motion.div ref={dialogRef} onClick={(e) => e.stopPropagation()} className="relative w-[min(92vw,56rem)] bg-white text-black shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-[clamp(0.25rem,0.5vw,0.5rem)]" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.25, ease: "easeOut" }}>
+            <Image src={image.url} alt={image.alt} width={image.width} height={image.height} className="w-full h-full object-cover max-h-[40vh] md:max-h-none" />
             <div className="px-[clamp(1.25rem,3vw,3rem)] py-[clamp(1.75rem,3.5vw,3.5rem)] grid">
               <div>
-                <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="absolute top-[clamp(0.5rem,1vw,1rem)] right-[clamp(0.5rem,1vw,1rem)] w-[clamp(1.75rem,2.5vw,2.5rem)] h-[clamp(1.75rem,2.5vw,2.5rem)] flex items-center justify-center text-black/60 hover:text-black transition-colors duration-150 text-[clamp(1rem,1.5vw,1.5rem)] leading-none">
-                  ×
+                <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="absolute top-[clamp(0.5rem,1vw,1rem)] right-[clamp(0.5rem,1vw,1rem)] w-[clamp(1.75rem,2.5vw,2.5rem)] h-[clamp(1.75rem,2.5vw,2.5rem)] flex items-center justify-center rounded-full bg-black md:bg-transparent text-white md:text-black/60 hover:bg-black/80 md:hover:bg-transparent md:hover:text-black transition-colors duration-150">
+                  <svg viewBox="0 0 24 24" className="w-1/2 h-1/2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M6 6 L18 18 M18 6 L6 18" />
+                  </svg>
                 </button>
                 <h2 id="newsletter-popup-title" className="text-[clamp(0.75rem,1.1vw,1rem)] font-bold tracking-[0.14em] uppercase mb-[clamp(0.5rem,1vw,1rem)]">
                   {title}
@@ -132,7 +105,7 @@ export default function NewsletterPopupClient({ title, body, image }: Newsletter
               <form onSubmit={handleSubmit} className="flex flex-col gap-[clamp(0.375rem,0.6vw,0.625rem)] self-end">
                 <input ref={inputRef} type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL" className="font-mono w-full bg-white px-4 py-2 text-[16px] md:px-[clamp(1rem,1.5vw,1.75rem)] md:py-[clamp(0.6rem,0.9vw,1rem)] md:text-[clamp(0.7rem,0.85vw,0.875rem)] tracking-[0.14em] uppercase placeholder:text-black/30 outline-none border border-black/8" />
                 <button type="submit" disabled={state.kind === "loading"} className="bg-black text-white px-7 py-2 text-[16px] md:px-[clamp(1.5rem,2.5vw,2.75rem)] md:py-[clamp(0.6rem,0.9vw,1rem)] md:text-[clamp(0.7rem,0.85vw,0.875rem)] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150 w-full text-center">
-                  {BUTTON_LABEL[state.kind]}
+                  {NEWSLETTER_BUTTON_LABEL[state.kind]}
                 </button>
               </form>
               {state.kind === "error" && <p className="mt-[clamp(0.5rem,1vw,1rem)] text-[clamp(0.6rem,0.8vw,0.75rem)] tracking-[0.14em] uppercase text-red-700">{state.message}</p>}
