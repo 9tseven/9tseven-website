@@ -1,6 +1,37 @@
 @import "lenis/dist/lenis.css";
 @import "tailwindcss";
 
+@theme {
+  /* Translucent dark panel (dropdowns, overlays) */
+  --color-overlay: rgba(18, 18, 18, 0.7);
+
+  /* Translucent white-tint surfaces (tiles, hover states, active pills) */
+  --color-surface: rgb(255 255 255 / 0.06);
+  --color-surface-hover: rgb(255 255 255 / 0.1);
+  --color-surface-subtle: rgb(255 255 255 / 0.04);
+  --color-surface-soft: rgb(255 255 255 / 0.07);
+  --color-surface-active: rgb(255 255 255 / 0.09);
+
+  /* Borders & dividers */
+  --color-divider: rgb(255 255 255 / 0.07);
+  --color-edge: rgb(255 255 255 / 0.08);
+  --color-edge-muted: rgb(255 255 255 / 0.15);
+  --color-edge-strong: rgb(255 255 255 / 0.2);
+
+  /* Foreground (text & icons) — opacity-stepped white scale */
+  --color-fg: #ffffff;
+  --color-fg-strong: rgb(255 255 255 / 0.8);
+  --color-fg-soft: rgb(255 255 255 / 0.6);
+  --color-fg-secondary: rgb(255 255 255 / 0.55);
+  --color-fg-tertiary: rgb(255 255 255 / 0.45);
+  --color-fg-muted: rgb(255 255 255 / 0.4);
+  --color-fg-caption: rgb(255 255 255 / 0.35);
+  --color-fg-faint: rgb(255 255 255 / 0.2);
+
+  /* Elevation */
+  --shadow-overlay: 0 16px 40px rgb(0 0 0 / 0.35);
+}
+
 :root {
   --background: #0b0b0b;
   --foreground: #e8e4dc;
