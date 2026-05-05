@@ -1,11 +1,22 @@
 export const GET_BANNER = `
-query GetBanner {
-  metaobjects(type: "banner", first: 1) {
+query GetNewsletterPopup {
+  metaobjects(type: "newsletter_popup", first: 1) {
     edges {
       node {
         fields {
           key
           value
+          reference {
+            __typename
+            ... on MediaImage {
+              image {
+                url
+                altText
+                width
+                height
+              }
+            }
+          }
         }
       }
     }

@@ -4,18 +4,12 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Banner from "./components/Banner";
+import NewsletterPopup from "./components/NewsletterPopup";
 import SmoothScroll from "./components/SmoothScroll";
 import LoadScreen from "./components/LoadScreen";
 import { CartProvider } from "./context/CartContext";
-import { getBanner } from "./lib/banner";
 
-function buildPreHydrationScript(hasBanner: boolean): string {
-  const bannerLine = hasBanner
-    ? "if(!sessionStorage.getItem('bannerClosed'))document.documentElement.dataset.bannerOpen='1';"
-    : "";
-  return `try{${bannerLine}if(sessionStorage.getItem('loadScreenSeen'))document.documentElement.setAttribute('data-load-seen','1');}catch(e){}`;
-}
+const PRE_HYDRATION_SCRIPT = `try{if(sessionStorage.getItem('loadScreenSeen'))document.documentElement.setAttribute('data-load-seen','1');}catch(e){}`;
 
 const openSauceSans = localFont({
   variable: "--font-open-sauce-sans",
@@ -52,24 +46,21 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const banner = await getBanner();
-  const preHydrationScript = buildPreHydrationScript(banner !== null);
-
   return (
     <html lang="en" className={`${openSauceSans.variable} ${monsieurLaDoulaise.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: preHydrationScript }} />
+        <script dangerouslySetInnerHTML={{ __html: PRE_HYDRATION_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col">
         <LoadScreen />
         <SmoothScroll>
           <CartProvider>
-            <Banner />
+            <NewsletterPopup />
             <Navbar />
             {children}
             <Footer />
