@@ -38,7 +38,7 @@ export default function BlogPostCard({ post, index, top, onPeekHeight, articleRe
   return (
     <article ref={articleRef} onClick={onClick} className="md:sticky bg-white border-t border-black flex flex-col md:flex-row cursor-pointer" style={{ zIndex: index + 1, top: `${top}px` }}>
       <div className="md:flex gap-5 p-5 md:w-1/2 shrink-0">
-        <div className="flex flex-row md:flex-col md:justify-between gap-2 w-36 shrink-0 mb-2 md:mb-0">
+        <div className="flex flex-row md:flex-col justify-between gap-2 w-full md:w-36 shrink-0 mb-2 md:mb-0">
           <span className="font-mono text-sm tracking-[-0.05em] text-black">{post.tag}</span>
           {post.date && <span className="font-mono text-sm tracking-[-0.05em] text-black">{post.date}</span>}
         </div>
@@ -48,13 +48,7 @@ export default function BlogPostCard({ post, index, top, onPeekHeight, articleRe
           </h3>
           <p className="text-base tracking-[-0.05em] text-black whitespace-pre-wrap leading-relaxed">{post.body}</p>
           {post.link && (
-            <Link
-              href={post.link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="font-mono text-sm tracking-[-0.05em] text-black underline underline-offset-4 transition-opacity hover:opacity-50"
-            >
+            <Link href={post.link.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="font-mono text-sm tracking-[-0.05em] text-black underline underline-offset-4 transition-opacity hover:opacity-50">
               {post.link.text.toUpperCase()}
             </Link>
           )}

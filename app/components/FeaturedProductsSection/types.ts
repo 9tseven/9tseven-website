@@ -17,6 +17,7 @@ export type Product = {
   soldOutSizes: string[];
   images: string[];
   variants: ProductVariant[];
+  createdAt: string;
   descriptionHtml?: string;
   material?: string;
   sizing?: string;
@@ -38,6 +39,7 @@ export type StorefrontProduct = {
   descriptionHtml?: string;
   productType: string;
   tags: string[];
+  createdAt: string;
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
   options: { name: string; values: string[] }[];
   featuredImage: StorefrontImage | null;
@@ -104,6 +106,7 @@ export function toProduct(node: StorefrontProduct): Product {
     soldOutSizes,
     images,
     variants: productVariants,
+    createdAt: node.createdAt,
     descriptionHtml: node.descriptionHtml,
     material: node.material?.value,
     sizing: node.sizing?.value,

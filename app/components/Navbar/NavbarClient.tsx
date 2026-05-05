@@ -22,7 +22,7 @@ export default function NavbarClient({ previews }: NavbarClientProps) {
   return (
     <>
       <nav className={`fixed left-0 right-0 z-50 transition-[top,color] duration-500 ${isDark ? "text-white" : "text-black"}`} style={{ top: "var(--banner-h, 0px)" }}>
-        <div className="flex items-center h-16 px-6 md:px-10">
+        <div className="flex items-center h-16 pl-6 pr-2 md:px-10">
           <div className="flex-1 flex items-center">
             <Logo />
           </div>
