@@ -13,11 +13,11 @@
   opacity: 1;
 }
 .home-image-panel .home-image-overlay {
-  background: rgba(0, 0, 0, 0);
+  background: transparent;
   transition: background 0.6s ease;
 }
 .home-image-panel.is-hovered .home-image-overlay {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--color-ink-faint);
 }
 
 /* Touch/no-hover devices: always show the hover state */
@@ -26,6 +26,6 @@
     opacity: 1;
   }
   .home-image-panel .home-image-overlay {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--color-ink-faint);
   }
 }

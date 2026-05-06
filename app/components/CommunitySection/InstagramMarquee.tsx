@@ -25,16 +25,16 @@ const INSTAGRAM_HANDLE = "@9tseven_";
 
 export default function InstagramMarquee() {
   return (
-    <section data-nav-theme="dark" className="bg-black">
+    <section data-nav-theme="dark" className="bg-bg">
       <div className="grid grid-cols-1 gap-10 px-6 py-20 md:grid-cols-3 md:gap-16 md:px-20 md:py-32">
         <div className="md:col-span-2">
-          <h2 className="text-3xl font-extrabold uppercase leading-[1.05] tracking-[-0.01em] text-white sm:text-4xl md:text-5xl lg:text-6xl">
+          <h2 className="text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-fg sm:text-4xl md:text-5xl lg:text-6xl">
             Follow the runs. The mornings, the miles, the people in between — on Instagram.
           </h2>
         </div>
 
         <div className="md:flex md:justify-end">
-          <span className="font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-white/70">
+          <span className="font-mono text-[11px] font-medium tracking-eyebrow uppercase text-fg-muted">
             (&nbsp;&nbsp;&nbsp;On Instagram&nbsp;&nbsp;&nbsp;)
           </span>
         </div>
@@ -74,19 +74,19 @@ export default function InstagramMarquee() {
         {/* Gradient overlay — revealed on hover/focus */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 bottom-20 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 md:bottom-32"
+          className="pointer-events-none absolute inset-x-0 top-0 bottom-20 opacity-0 transition-opacity duration-slow ease-out group-hover:opacity-100 group-focus-visible:opacity-100 md:bottom-32"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%)",
+              "linear-gradient(to right, color-mix(in srgb, var(--color-bg) 80%, transparent) 0%, color-mix(in srgb, var(--color-bg) 40%, transparent) 50%, color-mix(in srgb, var(--color-bg) 80%, transparent) 100%)",
           }}
         />
 
         {/* CTA content — centered over the strip */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 bottom-20 flex translate-y-2 flex-col items-center justify-center gap-3 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 md:bottom-32">
-          <span className="text-2xl font-extrabold uppercase tracking-[-0.01em] text-white md:text-4xl">
+        <div className="pointer-events-none absolute inset-x-0 top-0 bottom-20 flex translate-y-2 flex-col items-center justify-center gap-3 opacity-0 transition-all duration-slow ease-out group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 md:bottom-32">
+          <span className="text-2xl font-extrabold uppercase tracking-tight text-fg md:text-4xl">
             {INSTAGRAM_HANDLE}
           </span>
-          <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium tracking-[0.18em] uppercase text-white/70">
+          <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium tracking-eyebrow uppercase text-fg-muted">
             <InstagramGlyph className="h-4 w-4" />
             Visit our Instagram →
           </span>

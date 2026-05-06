@@ -81,12 +81,12 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
       <div className="home-image-overlay absolute inset-0 z-2 pointer-events-none" />
 
       {/* Centered label — always visible */}
-      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-md tracking-[0.28em] uppercase text-white z-3 pointer-events-none whitespace-nowrap">{label}</span>
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-md tracking-display uppercase text-fg z-3 pointer-events-none whitespace-nowrap">{label}</span>
 
       {/* Cursor-tracking text — Y driven by rAF, opacity by CSS */}
       <div ref={cursorTextRef} className="font-mono home-image-cursor-text absolute left-0 right-0 flex justify-between items-center px-4.5 pointer-events-none z-3" style={{ top: "24px" }}>
-        <span className="text-[9px] tracking-[0.28em] uppercase text-white/90">{leftText}</span>
-        <span className="text-[9px] tracking-[0.28em] uppercase text-white/90">{rightText}</span>
+        <span className="text-[9px] tracking-display uppercase text-fg-muted">{leftText}</span>
+        <span className="text-[9px] tracking-display uppercase text-fg-muted">{rightText}</span>
       </div>
 
       {/* Full-panel link sits on top so the whole panel is clickable */}
@@ -97,7 +97,7 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
 
 export default function HomeImageSection() {
   return (
-    <section data-nav-theme="dark" className="flex flex-col md:grid 2xl:grid-cols-3 gap-2.5 bg-white md:h-[120vh] 2xl:h-[80vh]">
+    <section data-nav-theme="dark" className="flex flex-col md:grid 2xl:grid-cols-3 gap-2.5 bg-fg md:h-[120vh] 2xl:h-[80vh]">
       {PANELS.map((panel) => (
         <ImagePanel key={panel.label} {...panel} />
       ))}

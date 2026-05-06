@@ -367,9 +367,9 @@ export default function AsciiRun() {
 
   return (
     <section data-nav-theme="light" className="flex items-center place-content-between p-40">
-      <h1 className="text-5xl font-bold leading-none tracking-tight text-black md:text-6xl lg:text-[10rem]">Community</h1>
+      <h1 className="text-5xl font-bold leading-none tracking-tight text-ink md:text-6xl lg:text-[10rem]">Community</h1>
       {/* <div>
-        <pre className="font-mono leading-none text-sm select-none text-black">{FRAMES[frame]}</pre>
+        <pre className="font-mono leading-none text-sm select-none text-ink">{FRAMES[frame]}</pre>
         {process.env.NODE_ENV === "development" && (
           <div className="flex gap-2 mt-2 text-xs font-mono">
             <button onClick={() => setPaused((p) => !p)}>{paused ? "▶ play" : "⏸ pause"}</button>

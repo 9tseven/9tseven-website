@@ -103,15 +103,15 @@ export default function InspoSection() {
 
   return (
     <div ref={wrapperRef} style={{ height: "1400vh" }}>
-      <section data-nav-theme={navTheme} className="sticky top-0 w-full h-screen bg-black overflow-hidden select-none">
+      <section data-nav-theme={navTheme} className="sticky top-0 w-full h-screen bg-bg overflow-hidden select-none">
         <div className="absolute top-20 right-5 flex flex-col gap-1.5 pointer-events-none">
-          <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotAFilled ? "bg-white border-white" : "bg-transparent"}`} />
-          <div className={`w-1.75 h-1.75 rounded-full border border-white/50 transition-colors duration-200 ${dotBFilled ? "bg-white border-white" : "bg-transparent"}`} />
+          <div className={`w-1.75 h-1.75 rounded-full border border-edge-strong transition-colors duration-base ${dotAFilled ? "bg-fg border-fg" : "bg-transparent"}`} />
+          <div className={`w-1.75 h-1.75 rounded-full border border-edge-strong transition-colors duration-base ${dotBFilled ? "bg-fg border-fg" : "bg-transparent"}`} />
         </div>
 
         {/* Rotated side label */}
         <p
-          className="absolute left-4 pointer-events-none font-mono text-md tracking-[0.28em] uppercase text-white/25 whitespace-nowrap"
+          className="absolute left-4 pointer-events-none font-mono text-md tracking-display uppercase text-fg-ghost whitespace-nowrap"
           style={{
             top: "50%",
             transform: "rotate(-90deg) translateX(-50%)",
@@ -124,7 +124,7 @@ export default function InspoSection() {
         {/* Centered square container keeps the circle perfectly round */}
         <div className="absolute inset-0 px-2 flex flex-col items-center justify-center gap-10">
           <div className="h-20 flex items-center justify-center pointer-events-none">
-            <p className="text-lg md:text-2xl text-pretty tracking-wide uppercase text-white whitespace-pre-line text-center transition-opacity duration-300 ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
+            <p className="text-lg md:text-2xl text-pretty tracking-eyebrow uppercase text-fg whitespace-pre-line text-center transition-opacity duration-slow ease-out" style={{ opacity: labelVisible ? 1 : 0 }}>
               {TEXTS[filledCount] || TEXTS[1]}
             </p>
           </div>
@@ -138,9 +138,9 @@ export default function InspoSection() {
 
         {/* Text revealed over the white fill */}
         <motion.div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none px-6 gap-6" style={{ opacity: textOpacity }}>
-          <p className="text-black text-lg md:text-2xl leading-relaxed text-center max-w-2xl whitespace-pre-line">{"This is what we strive to live by.\nA mindset of growth, balance, and accountability. Grounded in gratitude, driven by progress, and open to every part of the journey.\n\nTake what resonates. Move at your own pace. Keep evolving."}</p>
+          <p className="text-ink text-lg md:text-2xl leading-relaxed text-center max-w-2xl whitespace-pre-line">{"This is what we strive to live by.\nA mindset of growth, balance, and accountability. Grounded in gratitude, driven by progress, and open to every part of the journey.\n\nTake what resonates. Move at your own pace. Keep evolving."}</p>
           <Image src="/images/Logo/9t7.svg" alt="9TSEVEN" width={10} height={10} className="w-5 h-5 invert p-0.5" style={{ width: "40px", height: "40px" }} />
-          <Link href="/" className="pointer-events-auto mt-2 inline-flex items-center gap-2 bg-black text-white px-7 py-3 text-[0.65rem] tracking-[0.14em] uppercase font-semibold hover:bg-black/80 transition-colors duration-150">
+          <Link href="/" className="pointer-events-auto mt-2 inline-flex items-center gap-2 bg-bg text-fg px-7 py-3 text-[0.65rem] tracking-label uppercase font-semibold hover:bg-bg/80 transition-colors duration-fast">
             <ArrowLeft size={12} strokeWidth={1.75} />
             Back to home
           </Link>
@@ -148,9 +148,9 @@ export default function InspoSection() {
 
         {/* Bottom instruction — pulses gently, disappears once the first dot is reached */}
         <motion.div className="absolute bottom-12 left-0 right-0 flex flex-col items-center gap-1.5 pointer-events-none" animate={{ opacity: filledCount >= 1 ? 0 : [0.5, 1, 0.5] }} transition={filledCount >= 1 ? { duration: 0.4, ease: "easeOut" } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}>
-          <p className="text-[11px] tracking-[0.28em] uppercase text-white">Scroll</p>
-          <p className="text-[11px] tracking-[0.28em] uppercase text-white">The Dots</p>
-          <ChevronDown size={13} className="text-white mt-1" strokeWidth={1.25} />
+          <p className="text-[11px] tracking-display uppercase text-fg">Scroll</p>
+          <p className="text-[11px] tracking-display uppercase text-fg">The Dots</p>
+          <ChevronDown size={13} className="text-fg mt-1" strokeWidth={1.25} />
         </motion.div>
       </section>
     </div>
