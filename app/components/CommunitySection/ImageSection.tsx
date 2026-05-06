@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import type { MotionValue } from "motion/react";
 import Image from "next/image";
 import { IMAGES } from "./constants";
-import AsciiRun from "./AsciiRun";
+import CommunityHero from "./CommunityHero";
 
 type ImageItem = (typeof IMAGES)[number];
 
@@ -46,7 +46,7 @@ export default function ImageSection() {
           {IMAGES.map((img, i) => (
             <AnimatedImage key={img.id} img={img} index={i} order={i} total={N} scrollYProgress={scrollYProgress} />
           ))}
-          <AsciiRun></AsciiRun>
+          <CommunityHero />
         </div>
       </div>
     </section>

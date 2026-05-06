@@ -26,8 +26,8 @@ function Dot({ x, y, fillOrder, active, dotClassName, onComplete, stepDelay, dot
     <div className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
       <motion.div
         className={dotClassName ?? "w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full"}
-        initial={{ backgroundColor: "transparent", borderColor: "var(--color-ink-faint)" }}
-        animate={active ? { backgroundColor: "var(--color-ink)", borderColor: "var(--color-ink)" } : { backgroundColor: "transparent", borderColor: "var(--color-ink-faint)" }}
+        initial={{ backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0.3)" }}
+        animate={active ? { backgroundColor: "rgba(11,11,11,1)", borderColor: "rgba(11,11,11,1)" } : { backgroundColor: "rgba(0,0,0,0)", borderColor: "rgba(0,0,0,0.3)" }}
         transition={{ duration: dotDuration, delay: fillOrder * stepDelay }}
         style={{ borderWidth: 1, borderStyle: "solid" }}
         onAnimationComplete={fillOrder === LAST_ORDER && active ? onComplete : undefined}

@@ -87,7 +87,7 @@ export default function NewsletterPopupClient({ title, body, image }: Newsletter
   return (
     <AnimatePresence>
       {open && (
-        <motion.div role="dialog" aria-modal="true" aria-labelledby="newsletter-popup-title" className="fixed inset-0 z-[90] flex items-center justify-center bg-bg/60 px-6" onClick={() => setOpen(false)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25, ease: "easeOut" }}>
+        <motion.div role="dialog" aria-modal="true" aria-labelledby="newsletter-popup-title" className="fixed inset-0 z-90 flex items-center justify-center bg-bg/60 px-6" onClick={() => setOpen(false)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25, ease: "easeOut" }}>
           <motion.div ref={dialogRef} onClick={(e) => e.stopPropagation()} className="relative w-[min(92vw,56rem)] bg-white text-ink shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-[clamp(0.25rem,0.5vw,0.5rem)]" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.98 }} transition={{ duration: 0.25, ease: "easeOut" }}>
             <Image src={image.url} alt={image.alt} width={image.width} height={image.height} className="w-full h-full object-cover max-h-[40vh] md:max-h-none" />
             <div className="px-[clamp(1.25rem,3vw,3rem)] py-[clamp(1.75rem,3.5vw,3.5rem)] grid">

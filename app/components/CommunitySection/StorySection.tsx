@@ -7,7 +7,7 @@ export default function StorySection() {
         </div>
 
         <div className="md:col-span-2">
-          <h2 className="text-3xl font-extrabold uppercase leading-[1.05] tracking-tight text-ink sm:text-4xl md:text-5xl lg:text-6xl">We started 9TSEVEN because the runs we wanted to be part of didn&apos;t exist yet. This is for the miles, the mornings, and the community we&apos;re building along the way.</h2>
+          <h2 className="text-3xl font-extrabold uppercase leading-[1.05] -tracking-wide text-ink sm:text-4xl md:text-5xl lg:text-6xl">We started 9TSEVEN because the runs we wanted to be part of didn&apos;t exist yet. This is for the miles, the mornings, and the community we&apos;re building along the way.</h2>
 
           <div className="mt-10 grid grid-cols-1 gap-8 md:mt-14 md:grid-cols-2 md:gap-12">
             <div className="space-y-4 text-[13px] leading-[1.7] text-ink-subtle md:text-sm">

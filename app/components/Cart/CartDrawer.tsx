@@ -87,7 +87,7 @@ export default function CartDrawer() {
                   <span className="text-sm tracking-eyebrow uppercase text-fg-muted">Subtotal</span>
                   <span className="text-sm tracking-eyebrow text-fg">{formatPrice(cart.cost.subtotalAmount.amount, cart.cost.subtotalAmount.currencyCode)}</span>
                 </div>
-                <p className="text-[0.65rem] tracking-eyebrow text-fg-subtle uppercase">Taxes and shipping calculated at checkout</p>
+                <p className="text-[0.60rem] tracking-eyebrow text-fg-subtle uppercase">Taxes and shipping calculated at checkout</p>
                 <a href={cart.checkoutUrl} className="w-full bg-white text-ink text-xs tracking-eyebrow uppercase text-center py-4 hover:bg-white/90 transition-colors">
                   Check Out
                 </a>

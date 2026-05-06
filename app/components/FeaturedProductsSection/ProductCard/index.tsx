@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import type { Product } from "../types";
 import { useImageSlider } from "./useImageSlider";
-import ProductCardInfo, { ProductCardStackedMobile } from "./ProductCardInfo";
+import ProductCardInfo from "./ProductCardInfo";
+import ProductCardStackedMobile from "./ProductCardStackedMobile";
 import ProductCardTags from "./ProductCardTags";
 
 interface ProductCardProps {
@@ -72,10 +73,14 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
           </div>
         )}
 
-        <ProductCardInfo product={product} hovered={hovered} mobileLayout={mobileLayout} alwaysVisible={staticInfo} />
+        {staticInfo ? (
+          <ProductCardInfo product={product} alwaysVisible />
+        ) : (
+          <ProductCardInfo product={product} hovered={hovered} mobileLayout={mobileLayout} />
+        )}
       </div>
 
-      {/* Mobile scroll-snap carousel (only when stacked layout) */}
+      {/* Mobile scroll-snap carousel */}
       {useMobileCarousel && (
         <div className={`md:hidden relative w-full bg-light-grey rounded-sm overflow-hidden${product.isSoldOut ? " opacity-60 grayscale" : ""}`} style={{ aspectRatio: "4 / 5" }}>
           <div ref={scrollerRef} onScroll={handleMobileScroll} className="flex h-full w-full overflow-x-auto snap-x snap-mandatory overscroll-x-contain [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none", msOverflowStyle: "none", touchAction: "pan-x" } as React.CSSProperties}>

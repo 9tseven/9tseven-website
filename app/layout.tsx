@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Monsieur_La_Doulaise } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/Navbar";
@@ -31,12 +30,6 @@ const openSauceOne = localFont({
   ],
 });
 
-const monsieurLaDoulaise = Monsieur_La_Doulaise({
-  variable: "--font-monsieur",
-  weight: "400",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "9TSEVEN",
   description: "More than running",
@@ -52,9 +45,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${openSauceOne.variable} ${monsieurLaDoulaise.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className={`${openSauceOne.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: PRE_HYDRATION_SCRIPT }} />
+        <link rel="stylesheet" href="https://use.typekit.net/srx3ckv.css" />
       </head>
       <body className="min-h-full flex flex-col">
         <LoadScreen />
