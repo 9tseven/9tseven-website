@@ -20,8 +20,8 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
   };
 
   return (
-    <div className="border-t border-black/8">
-      <div className="border-b border-black/8 py-4 text-xs text-black/70 leading-relaxed">
+    <div className="border-t border-ink/10">
+      <div className="border-b border-ink/10 py-4 text-xs text-ink-muted leading-relaxed">
         {product.descriptionHtml ? (
           <div
             className="prose prose-sm max-w-none"

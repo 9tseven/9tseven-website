@@ -34,13 +34,13 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
   const sizeSelector = (
     <div>
-      <p className="text-[8px] tracking-[0.2em] uppercase text-black/30 mb-3">Select size</p>
+      <p className="text-[8px] tracking-eyebrow uppercase text-ink-faint mb-3">Select size</p>
       <div className="flex gap-2 flex-wrap">
         {sizes.map((size) => {
           const out = soldOut.has(size);
           const selected = selectedSize === size;
           return (
-            <button key={size} type="button" disabled={out} onClick={() => setSelectedSize(size)} className={`px-4 py-2 text-[9px] font-mono tracking-widest uppercase border transition-colors duration-150 ${out ? "border-black/10 text-black/25 line-through cursor-not-allowed" : selected ? "border-black bg-black text-white" : "border-black/20 text-black/60 hover:border-black hover:text-black"}`}>
+            <button key={size} type="button" disabled={out} onClick={() => setSelectedSize(size)} className={`px-4 py-2 text-[9px] font-mono tracking-eyebrow uppercase border transition-colors duration-fast ${out ? "border-ink/10 text-ink-faint line-through cursor-not-allowed" : selected ? "border-ink bg-ink text-fg" : "border-ink/20 text-ink-subtle hover:border-ink hover:text-ink"}`}>
               {size}
             </button>
           );
@@ -50,7 +50,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
   );
 
   const addToCartButton = (
-    <button type="button" onClick={handleAddToCart} disabled={!canAddToCart} className="w-full bg-black text-white text-[9px] tracking-[0.25em] uppercase py-4 hover:bg-black/80 transition-colors duration-200 disabled:bg-black/60 disabled:cursor-not-allowed">
+    <button type="button" onClick={handleAddToCart} disabled={!canAddToCart} className="w-full bg-ink text-fg text-[9px] tracking-eyebrow uppercase py-4 hover:bg-bg/80 transition-colors duration-base disabled:bg-bg/60 disabled:cursor-not-allowed">
       {pending ? "Adding…" : hasSizes && !selectedSize ? "Select size" : product.isSoldOut ? "Sold out" : "Add to cart"}
     </button>
   );
@@ -60,7 +60,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
   const priceLabel = (
     <>
       DKK {formatPrice(product.price)}
-      {onSale && <span className="ml-2 line-through text-black/30">DKK {formatPrice(product.compareAtPrice!)}</span>}
+      {onSale && <span className="ml-2 line-through text-ink-faint">DKK {formatPrice(product.compareAtPrice!)}</span>}
     </>
   );
 
@@ -70,7 +70,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
         <div className="grid grid-cols-1">
           <div className="row-start-1 col-start-1 pointer-events-none" style={{ height: "calc(100% - 2rem)" }}>
             <div className="sticky top-10 z-20 px-5 pt-4 pointer-events-none">
-              <button type="button" onClick={() => router.back()} className="pointer-events-auto px-3 py-1.5 bg-white/80 backdrop-blur-sm border border-black/20 text-[9px] tracking-[0.2em] uppercase text-black/60 hover:text-black transition-colors duration-200">
+              <button type="button" onClick={() => router.back()} className="pointer-events-auto px-3 py-1.5 bg-fg/80 backdrop-blur-sm border border-ink/20 text-[9px] tracking-eyebrow uppercase text-ink-subtle hover:text-ink transition-colors duration-base">
                 ← Back
               </button>
             </div>
@@ -85,10 +85,10 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
           </div>
         </div>
 
-        <div className="md:hidden sticky bottom-0 z-10 bg-white border-t border-black/8 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] px-4 py-3 flex flex-col gap-3">
+        <div className="md:hidden sticky bottom-0 z-10 bg-fg border-t border-ink/10 shadow-[0_-4px_16px_rgb(0_0_0/0.06)] px-4 py-3 flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
-            <h1 className="text-sm font-black uppercase tracking-tight text-black truncate">{product.name}</h1>
-            <p className="text-xs text-black/60 shrink-0">{priceLabel}</p>
+            <h1 className="text-sm font-black uppercase tracking-tight text-ink truncate">{product.name}</h1>
+            <p className="text-xs text-ink-subtle shrink-0">{priceLabel}</p>
           </div>
           {sizeSelector}
           {addToCartButton}
@@ -96,16 +96,16 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       </div>
 
       {/* RIGHT / BOTTOM column: desktop sticky info panel + accordion (accordion shows on mobile too) */}
-      <div className="w-full md:w-[40%] md:sticky md:top-16 md:self-start md:max-h-[calc(100vh-64px)] md:overflow-y-auto bg-white">
+      <div className="w-full md:w-[40%] md:sticky md:top-16 md:self-start md:max-h-[calc(100vh-64px)] md:overflow-y-auto bg-fg">
         {/* Desktop-only header block */}
         <div className="hidden md:flex flex-col gap-6 px-6 md:px-10 py-8">
           <div>
-            <p className="text-[9px] tracking-[0.2em] uppercase text-black/30 mb-1">{product.category}</p>
-            <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-black leading-none">{product.name}</h1>
-            <p className="text-sm text-black/50 mt-2">{priceLabel}</p>
+            <p className="text-[9px] tracking-eyebrow uppercase text-ink-faint mb-1">{product.category}</p>
+            <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-ink leading-none">{product.name}</h1>
+            <p className="text-sm text-ink-subtle mt-2">{priceLabel}</p>
           </div>
 
-          <div className="h-px bg-black/8" />
+          <div className="h-px bg-tint" />
 
           {sizeSelector}
 

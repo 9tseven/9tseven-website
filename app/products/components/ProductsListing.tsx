@@ -62,19 +62,19 @@ export default function ProductsListing({ products }: ProductsListingProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between px-4 py-3 border-b border-black/8">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-ink/10">
         <div ref={containerRef} className="relative">
-          <button type="button" onClick={() => setOpen((v) => !v)} aria-haspopup="menu" aria-expanded={open} className="flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase text-black/70 border border-black/20 px-3 py-1.5 hover:text-black hover:border-black/40 transition-colors duration-150">
+          <button type="button" onClick={() => setOpen((v) => !v)} aria-haspopup="menu" aria-expanded={open} className="flex items-center gap-2 text-[9px] tracking-eyebrow uppercase text-ink-muted border border-ink/20 px-3 py-1.5 hover:text-ink hover:border-ink/40 transition-colors duration-fast">
             <span aria-hidden="true">⇌</span>
             <span>Filter</span>
           </button>
 
           <AnimatePresence>
             {open && (
-              <motion.div role="menu" initial={{ opacity: 0, y: -4, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -4, scale: 0.98 }} transition={{ duration: 0.14, ease: "easeOut" }} style={{ transformOrigin: "top left" }} className="absolute left-0 top-[calc(100%+6px)] z-30 min-w-55 bg-white border border-black/10 shadow-[0_8px_24px_rgba(0,0,0,0.08)] rounded-md overflow-hidden">
+              <motion.div role="menu" initial={{ opacity: 0, y: -4, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -4, scale: 0.98 }} transition={{ duration: 0.14, ease: "easeOut" }} style={{ transformOrigin: "top left" }} className="absolute left-0 top-[calc(100%+6px)] z-30 min-w-55 bg-fg border border-ink/10 shadow-[0_8px_24px_rgb(0_0_0/0.08)] rounded-md overflow-hidden">
                 <div className="flex items-center justify-between px-3 pt-2.5 pb-1.5">
-                  <span className="text-[8px] tracking-[0.22em] uppercase text-black/35">Category</span>
-                  {currentCategory && <span className="text-[8px] tracking-[0.18em] uppercase text-black/45">{currentCategory.label}</span>}
+                  <span className="text-[8px] tracking-eyebrow uppercase text-ink-faint">Category</span>
+                  {currentCategory && <span className="text-[8px] tracking-eyebrow uppercase text-ink-subtle">{currentCategory.label}</span>}
                 </div>
                 <ul className="py-1">
                   {CATEGORY_OPTIONS.map(({ label, href }) => {
@@ -86,19 +86,19 @@ export default function ProductsListing({ products }: ProductsListingProps) {
                           role="menuitemradio"
                           aria-checked={active}
                           onClick={() => setOpen(false)}
-                          className={`w-full flex items-center gap-2.5 px-3 py-2 text-[10px] tracking-[0.18em] uppercase transition-colors duration-150 ${active ? "text-black bg-black/4" : "text-black/65 hover:text-black hover:bg-black/3"}`}
+                          className={`w-full flex items-center gap-2.5 px-3 py-2 text-[10px] tracking-eyebrow uppercase transition-colors duration-fast ${active ? "text-ink bg-tint" : "text-ink-muted hover:text-ink hover:bg-tint"}`}
                         >
                           <span className="flex-1 text-left">{label}</span>
-                          {active && <Check size={12} strokeWidth={2} className="text-black" />}
+                          {active && <Check size={12} strokeWidth={2} className="text-ink" />}
                         </Link>
                       </li>
                     );
                   })}
                 </ul>
 
-                <div className="h-px bg-black/8 mx-3" />
+                <div className="h-px bg-tint mx-3" />
 
-                <div className="px-3 pt-2.5 pb-1.5 text-[8px] tracking-[0.22em] uppercase text-black/35">Sort by</div>
+                <div className="px-3 pt-2.5 pb-1.5 text-[8px] tracking-eyebrow uppercase text-ink-faint">Sort by</div>
                 <ul className="py-1">
                   {SORT_OPTIONS.map(({ key, label, Icon }) => {
                     const active = sortKey === key;
@@ -112,11 +112,11 @@ export default function ProductsListing({ products }: ProductsListingProps) {
                             setSortKey(key);
                             setOpen(false);
                           }}
-                          className={`group w-full flex items-center gap-2.5 px-3 py-2 text-[10px] tracking-[0.18em] uppercase transition-colors duration-150 ${active ? "text-black bg-black/4" : "text-black/65 hover:text-black hover:bg-black/3"}`}
+                          className={`group w-full flex items-center gap-2.5 px-3 py-2 text-[10px] tracking-eyebrow uppercase transition-colors duration-fast ${active ? "text-ink bg-tint" : "text-ink-muted hover:text-ink hover:bg-tint"}`}
                         >
-                          <Icon size={12} strokeWidth={1.5} className={active ? "text-black" : "text-black/45 group-hover:text-black/70"} />
+                          <Icon size={12} strokeWidth={1.5} className={active ? "text-ink" : "text-ink-subtle group-hover:text-ink-muted"} />
                           <span className="flex-1 text-left">{label}</span>
-                          {active && <Check size={12} strokeWidth={2} className="text-black" />}
+                          {active && <Check size={12} strokeWidth={2} className="text-ink" />}
                         </button>
                       </li>
                     );
@@ -127,7 +127,7 @@ export default function ProductsListing({ products }: ProductsListingProps) {
           </AnimatePresence>
         </div>
 
-        <span className="text-[9px] tracking-[0.15em] uppercase text-black/30">{sorted.length} Products</span>
+        <span className="text-[9px] tracking-label uppercase text-ink-faint">{sorted.length} Products</span>
       </div>
 
       <ProductsGrid products={sorted} />

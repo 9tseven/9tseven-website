@@ -17,7 +17,7 @@ export default async function ProductsPage() {
   const products = edges.map((e) => toProduct(e.node));
 
   return (
-    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
+    <main data-nav-theme="light" className="bg-paper min-h-screen pt-16">
       <CategoryMarquee text="ALL PRODUCTS" />
 
       <ProductsListing products={products} />

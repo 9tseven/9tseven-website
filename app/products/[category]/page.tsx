@@ -67,7 +67,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const label = marqueeLabel(slug, tag);
 
   return (
-    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
+    <main data-nav-theme="light" className="bg-paper min-h-screen pt-16">
       <CategoryMarquee text={label} />
 
       <div className="mx-auto">
