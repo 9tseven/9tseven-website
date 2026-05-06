@@ -40,9 +40,9 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 lines.map((line) => (
-                  <div key={line.id} className="flex gap-4">
+                  <div key={line.id} className="flex gap-4 h-24">
                     {/* Image */}
-                    <div className="w-16 h-16 shrink-0 bg-surface rounded flex items-center justify-center">
+                    <div className="h-full aspect-square shrink-0 bg-surface rounded flex items-center justify-center">
                       {line.merchandise.product.featuredImage ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={line.merchandise.product.featuredImage.url} alt={line.merchandise.product.featuredImage.altText ?? line.merchandise.product.title} className="w-full h-full object-cover rounded" />
@@ -52,23 +52,25 @@ export default function CartDrawer() {
                     </div>
 
                     {/* Details */}
-                    <div className="flex-1 flex flex-col gap-1.5">
-                      <p className="text-xs tracking-label uppercase text-fg leading-snug">{line.merchandise.product.title}</p>
-                      <p className="text-[0.65rem] tracking-label text-fg-ghost uppercase">{line.merchandise.title}</p>
-                      <p className="text-xs text-fg-subtle">{formatPrice(line.merchandise.price.amount, line.merchandise.price.currencyCode)}</p>
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div className="flex flex-col gap-1.5">
+                        <p className="text-xs tracking-label uppercase text-fg leading-snug">{line.merchandise.product.title}</p>
+                        <p className="text-[0.65rem] tracking-label text-fg-muted font-extralight uppercase">{line.merchandise.title}</p>
+                        <p className="text-xs text-fg font-extralight tracking-widest">{formatPrice(line.merchandise.price.amount, line.merchandise.price.currencyCode)}</p>
+                      </div>
 
                       {/* Quantity + Remove */}
-                      <div className="flex items-center gap-4 mt-1">
+                      <div className="flex items-center gap-5">
                         <div className="flex items-center gap-3">
-                          <button onClick={() => updateLine(line.id, line.quantity - 1)} aria-label="Decrease quantity" disabled={pending || line.quantity === 1} className="text-fg-ghost hover:text-fg transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
+                          <button onClick={() => updateLine(line.id, line.quantity - 1)} aria-label="Decrease quantity" disabled={pending || line.quantity === 1} className="text-fg-subtle hover:text-fg transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
                             −
                           </button>
                           <span className="text-xs text-fg-muted tabular-nums">{line.quantity}</span>
-                          <button onClick={() => updateLine(line.id, line.quantity + 1)} aria-label="Increase quantity" disabled={pending} className="text-fg-ghost hover:text-fg transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
+                          <button onClick={() => updateLine(line.id, line.quantity + 1)} aria-label="Increase quantity" disabled={pending} className="text-fg-subtle hover:text-fg transition-colors text-sm leading-none disabled:opacity-30 disabled:cursor-not-allowed">
                             +
                           </button>
                         </div>
-                        <button onClick={() => removeLine(line.id)} aria-label={`Remove ${line.merchandise.product.title} from cart`} disabled={pending} className="text-[0.65rem] tracking-label uppercase text-fg-faint hover:text-fg-muted transition-colors underline underline-offset-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                        <button onClick={() => removeLine(line.id)} aria-label={`Remove ${line.merchandise.product.title} from cart`} disabled={pending} className="text-[0.65rem] tracking-label uppercase text-fg-subtle hover:text-fg-muted transition-colors underline underline-offset-2 disabled:opacity-30 disabled:cursor-not-allowed">
                           Remove
                         </button>
                       </div>
@@ -82,11 +84,11 @@ export default function CartDrawer() {
             {cart && lines.length > 0 && (
               <div className="shrink-0 border-t border-edge px-6 py-6 flex flex-col gap-4">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-xs tracking-eyebrow uppercase text-fg-subtle">Subtotal</span>
+                  <span className="text-sm tracking-eyebrow uppercase text-fg-muted">Subtotal</span>
                   <span className="text-sm tracking-eyebrow text-fg">{formatPrice(cart.cost.subtotalAmount.amount, cart.cost.subtotalAmount.currencyCode)}</span>
                 </div>
-                <p className="text-[0.65rem] tracking-eyebrow text-fg-faint uppercase">Taxes and shipping calculated at checkout</p>
-                <a href={cart.checkoutUrl} className="w-full bg-fg text-ink text-xs tracking-eyebrow uppercase text-center py-4 hover:bg-fg/90 transition-colors">
+                <p className="text-[0.65rem] tracking-eyebrow text-fg-subtle uppercase">Taxes and shipping calculated at checkout</p>
+                <a href={cart.checkoutUrl} className="w-full bg-white text-ink text-xs tracking-eyebrow uppercase text-center py-4 hover:bg-white/90 transition-colors">
                   Check Out
                 </a>
               </div>

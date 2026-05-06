@@ -40,7 +40,7 @@ export default function LoadScreen() {
       {mounted && (
         <motion.div
           data-load-screen
-          className="fixed inset-0 z-100 flex items-center justify-center bg-fg"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-white"
           initial={{ y: 0 }}
           animate={{ y: slideUp ? "-100%" : 0 }}
           transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}

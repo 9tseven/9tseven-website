@@ -7,7 +7,7 @@ interface LogoProps {
 
 export default function Logo({ onClick, className = "" }: LogoProps) {
   return (
-    <Link href="/" onClick={onClick} className={`text-md font-black uppercase ${className}`}>
+    <Link href="/" onClick={onClick} className={`text-lg font-black uppercase ${className}`}>
       9TSEVEN
     </Link>
   );

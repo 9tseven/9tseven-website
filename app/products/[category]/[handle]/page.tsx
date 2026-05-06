@@ -29,7 +29,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   }
 
   return (
-    <main data-nav-theme="light" className="bg-paper min-h-screen pt-16">
+    <main data-nav-theme="light" className="bg-white min-h-screen pt-16">
       <div className="px-4 mx-auto">
         <ProductDetailView product={product} />
       </div>

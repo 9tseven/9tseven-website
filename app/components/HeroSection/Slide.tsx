@@ -37,7 +37,7 @@ export default function Slide({ id, bg, image, video, slideCount, isActive }: Sl
       {video && isActive && <video src={video} autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover pointer-events-none" />}
 
       {/* Readability overlay */}
-      <div className="absolute inset-0 bg-bg/40 pointer-events-none" />
+      <div className="absolute inset-0 bg-bg/35 pointer-events-none" />
     </div>
   );
 }

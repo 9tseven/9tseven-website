@@ -105,8 +105,8 @@ export default function InspoSection() {
     <div ref={wrapperRef} style={{ height: "1400vh" }}>
       <section data-nav-theme={navTheme} className="sticky top-0 w-full h-screen bg-bg overflow-hidden select-none">
         <div className="absolute top-20 right-5 flex flex-col gap-1.5 pointer-events-none">
-          <div className={`w-1.75 h-1.75 rounded-full border border-edge-strong transition-colors duration-base ${dotAFilled ? "bg-fg border-fg" : "bg-transparent"}`} />
-          <div className={`w-1.75 h-1.75 rounded-full border border-edge-strong transition-colors duration-base ${dotBFilled ? "bg-fg border-fg" : "bg-transparent"}`} />
+          <div className={`w-1.75 h-1.75 rounded-full border border-edge-strong transition-colors duration-base ${dotAFilled ? "bg-white border-fg" : "bg-transparent"}`} />
+          <div className={`w-1.75 h-1.75 rounded-full border border-edge-strong transition-colors duration-base ${dotBFilled ? "bg-white border-fg" : "bg-transparent"}`} />
         </div>
 
         {/* Rotated side label */}

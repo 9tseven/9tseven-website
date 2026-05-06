@@ -71,7 +71,7 @@ export default function ProductsListing({ products }: ProductsListingProps) {
 
           <AnimatePresence>
             {open && (
-              <motion.div role="menu" initial={{ opacity: 0, y: -4, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -4, scale: 0.98 }} transition={{ duration: 0.14, ease: "easeOut" }} style={{ transformOrigin: "top left" }} className="absolute left-0 top-[calc(100%+6px)] z-30 min-w-55 bg-fg border border-ink/10 shadow-[0_8px_24px_rgb(0_0_0/0.08)] rounded-md overflow-hidden">
+              <motion.div role="menu" initial={{ opacity: 0, y: -4, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -4, scale: 0.98 }} transition={{ duration: 0.14, ease: "easeOut" }} style={{ transformOrigin: "top left" }} className="absolute left-0 top-[calc(100%+6px)] z-30 min-w-55 bg-white border border-ink/10 shadow-[0_8px_24px_rgb(0_0_0/0.08)] rounded-md overflow-hidden">
                 <div className="flex items-center justify-between px-3 pt-2.5 pb-1.5">
                   <span className="text-[8px] tracking-eyebrow uppercase text-ink-faint">Category</span>
                   {currentCategory && <span className="text-[8px] tracking-eyebrow uppercase text-ink-subtle">{currentCategory.label}</span>}
@@ -81,13 +81,7 @@ export default function ProductsListing({ products }: ProductsListingProps) {
                     const active = currentCategory?.href === href;
                     return (
                       <li key={href}>
-                        <Link
-                          href={href}
-                          role="menuitemradio"
-                          aria-checked={active}
-                          onClick={() => setOpen(false)}
-                          className={`w-full flex items-center gap-2.5 px-3 py-2 text-[10px] tracking-eyebrow uppercase transition-colors duration-fast ${active ? "text-ink bg-tint" : "text-ink-muted hover:text-ink hover:bg-tint"}`}
-                        >
+                        <Link href={href} role="menuitemradio" aria-checked={active} onClick={() => setOpen(false)} className={`w-full flex items-center gap-2.5 px-3 py-2 text-[10px] tracking-eyebrow uppercase transition-colors duration-fast ${active ? "text-ink bg-tint" : "text-ink-muted hover:text-ink hover:bg-tint"}`}>
                           <span className="flex-1 text-left">{label}</span>
                           {active && <Check size={12} strokeWidth={2} className="text-ink" />}
                         </Link>

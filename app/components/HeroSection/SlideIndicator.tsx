@@ -60,7 +60,7 @@ export default function SlideIndicator({ current, slides, onPrev, onNext, onGoTo
               <div
                 className="relative z-10 w-full h-px group-hover:h-1.25"
                 style={{
-                  backgroundColor: i === current ? "var(--color-fg-muted)" : "var(--color-fg-faint)",
+                  backgroundColor: i === current ? "var(--color-fg)" : "var(--color-fg-subtle)",
                   transition: `height 400ms ${SMOOTH_EASE}, background-color 400ms ${SMOOTH_EASE}`,
                 }}
               />
@@ -71,15 +71,15 @@ export default function SlideIndicator({ current, slides, onPrev, onNext, onGoTo
 
       {/* Counter + arrows */}
       <div className="flex items-center justify-between mt-4 pointer-events-auto">
-        <span className="font-mono text-fg-subtle text-[0.65rem] tracking-eyebrow tabular-nums">
+        <span className="font-mono text-fg-muted text-[0.65rem] tracking-eyebrow tabular-nums">
           {String(current + 1).padStart(2, "0")}&nbsp;/&nbsp;
           {String(slides.length).padStart(2, "0")}
         </span>
         <div className="flex items-center gap-3">
-          <button onClick={onPrev} aria-label="Previous slide" className="text-fg-subtle hover:text-fg transition-colors duration-base">
+          <button onClick={onPrev} aria-label="Previous slide" className="text-fg-muted hover:text-fg transition-colors duration-base">
             <ChevronLeft size={13} strokeWidth={1.25} />
           </button>
-          <button onClick={onNext} aria-label="Next slide" className="text-fg-subtle hover:text-fg transition-colors duration-base">
+          <button onClick={onNext} aria-label="Next slide" className="text-fg-muted hover:text-fg transition-colors duration-base">
             <ChevronRight size={13} strokeWidth={1.25} />
           </button>
         </div>

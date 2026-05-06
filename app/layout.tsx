@@ -11,23 +11,23 @@ import { CartProvider } from "./context/CartContext";
 
 const PRE_HYDRATION_SCRIPT = `try{if(sessionStorage.getItem('loadScreenSeen'))document.documentElement.setAttribute('data-load-seen','1');}catch(e){}`;
 
-const openSauceSans = localFont({
-  variable: "--font-open-sauce-sans",
+const openSauceOne = localFont({
+  variable: "--font-open-sauce-one",
   src: [
-    { path: "../public/fonts/OpenSauceSans-Light.otf", weight: "300", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-LightItalic.otf", weight: "300", style: "italic" },
-    { path: "../public/fonts/OpenSauceSans-Regular.otf", weight: "400", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-Italic.otf", weight: "400", style: "italic" },
-    { path: "../public/fonts/OpenSauceSans-Medium.otf", weight: "500", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-MediumItalic.otf", weight: "500", style: "italic" },
-    { path: "../public/fonts/OpenSauceSans-SemiBold.otf", weight: "600", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-SemiBoldItalic.otf", weight: "600", style: "italic" },
-    { path: "../public/fonts/OpenSauceSans-Bold.otf", weight: "700", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-BoldItalic.otf", weight: "700", style: "italic" },
-    { path: "../public/fonts/OpenSauceSans-ExtraBold.otf", weight: "800", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-ExtraBoldItalic.otf", weight: "800", style: "italic" },
-    { path: "../public/fonts/OpenSauceSans-Black.otf", weight: "900", style: "normal" },
-    { path: "../public/fonts/OpenSauceSans-BlackItalic.otf", weight: "900", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-Light.woff2", weight: "300", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-LightItalic.woff2", weight: "300", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-Italic.woff2", weight: "400", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-MediumItalic.woff2", weight: "500", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-SemiBoldItalic.woff2", weight: "600", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-BoldItalic.woff2", weight: "700", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-ExtraBold.woff2", weight: "800", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-ExtraBoldItalic.woff2", weight: "800", style: "italic" },
+    { path: "../public/fonts/OpenSauceOne-Black.woff2", weight: "900", style: "normal" },
+    { path: "../public/fonts/OpenSauceOne-BlackItalic.woff2", weight: "900", style: "italic" },
   ],
 });
 
@@ -52,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${openSauceSans.variable} ${monsieurLaDoulaise.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className={`${openSauceOne.variable} ${monsieurLaDoulaise.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: PRE_HYDRATION_SCRIPT }} />
       </head>

@@ -36,7 +36,7 @@ export default function BlogPostCard({ post, index, top, onPeekHeight, articleRe
   }, []);
 
   return (
-    <article ref={articleRef} onClick={onClick} className="md:sticky bg-fg border-t border-ink flex flex-col md:flex-row cursor-pointer" style={{ zIndex: index + 1, top: `${top}px` }}>
+    <article ref={articleRef} onClick={onClick} className="md:sticky bg-white border-t border-ink flex flex-col md:flex-row cursor-pointer" style={{ zIndex: index + 1, top: `${top}px` }}>
       <div className="md:flex gap-5 p-5 md:w-1/2 shrink-0">
         <div className="flex flex-row md:flex-col justify-between gap-2 w-full md:w-36 shrink-0 mb-2 md:mb-0">
           <span className="font-mono text-sm tracking-tight text-ink">{post.tag}</span>

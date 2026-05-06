@@ -18,7 +18,7 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer data-nav-theme="light" className="bg-[#ebebeb] text-ink overflow-hidden">
+    <footer data-nav-theme="light" className="bg-grey text-ink overflow-hidden">
       <Newsletter />
 
       {/* Info + links row */}

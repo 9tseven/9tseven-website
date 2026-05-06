@@ -91,8 +91,8 @@ function StackedMobileContent({ product }: { product: Product }) {
 
   return (
     <div className="flex flex-col px-0.5 pt-3 pb-1" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
-      <p className="text-[clamp(9px,2vw,10px)] tracking-eyebrow uppercase text-ink-subtle">{product.category}</p>
-      <p className="text-[clamp(11px,2.6vw,12px)] font-semibold tracking-label uppercase text-ink leading-tight mt-1 line-clamp-2 min-h-[2lh]">{product.name}</p>
+      <p className="text-[clamp(8px,2vw,9px)] tracking-eyebrow uppercase text-ink-subtle">{product.category}</p>
+      <p className="text-[clamp(11px,2.6vw,12px)] font-extralight tracking-label uppercase text-ink leading-tight mt-1 line-clamp-2 min-h-[2lh]">{product.name}</p>
       <p className="text-[clamp(11px,2.8vw,13px)] font-medium text-ink-muted mt-1.5">
         DKK {product.price.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         {onSale && <span className="ml-1.5 font-normal line-through text-ink-faint">DKK {product.compareAtPrice!.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>}
@@ -136,7 +136,7 @@ export function ProductCardStackedMobile({ product }: { product: Product }) {
 export default function ProductCardInfo({ product, hovered, mobileLayout = "overlay", alwaysVisible = false }: ProductCardInfoProps) {
   if (alwaysVisible) {
     return (
-      <div className="absolute bottom-4 left-3.5 right-3.5 px-3 py-3 bg-fg/95 border-t border-ink/10 z-20" onMouseMove={(e) => e.stopPropagation()}>
+      <div className="absolute bottom-4 left-3.5 right-3.5 px-3 py-3 bg-white/95 border-t border-ink/10 z-20" onMouseMove={(e) => e.stopPropagation()}>
         <InfoContent product={product} />
       </div>
     );
@@ -146,7 +146,7 @@ export default function ProductCardInfo({ product, hovered, mobileLayout = "over
     <>
       {/* Mobile overlay */}
       {mobileLayout === "overlay" && (
-        <div className="absolute bottom-4 left-3.5 right-3.5 px-3 py-3 bg-fg/95 border-t border-ink/10 z-20 md:hidden" onMouseMove={(e) => e.stopPropagation()}>
+        <div className="absolute bottom-4 left-3.5 right-3.5 px-3 py-3 bg-white/95 border-t border-ink/10 z-20 md:hidden" onMouseMove={(e) => e.stopPropagation()}>
           <InfoContent product={product} />
         </div>
       )}
@@ -154,7 +154,7 @@ export default function ProductCardInfo({ product, hovered, mobileLayout = "over
       {/* Desktop: animated on hover */}
       <AnimatePresence>
         {hovered && (
-          <motion.div key="info" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.18, ease: "easeOut" }} className="hidden md:block absolute bottom-4 left-3.5 right-3.5 px-3 py-3 bg-fg/95 border-t border-ink/10 z-20" onMouseMove={(e) => e.stopPropagation()}>
+          <motion.div key="info" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.18, ease: "easeOut" }} className="hidden md:block absolute bottom-4 left-3.5 right-3.5 px-3 py-3 bg-white/95 border-t border-ink/10 z-20" onMouseMove={(e) => e.stopPropagation()}>
             <InfoContent product={product} />
           </motion.div>
         )}

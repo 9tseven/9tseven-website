@@ -4,7 +4,9 @@
 @theme {
   /* ── Background base ───────────────────────────────────────────── */
   --color-bg: #0b0b0b;
-  --color-paper: #e8e4dc;
+  --color-white: #f9f9f9;
+  --color-light-grey: #e0e0e0;
+  --color-grey: #ebebeb;
 
   /* ── Foreground (text/icons on dark) ───────────────────────────── */
   --color-fg: #ffffff;
@@ -38,7 +40,7 @@
   --color-overlay: rgba(18, 18, 18, 0.7);
 
   /* ── Typography — families ─────────────────────────────────────── */
-  --font-sans: var(--font-open-sauce-sans), sans-serif;
+  --font-sans: var(--font-open-sauce-one), sans-serif;
   --font-display: var(--font-monsieur);
 
   /* ── Typography — tracking ─────────────────────────────────────── */
@@ -51,6 +53,7 @@
   --duration-fast: 150ms;
   --duration-base: 200ms;
   --duration-slow: 300ms;
+  --duration-extraslow: 500ms;
 
   /* ── Elevation ─────────────────────────────────────────────────── */
   --shadow-overlay: 0 16px 40px rgb(0 0 0 / 0.35);
@@ -72,7 +75,7 @@
 html {
   font-family: var(--font-sans);
   background: var(--color-bg);
-  color: var(--color-paper);
+  color: var(--color-white);
 }
 
 body {

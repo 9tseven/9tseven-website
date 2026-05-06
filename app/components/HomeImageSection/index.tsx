@@ -97,7 +97,7 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
 
 export default function HomeImageSection() {
   return (
-    <section data-nav-theme="dark" className="flex flex-col md:grid 2xl:grid-cols-3 gap-2.5 bg-fg md:h-[120vh] 2xl:h-[80vh]">
+    <section data-nav-theme="dark" className="flex flex-col md:grid 2xl:grid-cols-3 gap-2.5 bg-white md:h-[120vh] 2xl:h-[80vh]">
       {PANELS.map((panel) => (
         <ImagePanel key={panel.label} {...panel} />
       ))}

@@ -10,7 +10,7 @@ export default function MantraSection() {
   const inView = useInView(sectionRef, { amount: 0.6, once: true });
 
   return (
-    <section ref={sectionRef} data-nav-theme="light" className="w-full bg-fg py-16 md:py-24">
+    <section ref={sectionRef} data-nav-theme="light" className="w-full bg-white py-16 md:py-24">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-8">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-0">
           {/* Heading */}

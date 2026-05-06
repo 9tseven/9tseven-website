@@ -70,7 +70,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
         <div className="grid grid-cols-1">
           <div className="row-start-1 col-start-1 pointer-events-none" style={{ height: "calc(100% - 2rem)" }}>
             <div className="sticky top-10 z-20 px-5 pt-4 pointer-events-none">
-              <button type="button" onClick={() => router.back()} className="pointer-events-auto px-3 py-1.5 bg-fg/80 backdrop-blur-sm border border-ink/20 text-[9px] tracking-eyebrow uppercase text-ink-subtle hover:text-ink transition-colors duration-base">
+              <button type="button" onClick={() => router.back()} className="pointer-events-auto px-3 py-1.5 bg-white/80 backdrop-blur-sm border border-ink/20 text-[9px] tracking-eyebrow uppercase text-ink-subtle hover:text-ink transition-colors duration-base">
                 ← Back
               </button>
             </div>
@@ -78,14 +78,14 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
           <div className="row-start-1 col-start-1 flex flex-col">
             {images.map((src, i) => (
-              <div key={`${src}-${i}`} className="relative w-full aspect-4/5 bg-[#e0e0e0]">
+              <div key={`${src}-${i}`} className="relative w-full aspect-4/5 bg-light-grey">
                 <Image src={src} alt={`${product.name} — image ${i + 1}`} fill className="object-cover" priority={i === 0} sizes="(min-width: 768px) 60vw, 100vw" />
               </div>
             ))}
           </div>
         </div>
 
-        <div className="md:hidden sticky bottom-0 z-10 bg-fg border-t border-ink/10 shadow-[0_-4px_16px_rgb(0_0_0/0.06)] px-4 py-3 flex flex-col gap-3">
+        <div className="md:hidden sticky bottom-0 z-10 bg-white border-t border-ink/10 shadow-[0_-4px_16px_rgb(0_0_0/0.06)] px-4 py-3 flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
             <h1 className="text-sm font-black uppercase tracking-tight text-ink truncate">{product.name}</h1>
             <p className="text-xs text-ink-subtle shrink-0">{priceLabel}</p>
@@ -96,7 +96,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
       </div>
 
       {/* RIGHT / BOTTOM column: desktop sticky info panel + accordion (accordion shows on mobile too) */}
-      <div className="w-full md:w-[40%] md:sticky md:top-16 md:self-start md:max-h-[calc(100vh-64px)] md:overflow-y-auto bg-fg">
+      <div className="w-full md:w-[40%] md:sticky md:top-16 md:self-start md:max-h-[calc(100vh-64px)] md:overflow-y-auto bg-white">
         {/* Desktop-only header block */}
         <div className="hidden md:flex flex-col gap-6 px-6 md:px-10 py-8">
           <div>

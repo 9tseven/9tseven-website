@@ -12,7 +12,7 @@ export default function FeaturedProductsSection({ products }: { products: Produc
   const { current, cardWidth, pageCount, containerRef, x, handleDragEnd, dragConstraintsLeft, prev, next, snapTo } = useProductCarousel(products.length);
 
   return (
-    <section data-nav-theme="light" className="w-full bg-fg py-8 select-none">
+    <section data-nav-theme="light" className="w-full bg-white py-8 select-none">
       <p className="font-mono text-xs tracking-eyebrow uppercase text-ink text-center mb-9">( FEATURED PRODUCTS )</p>
 
       <div ref={containerRef} className="w-full overflow-hidden">
