@@ -7,7 +7,7 @@ interface BrandLockupProps {
 
 export default function BrandLockup({ variant, className = "" }: BrandLockupProps) {
   const isLight = variant === "onLight";
-  const colorClass = isLight ? "text-black" : "text-white";
+  const colorClass = isLight ? "text-ink" : "text-fg";
   const imgInvert = isLight ? "invert" : "";
 
   return (

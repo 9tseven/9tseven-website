@@ -30,7 +30,7 @@ export default function HeroOverlayText({ current, slides }: HeroOverlayTextProp
         {/* Heading — fixed-height clip box */}
         <div className="overflow-hidden" style={{ height: "clamp(2rem, 5vw, 3.6rem)" }}>
           <AnimatePresence mode="wait" initial={false}>
-            <motion.p key={`heading-${current}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em]" style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}>
+            <motion.p key={`heading-${current}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-fg leading-[1.1] uppercase tracking-tight" style={{ fontSize: "clamp(1.75rem, 4.5vw, 3rem)" }}>
               {slide.heading}
             </motion.p>
           </AnimatePresence>
@@ -46,11 +46,11 @@ export default function HeroOverlayText({ current, slides }: HeroOverlayTextProp
               exit={{ y: "-100%" }}
               transition={{ ...TEXT_TRANSITION, delay: 0.06 }}
               className="
-                font-bold text-white/40
-                group-hover/hero-text:text-white
-                transition-colors duration-300
+                font-bold text-fg-subtle
+                group-hover/hero-text:text-fg
+                transition-colors duration-slow
                 leading-[1.2]
-                uppercase -tracking-[0.02em]
+                uppercase tracking-tight
               "
               style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.4rem)" }}
             >

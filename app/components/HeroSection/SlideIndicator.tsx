@@ -50,7 +50,7 @@ export default function SlideIndicator({ current, slides, onPrev, onNext, onGoTo
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {hoveredIndex === i && (
-                    <motion.p key={`indicator-heading-${i}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-white leading-[1.1] uppercase -tracking-[0.04em] whitespace-nowrap" style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.8rem)" }}>
+                    <motion.p key={`indicator-heading-${i}`} initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "-100%" }} transition={TEXT_TRANSITION} className="font-bold text-fg leading-[1.1] uppercase tracking-tight whitespace-nowrap" style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.8rem)" }}>
                       {slide.heading}
                     </motion.p>
                   )}
@@ -60,7 +60,7 @@ export default function SlideIndicator({ current, slides, onPrev, onNext, onGoTo
               <div
                 className="relative z-10 w-full h-px group-hover:h-1.25"
                 style={{
-                  backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.18)",
+                  backgroundColor: i === current ? "var(--color-fg-muted)" : "var(--color-fg-faint)",
                   transition: `height 400ms ${SMOOTH_EASE}, background-color 400ms ${SMOOTH_EASE}`,
                 }}
               />
@@ -71,15 +71,15 @@ export default function SlideIndicator({ current, slides, onPrev, onNext, onGoTo
 
       {/* Counter + arrows */}
       <div className="flex items-center justify-between mt-4 pointer-events-auto">
-        <span className="font-mono text-white/40 text-[0.65rem] tracking-[0.2em] tabular-nums">
+        <span className="font-mono text-fg-subtle text-[0.65rem] tracking-eyebrow tabular-nums">
           {String(current + 1).padStart(2, "0")}&nbsp;/&nbsp;
           {String(slides.length).padStart(2, "0")}
         </span>
         <div className="flex items-center gap-3">
-          <button onClick={onPrev} aria-label="Previous slide" className="text-white/40 hover:text-white transition-colors duration-200">
+          <button onClick={onPrev} aria-label="Previous slide" className="text-fg-subtle hover:text-fg transition-colors duration-base">
             <ChevronLeft size={13} strokeWidth={1.25} />
           </button>
-          <button onClick={onNext} aria-label="Next slide" className="text-white/40 hover:text-white transition-colors duration-200">
+          <button onClick={onNext} aria-label="Next slide" className="text-fg-subtle hover:text-fg transition-colors duration-base">
             <ChevronRight size={13} strokeWidth={1.25} />
           </button>
         </div>
