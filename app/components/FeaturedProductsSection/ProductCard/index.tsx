@@ -42,7 +42,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
   return (
     <div className={`cursor-pointer ${cardWidth === undefined ? "w-full" : "shrink-0"}`} style={cardWidth === undefined ? undefined : { width: cardWidth }} onClick={handleClick}>
       <div className={`${useMobileCarousel ? "hidden md:block" : ""} relative w-full bg-[#e0e0e0] rounded-sm overflow-hidden group${product.isSoldOut ? " opacity-60 grayscale" : ""}`} style={{ aspectRatio: "4 / 5" }} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onMouseMove={handleCardMouseMove} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove}>
-        <div className="absolute inset-0 flex transition-transform duration-400 will-change-transform" style={{ transform: `translate3d(-${hoverIdx * 100}%, 0, 0)`, transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}>
+        <div className="absolute inset-0 flex transition-transform duration-slow will-change-transform" style={{ transform: `translate3d(-${hoverIdx * 100}%, 0, 0)`, transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)" }}>
           {images.map((src, i) => (
             <div key={i} className="relative shrink-0 w-full h-full">
               <Image src={src} alt={product.name} fill className="object-cover pointer-events-none" sizes="(max-width: 768px) 50vw, 25vw" draggable={false} priority={i === 0} />
@@ -56,7 +56,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
           <div className="hidden md:flex w-[90%] justify-self-center absolute bottom-30 left-0 right-0 z-10 gap-px items-end">
             {images.map((_, i) => {
               const active = i === hoverIdx;
-              return <div key={i} className={`flex-1 bg-white [transition:height_200ms_ease,opacity_150ms_ease] ${active ? "h-1 opacity-100" : "h-0.5 opacity-30"}`} />;
+              return <div key={i} className={`flex-1 bg-fg [transition:height_200ms_ease,opacity_150ms_ease] ${active ? "h-1 opacity-100" : "h-0.5 opacity-30"}`} />;
             })}
           </div>
         )}
@@ -81,7 +81,7 @@ export default function ProductCard({ product, cardWidth, href, mobileLayout = "
             <div className="flex w-[90%] justify-self-center absolute bottom-3 left-0 right-0 z-10 gap-px items-end pointer-events-none">
               {images.map((_, i) => {
                 const active = i === mobileIdx;
-                return <div key={i} className={`flex-1 bg-white [transition:height_200ms_ease,opacity_150ms_ease] ${active ? "h-1 opacity-100" : "h-0.5 opacity-30"}`} />;
+                return <div key={i} className={`flex-1 bg-fg [transition:height_200ms_ease,opacity_150ms_ease] ${active ? "h-1 opacity-100" : "h-0.5 opacity-30"}`} />;
               })}
             </div>
           )}
