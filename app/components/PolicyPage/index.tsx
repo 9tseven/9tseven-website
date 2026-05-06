@@ -11,15 +11,15 @@ export default function PolicyPage({ data }: PolicyPageProps) {
   return (
     <main
       data-nav-theme="light"
-      className="bg-white min-h-screen pt-24 pb-24 text-black"
+      className="bg-paper min-h-screen pt-24 pb-24 text-ink"
     >
       <div className="max-w-3xl mx-auto px-8">
         <header className="mb-12">
-          <h1 className="text-2xl md:text-3xl uppercase tracking-widest font-bold">
+          <h1 className="text-2xl md:text-3xl uppercase tracking-eyebrow font-bold">
             {data.title}
           </h1>
           {data.lastUpdated && (
-            <p className="mt-3 text-[0.6rem] tracking-widest uppercase text-black/45">
+            <p className="mt-3 text-[0.6rem] tracking-eyebrow uppercase text-ink-subtle">
               Last updated: {data.lastUpdated}
             </p>
           )}
@@ -28,7 +28,7 @@ export default function PolicyPage({ data }: PolicyPageProps) {
         {data.intro && data.intro.length > 0 && (
           <div className="flex flex-col gap-4 mb-12">
             {data.intro.map((paragraph, index) => (
-              <p key={index} className="text-sm leading-relaxed text-black/70">
+              <p key={index} className="text-sm leading-relaxed text-ink-muted">
                 {renderWithEmails(paragraph)}
               </p>
             ))}
