@@ -57,19 +57,6 @@
 
   /* ── Elevation ─────────────────────────────────────────────────── */
   --shadow-overlay: 0 16px 40px rgb(0 0 0 / 0.35);
-
-  /* ── Legacy aliases (DELETED in Task 9) ────────────────────────── */
-  --color-fg-strong: var(--color-fg-muted);
-  --color-fg-soft: var(--color-fg-muted);
-  --color-fg-secondary: var(--color-fg-subtle);
-  --color-fg-tertiary: var(--color-fg-subtle);
-  --color-fg-caption: var(--color-fg-faint);
-  --color-fg-faint-legacy: var(--color-fg-ghost);
-  --color-surface-subtle: var(--color-surface);
-  --color-surface-soft: var(--color-surface-hover);
-  --color-surface-active: var(--color-surface-hover);
-  --color-divider: var(--color-edge);
-  --color-edge-muted: var(--color-edge-strong);
 }
 
 html {
