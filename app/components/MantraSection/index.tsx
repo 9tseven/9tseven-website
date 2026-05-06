@@ -15,7 +15,7 @@ export default function MantraSection() {
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-0">
           {/* Heading */}
           <div className="flex-1">
-            <h2 className="text-5xl font-bold leading-none tracking-tight text-black md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem]">
+            <h2 className="text-5xl font-bold leading-none tracking-tight text-ink md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem]">
               Community.
               <br />
               Create a space for inspiration &amp; human connection.
@@ -29,7 +29,7 @@ export default function MantraSection() {
         </div>
 
         {/* CTA link */}
-        <Link href="/community" className="font-mono text-sm tracking-[-0.05em] text-black underline underline-offset-4 transition-opacity hover:opacity-50">
+        <Link href="/community" className="font-mono text-sm tracking-tight text-ink underline underline-offset-4 transition-opacity hover:opacity-50">
           READ MORE ABOUT THE COMMUNITY
         </Link>
       </div>

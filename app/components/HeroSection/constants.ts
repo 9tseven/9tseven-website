@@ -38,7 +38,7 @@ export const SLIDES: HeroSlide[] = [
   },
   {
     id: 4,
-    bg: "#0b0b0b",
+    bg: "var(--color-bg)",
     image: "/images/Hero/hero-img5.webp",
     heading: "The collection",
     subheading: "Discover every piece",

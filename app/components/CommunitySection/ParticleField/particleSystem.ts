@@ -46,12 +46,12 @@ export interface ViewportSize {
 }
 
 const DAMPING = 0.85;
-const FORMING_STIFFNESS = 0.025;
-const HOLDING_STIFFNESS = 0.035;
-const WOBBLE_AMP = 4;
+const FORMING_STIFFNESS = 0.02;
+const HOLDING_STIFFNESS = 0.02;
+const WOBBLE_AMP = 3;
 const WOBBLE_FREQ = 0.0012;
-const POINTER_RADIUS = 150;
-const POINTER_FORCE = 1800;
+const POINTER_RADIUS = 140;
+const POINTER_FORCE = 600;
 
 function stiffnessFor(phase: CycleState["phase"]): number {
   switch (phase) {

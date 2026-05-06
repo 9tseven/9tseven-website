@@ -47,11 +47,11 @@ export default function ShopDropdown({ shopOpen, previews, onShopLinkClick }: Sh
       {shopOpen && (
         <motion.div initial={{ opacity: 0, scale: 0.97, y: -4 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97, y: -4 }} transition={{ duration: 0.15, ease: "easeOut" }} className="absolute p-4 top-[calc(100%+6px)] left-1/2 -translate-x-1/2 flex bg-overlay backdrop-blur-md rounded-[18px] overflow-hidden shadow-overlay" style={{ transformOrigin: "top center" }}>
           {/* Left column — categories */}
-          <div className="py-3 border-r border-divider" style={{ minWidth: "170px" }}>
+          <div className="py-3 border-r border-edge" style={{ minWidth: "170px" }}>
             {SHOP_MENU.map((item, i) => (
               <div key={item.href} className="relative mx-1.5">
-                {activeCategory === i && <motion.div layoutId="dropdown-pill" className="absolute inset-0 rounded-[10px] bg-surface-active" transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }} />}
-                <Link href={item.href} onClick={onShopLinkClick} onMouseEnter={() => setActiveCategory(i)} className="relative block px-4 py-2.5 text-[0.68rem] tracking-[0.16em] uppercase text-fg-tertiary hover:text-fg transition-colors duration-150 z-10">
+                {activeCategory === i && <motion.div layoutId="dropdown-pill" className="absolute inset-0 rounded-[10px] bg-surface-hover" transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }} />}
+                <Link href={item.href} onClick={onShopLinkClick} onMouseEnter={() => setActiveCategory(i)} className="relative block px-4 py-2.5 text-[0.68rem] tracking-label uppercase text-fg-subtle hover:text-fg transition-colors duration-fast z-10">
                   {item.label}
                 </Link>
               </div>
@@ -64,9 +64,9 @@ export default function ShopDropdown({ shopOpen, previews, onShopLinkClick }: Sh
               <motion.div key={activeCategory} initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 6 }} transition={{ duration: 0.12 }} className={category.type === "products" ? "h-full flex items-center" : ""}>
                 {category.type === "subcategories" ? (
                   <div className="py-3">
-                    <p className="mx-1.5 px-4 py-2.5 text-[0.68rem] tracking-[0.16em] uppercase text-fg">{category.label}</p>
+                    <p className="mx-1.5 px-4 py-2.5 text-[0.68rem] tracking-label uppercase text-fg">{category.label}</p>
                     {category.subcategories.map((sub) => (
-                      <Link key={sub.href} href={sub.href} onClick={onShopLinkClick} className="block mx-1.5 px-4 py-2.5 text-[0.68rem] tracking-[0.14em] uppercase text-fg-secondary hover:text-fg hover:bg-surface-soft rounded-[10px] transition-colors duration-150">
+                      <Link key={sub.href} href={sub.href} onClick={onShopLinkClick} className="block mx-1.5 px-4 py-2.5 text-[0.68rem] tracking-label uppercase text-fg-subtle hover:text-fg hover:bg-surface-hover rounded-[10px] transition-colors duration-fast">
                         {sub.label}
                       </Link>
                     ))}
@@ -106,25 +106,25 @@ function ProductPreviewPanel({ category, items, onShopLinkClick }: ProductPrevie
         const href = `/products/${categorySlug(item.productType)}/${item.handle}`;
         return (
           <Link key={item.handle} href={href} onClick={onShopLinkClick} className="flex flex-col gap-1.5 group" style={tileStyle}>
-            <div className="w-full aspect-3/4 rounded-lg bg-surface overflow-hidden relative group-hover:bg-surface-hover transition-colors duration-150">{item.image ? <Image src={item.image.url} alt={item.image.altText ?? item.title} fill sizes={`${TILE_WIDTH}px`} className="object-cover" /> : <span className="absolute inset-0 flex items-center justify-center text-fg-faint text-xs">▣</span>}</div>
-            <span className="text-[0.6rem] tracking-widest uppercase text-fg-caption text-center group-hover:text-fg-soft transition-colors duration-150 truncate">{item.title}</span>
+            <div className="w-full aspect-3/4 rounded-lg bg-surface overflow-hidden relative group-hover:bg-surface-hover transition-colors duration-fast">{item.image ? <Image src={item.image.url} alt={item.image.altText ?? item.title} fill sizes={`${TILE_WIDTH}px`} className="object-cover" /> : <span className="absolute inset-0 flex items-center justify-center text-fg-ghost text-xs">▣</span>}</div>
+            <span className="text-[0.6rem] tracking-eyebrow uppercase text-fg-faint text-center group-hover:text-fg-muted transition-colors duration-fast truncate">{item.title}</span>
           </Link>
         );
       })}
       {Array.from({ length: placeholderCount }).map((_, n) => (
         <div key={`placeholder-${n}`} className="flex flex-col gap-1.5" style={tileStyle}>
-          <div className="w-full aspect-3/4 rounded-lg bg-surface border border-dashed border-edge-muted flex items-center justify-center">
-            <span className="text-fg-faint text-xs">▣</span>
+          <div className="w-full aspect-3/4 rounded-lg bg-surface border border-dashed border-edge-strong flex items-center justify-center">
+            <span className="text-fg-ghost text-xs">▣</span>
           </div>
-          <span className="text-[0.6rem] tracking-widest uppercase text-fg-caption text-center">Product_0{n + 1}</span>
+          <span className="text-[0.6rem] tracking-eyebrow uppercase text-fg-faint text-center">Product_0{n + 1}</span>
         </div>
       ))}
 
       <Link href={category.href} onClick={onShopLinkClick} className="flex flex-col gap-1.5 group" style={tileStyle}>
-        <div className="w-full aspect-3/4 rounded-lg bg-surface-subtle hover:bg-surface-hover border border-edge hover:border-edge-strong transition-colors duration-150 flex items-center justify-center">
-          <Plus className="text-fg-muted group-hover:text-fg-strong transition-colors duration-150" size={32} strokeWidth={1.25} />
+        <div className="w-full aspect-3/4 rounded-lg bg-surface hover:bg-surface-hover border border-edge hover:border-edge-strong transition-colors duration-fast flex items-center justify-center">
+          <Plus className="text-fg-muted group-hover:text-fg-muted transition-colors duration-fast" size={32} strokeWidth={1.25} />
         </div>
-        <span className="text-[0.6rem] tracking-widest uppercase text-fg-caption text-center group-hover:text-fg-soft transition-colors duration-150">See all</span>
+        <span className="text-[0.6rem] tracking-eyebrow uppercase text-fg-faint text-center group-hover:text-fg-muted transition-colors duration-fast">See all</span>
       </Link>
     </div>
   );

@@ -54,13 +54,13 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
       }}
     >
       {/* Island pill */}
-      <div ref={islandRef} className="relative flex items-center bg-[rgba(18,18,18,0.7)] backdrop-blur-md rounded-full px-2 py-2 gap-0.5">
+      <div ref={islandRef} className="relative flex items-center bg-overlay backdrop-blur-md rounded-full px-2 py-2 gap-0.5">
         {/* Sliding highlight */}
         <AnimatePresence>
           {pill && (
             <motion.div
               layoutId="nav-pill"
-              className="absolute rounded-full pointer-events-none bg-white/11"
+              className="absolute rounded-full pointer-events-none bg-surface-hover"
               initial={{ opacity: 0, left: pill.left, width: pill.width, height: pill.height }}
               animate={{ opacity: 1, left: pill.left, width: pill.width, height: pill.height }}
               exit={{ opacity: 0 }}
@@ -82,7 +82,7 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
             setHoveredIndex(0);
             setShopOpen(false);
           }}
-          className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          className="relative px-4 py-2.5 text-xs tracking-eyebrow uppercase text-fg-subtle hover:text-fg transition-colors duration-fast z-10"
         >
           Home
         </Link>
@@ -94,7 +94,7 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
             setHoveredIndex(1);
             setShopOpen(false);
           }}
-          className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          className="relative px-4 py-2.5 text-xs tracking-eyebrow uppercase text-fg-subtle hover:text-fg transition-colors duration-fast z-10"
         >
           Community
         </Link>
@@ -106,7 +106,7 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
             setHoveredIndex(2);
             setShopOpen(false);
           }}
-          className="relative px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          className="relative px-4 py-2.5 text-xs tracking-eyebrow uppercase text-fg-subtle hover:text-fg transition-colors duration-fast z-10"
         >
           Mantra
         </Link>
@@ -117,13 +117,13 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
             setHoveredIndex(3);
             setShopOpen(true);
           }}
-          className="relative flex items-center gap-1.5 px-4 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          className="relative flex items-center gap-1.5 px-4 py-2.5 text-xs tracking-eyebrow uppercase text-fg-subtle hover:text-fg transition-colors duration-fast z-10"
         >
           Shop
-          <ChevronDown size={10} strokeWidth={1.5} className={`transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`} />
+          <ChevronDown size={10} strokeWidth={1.5} className={`transition-transform duration-base ${shopOpen ? "rotate-180" : ""}`} />
         </button>
 
-        <div className="w-px h-3.5 bg-white/10 mx-1 shrink-0" />
+        <div className="w-px h-3.5 bg-surface-hover mx-1 shrink-0" />
 
         <button
           ref={cartRef}
@@ -133,7 +133,7 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
             setHoveredIndex(4);
             setShopOpen(false);
           }}
-          className="relative flex items-center gap-2 px-3.5 py-2.5 text-xs tracking-[0.18em] uppercase text-white/60 hover:text-white transition-colors duration-150 z-10"
+          className="relative flex items-center gap-2 px-3.5 py-2.5 text-xs tracking-eyebrow uppercase text-fg-subtle hover:text-fg transition-colors duration-fast z-10"
         >
           Cart ({totalQuantity})
           <ShoppingCart size={14} strokeWidth={1.5} />

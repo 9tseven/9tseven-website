@@ -13,7 +13,7 @@ export default function FaqList({ items }: FaqListProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="border-t border-black/8">
+    <div className="border-t border-ink/10">
       {items.map((item, index) => (
         <AccordionItem
           key={index}

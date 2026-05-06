@@ -13,13 +13,13 @@ export default function ProductCardTags({ product }: ProductCardTagsProps) {
   return (
     <>
       {left && (
-        <div className="absolute top-3 left-3 z-10 px-3 py-1.5 bg-black pointer-events-none">
-          <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">{left}</span>
+        <div className="absolute top-3 left-3 z-10 px-3 py-1.5 bg-ink pointer-events-none">
+          <span className="flex text-[9px] tracking-eyebrow uppercase font-medium text-fg">{left}</span>
         </div>
       )}
       {right && (
-        <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-black pointer-events-none">
-          <span className="flex text-[9px] tracking-[0.18em] uppercase font-medium text-white">{right}</span>
+        <div className="absolute top-3 right-3 z-10 px-3 py-1.5 bg-ink pointer-events-none">
+          <span className="flex text-[9px] tracking-eyebrow uppercase font-medium text-fg">{right}</span>
         </div>
       )}
     </>

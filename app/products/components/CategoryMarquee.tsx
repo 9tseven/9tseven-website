@@ -47,23 +47,23 @@ export default function CategoryMarquee({ text }: CategoryMarqueeProps) {
   const useJsVersion = isDesktop && inView;
 
   return (
-    <div ref={containerRef} className="grid w-full overflow-hidden border-b border-black/8 py-0 md:py-4 select-none " aria-hidden="true">
+    <div ref={containerRef} className="grid w-full overflow-hidden border-b border-ink/10 py-0 md:py-4 select-none " aria-hidden="true">
       {useJsVersion ? (
         <>
           <div className="row-start-1 col-start-1 mt-12 md:mt-14">
-            <ScrollVelocity texts={[text]} velocity={-60} className={`${TEXT_CLASS} text-black/20`} />
+            <ScrollVelocity texts={[text]} velocity={-60} className={`${TEXT_CLASS} text-ink-ghost`} />
           </div>
           <div className="row-start-1 col-start-1">
-            <ScrollVelocity texts={[text]} velocity={60} className={`${TEXT_CLASS} text-black`} />
+            <ScrollVelocity texts={[text]} velocity={60} className={`${TEXT_CLASS} text-ink`} />
           </div>
         </>
       ) : (
         <>
           <div className="row-start-1 col-start-1 mt-10 md:mt-14">
-            <CssTextMarquee text={text} direction="right" colorClass="text-black/20" />
+            <CssTextMarquee text={text} direction="right" colorClass="text-ink-ghost" />
           </div>
           <div className="row-start-1 col-start-1">
-            <CssTextMarquee text={text} direction="left" colorClass="text-black" />
+            <CssTextMarquee text={text} direction="left" colorClass="text-ink" />
           </div>
         </>
       )}

@@ -20,10 +20,7 @@ function categorySlugToProductType(slug: string): string {
 }
 
 function buildShopifyQuery(slug: string, tag: string | undefined): string | undefined {
-  const baseFilter =
-    slug === "new-arrivals"
-      ? `tag:'new-arrival'`
-      : `product_type:'${categorySlugToProductType(slug)}'`;
+  const baseFilter = slug === "new-arrivals" ? `tag:'new-arrival'` : `product_type:'${categorySlugToProductType(slug)}'`;
   if (!tag) return baseFilter;
   return `${baseFilter} AND tag:'${tag}'`;
 }

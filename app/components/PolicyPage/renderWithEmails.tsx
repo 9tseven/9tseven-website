@@ -5,7 +5,7 @@ const EMAIL = "info@9tseven.com";
 const PHONE = "+4526188876";
 
 const PILL_CLASS =
-  "inline-flex items-center gap-1 bg-black/5 hover:bg-black/10 text-black rounded-full px-2 py-0.5 no-underline transition-colors duration-150 align-baseline";
+  "inline-flex items-center gap-1 bg-tint hover:bg-tint-hover text-ink rounded-full px-2 py-0.5 no-underline transition-colors duration-fast align-baseline";
 
 const TARGETS = [
   { value: EMAIL, href: `mailto:${EMAIL}`, Icon: Mail },
