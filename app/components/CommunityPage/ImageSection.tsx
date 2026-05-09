@@ -11,10 +11,10 @@ type ImageItem = (typeof IMAGES)[number];
 
 // vw/vh units scale automatically with viewport — same visual proportion on all screen sizes
 const OFFSETS = [
-  { x: "14vw", y: "-5vh" },
-  { x: "-7vw", y: "-1vh" },
-  { x: "15vw", y: "5vh" },
-  { x: "-16vw", y: "10vh" },
+  { x: "19vw", y: "-8vh" },
+  { x: "-18vw", y: "-1vh" },
+  { x: "20vw", y: "6vh" },
+  { x: "-20vw", y: "12vh" },
 ];
 
 function AnimatedImage({ img, index, order, total, scrollYProgress }: { img: ImageItem; index: number; order: number; total: number; scrollYProgress: MotionValue<number> }) {
@@ -25,7 +25,7 @@ function AnimatedImage({ img, index, order, total, scrollYProgress }: { img: Ima
 
   return (
     <motion.div className="absolute" style={{ translateY, x, y, zIndex: total - order }}>
-      <Image src={img.src} alt={img.alt} width={320 * 3.2} height={420 * 3.2} sizes={img.sizes} className="object-cover" />
+      <Image src={img.src} alt={img.alt} width={320 * 3.6} height={420 * 3.6} sizes={img.sizes} className="object-cover" />
     </motion.div>
   );
 }
@@ -40,7 +40,7 @@ export default function ImageSection() {
   });
 
   return (
-    <section className="px-20 md:p-20 bg-white overflow-x-clip" data-nav-theme="light">
+    <section className="px-20 bg-white overflow-x-clip" data-nav-theme="light">
       <div ref={wrapperRef} style={{ height: `${N * 100}vh` }}>
         <div className="sticky top-0 h-screen flex items-center justify-center">
           {IMAGES.map((img, i) => (

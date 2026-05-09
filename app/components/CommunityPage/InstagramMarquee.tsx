@@ -24,7 +24,9 @@ export default function InstagramMarquee() {
         </div>
 
         <div className="md:flex md:justify-end">
-          <Tagline bracketed tone="fg-muted">On Instagram</Tagline>
+          <Tagline href={INSTAGRAM_URL} bracketed tone="fg-muted">
+            On Instagram
+          </Tagline>
         </div>
       </div>
 
