@@ -1,9 +1,11 @@
+import Tagline from "../Tagline";
+
 export default function StorySection() {
   return (
     <section data-nav-theme="light" className="bg-white px-6 py-20 md:px-20 md:py-32">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-16">
         <div>
-          <span className="font-mono text-[11px] font-medium tracking-eyebrow uppercase text-ink-muted">(&nbsp;&nbsp;&nbsp;Our Story&nbsp;&nbsp;&nbsp;)</span>
+          <Tagline bracketed tone="ink-muted">Our Story</Tagline>
         </div>
 
         <div className="md:col-span-2">

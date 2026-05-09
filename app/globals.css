@@ -41,6 +41,7 @@
 
   /* ── Typography — families ─────────────────────────────────────── */
   --font-sans: var(--font-open-sauce-one), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display: "parfumerie-script", sans-serif;
 
   /* ── Typography — tracking ─────────────────────────────────────── */

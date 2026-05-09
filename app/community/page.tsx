@@ -1,7 +1,7 @@
-import ImageSection from "../components/CommunitySection/ImageSection";
-import InstagramMarquee from "../components/CommunitySection/InstagramMarquee";
-import ParticleField from "../components/CommunitySection/ParticleField";
-import StorySection from "../components/CommunitySection/StorySection";
+import ImageSection from "../components/CommunityPage/ImageSection";
+import InstagramMarquee from "../components/CommunityPage/InstagramMarquee";
+import ParticleField from "../components/CommunityPage/ParticleField";
+import StorySection from "../components/CommunityPage/StorySection";
 
 export default function Community() {
   return (

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -30,6 +31,12 @@ const openSauceOne = localFont({
   ],
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "9TSEVEN",
   description: "More than running",
@@ -45,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${openSauceOne.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className={`${openSauceOne.variable} ${jetbrainsMono.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: PRE_HYDRATION_SCRIPT }} />
         <link rel="stylesheet" href="https://use.typekit.net/srx3ckv.css" />

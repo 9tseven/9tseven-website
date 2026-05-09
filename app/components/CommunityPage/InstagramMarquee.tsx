@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Tagline from "../Tagline";
 import { IMAGES } from "./constants";
 
 function InstagramGlyph({ className }: { className?: string }) {
@@ -23,7 +24,7 @@ export default function InstagramMarquee() {
         </div>
 
         <div className="md:flex md:justify-end">
-          <span className="font-mono text-[11px] font-medium tracking-eyebrow uppercase text-fg-muted">(&nbsp;&nbsp;&nbsp;On Instagram&nbsp;&nbsp;&nbsp;)</span>
+          <Tagline bracketed tone="fg-muted">On Instagram</Tagline>
         </div>
       </div>
 
@@ -58,10 +59,10 @@ export default function InstagramMarquee() {
         {/* CTA  */}
         <div className="pointer-events-none absolute inset-x-0 top-0 bottom-20 flex translate-y-2 flex-col items-center justify-center gap-3 opacity-100 md:opacity-0 transition-all duration-slow ease-out md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-visible:translate-y-0 md:group-focus-visible:opacity-100 md:bottom-32">
           <span className="text-2xl font-extrabold uppercase tracking-tight text-fg md:text-4xl">{INSTAGRAM_HANDLE}</span>
-          <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium tracking-eyebrow uppercase text-fg-muted">
+          <Tagline tone="fg-muted" className="inline-flex items-center gap-2">
             <InstagramGlyph className="h-4 w-4" />
             Visit our Instagram →
-          </span>
+          </Tagline>
         </div>
       </a>
     </section>

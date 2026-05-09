@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useId } from "react";
+import Tagline from "../Tagline";
 
 interface AccordionItemProps {
   title: string;
@@ -24,7 +25,7 @@ export default function AccordionItem({ title, isOpen, onToggle, children }: Acc
         aria-controls={bodyId}
         className="w-full flex items-center justify-between py-4 text-left"
       >
-        <span className="text-[10px] tracking-eyebrow uppercase text-ink-subtle">{title}</span>
+        <Tagline tone="ink-subtle" className="text-[10px]">{title}</Tagline>
         <span className="text-[10px] text-ink-subtle" aria-hidden="true">
           {isOpen ? "−" : "+"}
         </span>
