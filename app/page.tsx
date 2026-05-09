@@ -1,5 +1,5 @@
 import HeroSection from "./components/HeroSection";
-import MantraSection from "./components/MantraSection";
+import CommunitySection from "./components/CommunitySection";
 import FeaturedProductsSection from "./components/FeaturedProductsSection";
 import HomeImageSection from "./components/HomeImageSection";
 import BrandStatementSection from "./components/BrandStatementSection";
@@ -10,7 +10,7 @@ export default function Home() {
     <main>
       <HeroSection />
       <FeaturedProductsSection />
-      <MantraSection />
+      <CommunitySection />
       <HomeImageSection />
       <BrandStatementSection />
       <BlogSection />

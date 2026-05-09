@@ -6,6 +6,8 @@ import { useRef, useEffect } from "react";
 import { PANELS, type Panel } from "./constants";
 import "./HomeImageSection.css";
 
+const O_BLOCK = "o".repeat(10000);
+
 function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const cursorTextRef = useRef<HTMLDivElement>(null);
@@ -19,7 +21,9 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
     const cursorText = cursorTextRef.current;
     if (!wrapper || !cursorText) return;
 
+    let targetX = 0;
     let targetY = 0;
+    let currentX = 0;
     let currentY = 0;
     let hovering = false;
     let raf = 0;
@@ -29,12 +33,15 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
     }
 
     function tick() {
+      currentX = lerp(currentX, targetX, 0.1);
       currentY = lerp(currentY, targetY, 0.1);
       const h = wrapper!.getBoundingClientRect().height;
       const clamped = Math.max(24, Math.min(currentY, h - 24));
       cursorText!.style.top = `${clamped}px`;
       cursorText!.style.transform = "translateY(-50%)";
-      if (hovering || Math.abs(currentY - targetY) > 0.5) {
+      wrapper!.style.setProperty("--cursor-x", `${currentX}px`);
+      wrapper!.style.setProperty("--cursor-y", `${clamped}px`);
+      if (hovering || Math.abs(currentY - targetY) > 0.5 || Math.abs(currentX - targetX) > 0.5) {
         raf = requestAnimationFrame(tick);
       } else {
         raf = 0;
@@ -43,7 +50,9 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
 
     function onMouseEnter(e: MouseEvent) {
       const rect = wrapper!.getBoundingClientRect();
+      currentX = e.clientX - rect.left;
       currentY = e.clientY - rect.top;
+      targetX = currentX;
       targetY = currentY;
       hovering = true;
       wrapper!.classList.add("is-hovered");
@@ -51,7 +60,9 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
     }
 
     function onMouseMove(e: MouseEvent) {
-      targetY = e.clientY - wrapper!.getBoundingClientRect().top;
+      const rect = wrapper!.getBoundingClientRect();
+      targetX = e.clientX - rect.left;
+      targetY = e.clientY - rect.top;
     }
 
     function onMouseLeave() {
@@ -80,13 +91,18 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
       {/* Dark overlay on hover */}
       <div className="home-image-overlay absolute inset-0 z-2 pointer-events-none" />
 
+      {/* O-layer — dense block of "o"s, masked to a horizontal band at cursor Y */}
+      <div aria-hidden className="home-image-o-layer font-mono absolute inset-0 z-2 pointer-events-none overflow-hidden text-[12px] leading-3 break-all select-none">
+        {O_BLOCK}
+      </div>
+
       {/* Centered label — always visible */}
       <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-md tracking-display uppercase text-fg z-3 pointer-events-none whitespace-nowrap">{label}</span>
 
       {/* Cursor-tracking text — Y driven by rAF, opacity by CSS */}
       <div ref={cursorTextRef} className="font-mono home-image-cursor-text absolute left-0 right-0 flex justify-between items-center px-4.5 pointer-events-none z-3" style={{ top: "24px" }}>
-        <span className="text-[9px] tracking-display uppercase text-fg-muted">{leftText}</span>
-        <span className="text-[9px] tracking-display uppercase text-fg-muted">{rightText}</span>
+        <span className="text-[9px] tracking-display uppercase text-fg opacity-90">{leftText}</span>
+        <span className="text-[9px] tracking-display uppercase text-fg opacity-90">{rightText}</span>
       </div>
 
       {/* Full-panel link sits on top so the whole panel is clickable */}

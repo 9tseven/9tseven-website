@@ -1,9 +1,9 @@
-import InspoSection from "../components/InspoSection";
+import MantraPage from "../components/MantraPage";
 
 export default function Mantra() {
   return (
     <main>
-      <InspoSection />
+      <MantraPage />
     </main>
   );
 }

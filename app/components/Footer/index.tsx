@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BrandLockup from "../BrandLockup";
 import Newsletter from "../Newsletter";
+import Tagline from "../Tagline";
 
 const POLICY_LINKS = [
   { label: "Return & Exchange", href: "/returns" },
@@ -27,7 +28,7 @@ export default function Footer() {
           <p className="text-sm uppercase font-semibold">9TSEVEN</p>
           <p className="text-sm text-ink-subtle mt-1.5">Sølvgade 28, St. Th</p>
           <p className="text-sm text-ink-subtle mt-1.5">1307 København K</p>
-          <p className="text-[0.6rem] tracking-eyebrow text-ink-faint mt-1.5">© 2026 · 9TSEVEN</p>
+          <Tagline tone="ink-faint" className="block text-[0.6rem] mt-1.5 normal-case">© 2026 · 9TSEVEN</Tagline>
         </div>
 
         <nav className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-2.5">

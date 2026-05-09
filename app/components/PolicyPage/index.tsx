@@ -1,3 +1,4 @@
+import Tagline from "../Tagline";
 import FaqList from "./FaqList";
 import SectionList from "./SectionList";
 import renderWithEmails from "./renderWithEmails";
@@ -13,7 +14,7 @@ export default function PolicyPage({ data }: PolicyPageProps) {
       <div className="max-w-3xl mx-auto px-8">
         <header className="mb-12">
           <h1 className="text-2xl md:text-3xl uppercase tracking-eyebrow font-bold">{data.title}</h1>
-          {data.lastUpdated && <p className="mt-3 text-[0.6rem] tracking-eyebrow uppercase text-ink-subtle">Last updated: {data.lastUpdated}</p>}
+          {data.lastUpdated && <Tagline tone="ink-subtle" className="block mt-3 text-[0.6rem]">Last updated: {data.lastUpdated}</Tagline>}
         </header>
 
         {data.intro && data.intro.length > 0 && (

@@ -1,3 +1,7 @@
+.home-image-panel {
+  --cursor-x: 50%;
+  --cursor-y: 24px;
+}
 .home-image-panel .home-image-photo {
   transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
@@ -20,12 +24,38 @@
   background: var(--color-ink-faint);
 }
 
-/* Touch/no-hover devices: always show the hover state */
+/* O-layer — dense block of "o"s revealed only in a horizontal band at the
+   cursor's Y. --cursor-y is written by the rAF loop in index.tsx. */
+.home-image-panel .home-image-o-layer {
+  color: var(--color-fg-ghost);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  -webkit-mask-image: radial-gradient(
+    ellipse 45% 30% at var(--cursor-x) var(--cursor-y),
+    #000 0%,
+    #000 25%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 45% 30% at var(--cursor-x) var(--cursor-y),
+    #000 0%,
+    #000 25%,
+    transparent 100%
+  );
+}
+.home-image-panel.is-hovered .home-image-o-layer {
+  opacity: 1;
+}
+
+/* Touch/no-hover devices: always show the hover state, hide o-layer entirely */
 @media (hover: none) {
   .home-image-panel .home-image-cursor-text {
     opacity: 1;
   }
   .home-image-panel .home-image-overlay {
     background: var(--color-ink-faint);
+  }
+  .home-image-panel .home-image-o-layer {
+    display: none;
   }
 }

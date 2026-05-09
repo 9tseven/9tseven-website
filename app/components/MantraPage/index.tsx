@@ -63,7 +63,7 @@ function Dot({ x, y, fillOrder, scrollYProgress, maxScale }: { x: number; y: num
   );
 }
 
-export default function InspoSection() {
+export default function MantraPage() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [filledCount, setFilledCount] = useState(0);
   const [labelFadingOut, setLabelFadingOut] = useState(false);
