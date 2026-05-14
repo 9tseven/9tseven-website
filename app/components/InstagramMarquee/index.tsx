@@ -74,7 +74,7 @@ export default async function InstagramMarquee({ theme = "dark" }: Props = {}) {
           WebkitMaskImage: "linear-gradient(to right, transparent 0, black 160px, black calc(100% - 160px), transparent 100%)",
         }}
       >
-        <div className="marquee-track flex w-max gap-4 md:gap-6">
+        <div className="marquee-track flex w-max gap-1 md:gap-2.5">
           {[...images, ...images].map((img, i) => (
             <div key={`${img.id}-${i}`} className="relative aspect-square h-56 shrink-0 overflow-hidden rounded-sm transition-transform duration-slow ease-out md:h-80 md:group-hover:scale-[1] md:group-focus-visible:scale-[0.98]" aria-hidden={i >= images.length ? true : undefined}>
               <Image src={img.url} alt={img.alt} width={img.width} height={img.height} sizes="(max-width: 768px) 224px, 320px" className="h-full w-full object-cover" />
@@ -87,11 +87,9 @@ export default async function InstagramMarquee({ theme = "dark" }: Props = {}) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-40 top-0 bottom-20 opacity-80 md:opacity-0 transition-opacity duration-slow ease-out md:group-hover:opacity-100 md:group-focus-visible:opacity-100 md:bottom-32"
           style={{
-            background: `radial-gradient(ellipse 50% 65% at center, color-mix(in srgb, ${t.overlayColor} 55%, transparent) 0%, color-mix(in srgb, ${t.overlayColor} 25%, transparent) 60%, color-mix(in srgb, ${t.overlayColor} 5%, transparent) 100%)`,
-            maskImage:
-              "linear-gradient(to bottom, transparent 0, black 96px, black calc(100% - 96px), transparent 100%), linear-gradient(to right, transparent 0, black 200px, black calc(100% - 200px), transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0, black 96px, black calc(100% - 96px), transparent 100%), linear-gradient(to right, transparent 0, black 200px, black calc(100% - 200px), transparent 100%)",
+            background: `radial-gradient(ellipse 50% 65% at center, color-mix(in srgb, ${t.overlayColor} 80%, transparent) 0%, color-mix(in srgb, ${t.overlayColor} 35%, transparent) 60%, color-mix(in srgb, ${t.overlayColor} 5%, transparent) 100%)`,
+            maskImage: "linear-gradient(to bottom, transparent 0, black 96px, black calc(100% - 96px), transparent 100%), linear-gradient(to right, transparent 0, black 200px, black calc(100% - 200px), transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 96px, black calc(100% - 96px), transparent 100%), linear-gradient(to right, transparent 0, black 200px, black calc(100% - 200px), transparent 100%)",
             maskComposite: "intersect",
             WebkitMaskComposite: "source-in",
           }}
