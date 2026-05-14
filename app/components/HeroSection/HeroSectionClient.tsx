@@ -73,12 +73,17 @@ export default function HeroSectionClient({ slides }: HeroSectionClientProps) {
       {/* 3D logo — centered, translucent glass treatment */}
       <HeroLogo3D />
 
-      {/* Logo — centered bottom */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none w-17 md:w-25">
-        <Image src="/images/Logo/9t7.svg" alt="9TSEVEN" width={500} height={500} className="w-full h-auto" style={{ width: "100%", height: "auto" }} priority />
+      {/* Mobile: heading at bottom-left, logo centered in the hero */}
+      <HeroOverlayText current={current} slides={slides} className="md:hidden absolute z-10 bottom-24 left-8 right-8" />
+      <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none w-50">
+        <Image src="/images/Logo/9t7.svg" alt="9TSEVEN" width={2000} height={1283} className="block p-6 w-full h-auto" style={{ width: "100%", height: "auto" }} priority />
       </div>
 
-      <HeroOverlayText current={current} slides={slides} />
+      {/* Desktop: heading bottom-left, logo centered bottom */}
+      <div className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10 pointer-events-none md:w-25">
+        <Image src="/images/Logo/9t7.svg" alt="9TSEVEN" width={2000} height={1283} className="block w-full h-auto" style={{ width: "100%", height: "auto" }} priority />
+      </div>
+      <HeroOverlayText current={current} slides={slides} className="hidden md:block absolute z-10 md:bottom-16 md:left-8" />
 
       <SlideIndicator current={current} slides={slides} onPrev={handlePrev} onNext={handleNext} onGoTo={handleGoTo} />
     </section>
