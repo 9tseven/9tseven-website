@@ -7,6 +7,7 @@ import type { HeroSlide } from "./types";
 interface HeroOverlayTextProps {
   current: number;
   slides: HeroSlide[];
+  className?: string;
 }
 
 const TEXT_TRANSITION = {
@@ -15,17 +16,11 @@ const TEXT_TRANSITION = {
   ease: [0.65, 0, 0.35, 1] as const,
 };
 
-export default function HeroOverlayText({ current, slides }: HeroOverlayTextProps) {
+export default function HeroOverlayText({ current, slides, className = "" }: HeroOverlayTextProps) {
   const slide = slides[current];
 
   return (
-    <div
-      className="
-        absolute z-10
-        bottom-25 left-8
-        md:bottom-16 md:left-8
-      "
-    >
+    <div className={className}>
       <Link href={slide.href} className="group/hero-text block">
         {/* Heading — fixed-height clip box */}
         <div className="overflow-hidden" style={{ height: "clamp(2rem, 5vw, 3.6rem)" }}>
