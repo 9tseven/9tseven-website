@@ -1,5 +1,5 @@
 import ImageSection from "../components/CommunityPage/ImageSection";
-import InstagramMarquee from "../components/CommunityPage/InstagramMarquee";
+import InstagramMarquee from "../components/InstagramMarquee";
 import ParticleField from "../components/CommunityPage/ParticleField";
 import StorySection from "../components/CommunityPage/StorySection";
 
