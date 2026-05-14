@@ -4,6 +4,7 @@ import FeaturedProductsSection from "./components/FeaturedProductsSection";
 import HomeImageSection from "./components/HomeImageSection";
 import BrandStatementSection from "./components/BrandStatementSection";
 import BlogSection from "./components/BlogSection";
+import InstagramMarquee from "./components/InstagramMarquee";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <HomeImageSection />
       <BrandStatementSection />
       <BlogSection />
+      <InstagramMarquee theme="light" />
     </main>
   );
 }

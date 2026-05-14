@@ -6,7 +6,7 @@ import { useRef, useEffect } from "react";
 import { PANELS, type Panel } from "./constants";
 import "./HomeImageSection.css";
 
-const O_BLOCK = "o".repeat(10000);
+const O_BLOCK = "o".repeat(5000);
 
 function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -92,7 +92,7 @@ function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
       <div className="home-image-overlay absolute inset-0 z-2 pointer-events-none" />
 
       {/* O-layer — dense block of "o"s, masked to a horizontal band at cursor Y */}
-      <div aria-hidden className="home-image-o-layer font-mono absolute inset-0 z-2 pointer-events-none overflow-hidden text-[12px] leading-3 break-all select-none">
+      <div aria-hidden className="home-image-o-layer font-mono absolute inset-y-0 left-0 -right-2 z-2 pointer-events-none overflow-hidden text-[12px] leading-3 break-all select-none">
         {O_BLOCK}
       </div>
 

@@ -16,7 +16,7 @@ export default function CommunitySection() {
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-0">
           {/* Heading */}
           <div className="flex-1">
-            <Tagline>COMMUNITY</Tagline>
+            <Tagline>( COMMUNITY )</Tagline>
             <h2 className="text-5xl font-bold leading-none tracking-tight text-ink md:text-[3.5rem] lg:text-[4.5rem] xl:text-[5.5rem] mt-2">
               Community.
               <br />

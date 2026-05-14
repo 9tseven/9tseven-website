@@ -15,7 +15,7 @@ export default function FeaturedProductsSection({ products }: { products: Produc
     <section data-nav-theme="light" className="w-full bg-white py-14 select-none">
       <header className="flex items-end justify-between gap-6 px-8 mb-10">
         <div className="flex flex-col gap-1.5">
-          <Tagline>FEATURED</Tagline>
+          <Tagline>( FEATURED PRODUCTS )</Tagline>
           <h2 className="text-[28px] md:text-[32px] font-bold tracking-tight text-ink leading-none">LATEST ARRIVALS</h2>
         </div>
         <Tagline href="/products" tone="ink" className="text-xs whitespace-nowrap">

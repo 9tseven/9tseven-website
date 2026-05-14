@@ -90,10 +90,10 @@ html[data-load-seen] [data-load-screen] {
   will-change: transform;
 }
 
-.marquee-container:hover .marquee-track,
+/* .marquee-container:hover .marquee-track,
 .marquee-container:focus-within .marquee-track {
   animation-play-state: paused;
-}
+} */
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {

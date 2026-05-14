@@ -1,6 +1,7 @@
 .home-image-panel {
   --cursor-x: 50%;
   --cursor-y: 24px;
+  contain: layout paint;
 }
 .home-image-panel .home-image-photo {
   transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
@@ -30,6 +31,7 @@
   color: var(--color-fg-ghost);
   opacity: 0;
   transition: opacity 0.4s ease;
+  contain: strict;
   -webkit-mask-image: radial-gradient(
     ellipse 45% 30% at var(--cursor-x) var(--cursor-y),
     #000 0%,
