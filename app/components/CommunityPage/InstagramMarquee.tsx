@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Tagline from "../Tagline";
-import { IMAGES } from "./constants";
+import { getCommunityImages } from "@/app/lib/community";
 
 function InstagramGlyph({ className }: { className?: string }) {
   return (
@@ -15,7 +15,10 @@ function InstagramGlyph({ className }: { className?: string }) {
 const INSTAGRAM_URL = "https://www.instagram.com/9tseven_/";
 const INSTAGRAM_HANDLE = "@9tseven_";
 
-export default function InstagramMarquee() {
+export default async function InstagramMarquee() {
+  const images = await getCommunityImages();
+  if (images.length === 0) return null;
+
   return (
     <section data-nav-theme="dark" className="bg-bg">
       <div className="grid grid-cols-1 gap-10 px-6 py-20 md:grid-cols-3 md:gap-16 md:px-20 md:py-32">
@@ -42,9 +45,9 @@ export default function InstagramMarquee() {
         }}
       >
         <div className="marquee-track flex w-max gap-4 md:gap-6">
-          {[...IMAGES, ...IMAGES].map((img, i) => (
-            <div key={`${img.id}-${i}`} className="relative h-56 w-auto shrink-0 overflow-hidden rounded-sm md:h-80" aria-hidden={i >= IMAGES.length ? true : undefined}>
-              <Image src={img.src} alt={img.alt} sizes="(max-width: 768px) 224px, 320px" className="h-full w-auto object-cover" priority={false} />
+          {[...images, ...images].map((img, i) => (
+            <div key={`${img.id}-${i}`} className="relative aspect-square h-56 shrink-0 overflow-hidden rounded-sm transition-transform duration-slow ease-out md:h-80 md:group-hover:scale-[0.98] md:group-focus-visible:scale-[0.98]" aria-hidden={i >= images.length ? true : undefined}>
+              <Image src={img.url} alt={img.alt} width={img.width} height={img.height} sizes="(max-width: 768px) 224px, 320px" className="h-full w-full object-cover" />
             </div>
           ))}
         </div>

@@ -16,7 +16,7 @@ export default function FeaturedProductsSection({ products }: { products: Produc
       <header className="flex items-end justify-between gap-6 px-8 mb-10">
         <div className="flex flex-col gap-1.5">
           <Tagline>FEATURED</Tagline>
-          <h2 className="text-[28px] md:text-[32px] font-bold tracking-tight text-ink leading-none">New Arrivals</h2>
+          <h2 className="text-[28px] md:text-[32px] font-bold tracking-tight text-ink leading-none">LATEST ARRIVALS</h2>
         </div>
         <Tagline href="/products" tone="ink" className="text-xs whitespace-nowrap">
           VIEW ALL&nbsp;&nbsp;→
