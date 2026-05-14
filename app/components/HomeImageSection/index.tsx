@@ -6,7 +6,7 @@ import { useRef, useEffect } from "react";
 import { PANELS, type Panel } from "./constants";
 import "./HomeImageSection.css";
 
-const O_BLOCK = "o".repeat(5000);
+const O_BLOCK = "o".repeat(7800);
 
 function ImagePanel({ label, leftText, rightText, image, alt, href }: Panel) {
   const wrapperRef = useRef<HTMLDivElement>(null);
