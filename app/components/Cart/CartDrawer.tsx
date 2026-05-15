@@ -55,8 +55,8 @@ export default function CartDrawer() {
                     <div className="flex-1 flex flex-col justify-between">
                       <div className="flex flex-col gap-1.5">
                         <p className="text-xs tracking-label uppercase text-fg leading-snug">{line.merchandise.product.title}</p>
-                        <p className="text-[0.65rem] tracking-label text-fg-muted font-extralight uppercase">{line.merchandise.title}</p>
-                        <p className="text-xs text-fg font-extralight tracking-widest">{formatPrice(line.merchandise.price.amount, line.merchandise.price.currencyCode)}</p>
+                        <p className="text-[0.65rem] tracking-label text-fg-muted font-light uppercase">{line.merchandise.title}</p>
+                        <p className="text-xs text-fg font-light tracking-widest">{formatPrice(line.merchandise.price.amount, line.merchandise.price.currencyCode)}</p>
                       </div>
 
                       {/* Quantity + Remove */}

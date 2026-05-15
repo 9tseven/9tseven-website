@@ -67,7 +67,7 @@ export default function BlogPostCard({ post, index, top, onPeekHeight, articleRe
       </div>
 
       <div className="relative h-64 -order-1 md:order-1 md:h-auto md:flex-1 md:min-h-150 md:self-stretch">
-        <Image src={post.image} alt={post.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+        <Image src={post.image} alt={post.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" quality={65} />
         <div className="absolute inset-0 bg-fg-ghost pointer-events-none" />
       </div>
     </article>

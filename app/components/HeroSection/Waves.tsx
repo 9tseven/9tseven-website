@@ -29,6 +29,8 @@ export function Waves({ className = "", strokeColor = "#ffffff", strokeWidth = 1
     let paths: SVGPathElement[] = [];
     let bounding: DOMRect | null = null;
     let raf = 0;
+    let lastFrame = 0;
+    const FRAME_INTERVAL = 1000 / 30;
 
     const svgNS = "http://www.w3.org/2000/svg";
     const linesGroup = svg.querySelector<SVGGElement>("[data-waves-lines]");
@@ -48,8 +50,8 @@ export function Waves({ className = "", strokeColor = "#ffffff", strokeWidth = 1
       paths = [];
       lines = [];
 
-      const xGap = 11;
-      const yGap = 14;
+      const xGap = 13;
+      const yGap = 17;
       const oWidth = width + 400;
       const oHeight = height + 600;
       const totalLines = Math.ceil(oWidth / xGap);
@@ -122,9 +124,11 @@ export function Waves({ className = "", strokeColor = "#ffffff", strokeWidth = 1
     }
 
     function tick(time: number) {
+      raf = requestAnimationFrame(tick);
+      if (time - lastFrame < FRAME_INTERVAL) return;
+      lastFrame = time;
       movePoints(time);
       drawLines();
-      raf = requestAnimationFrame(tick);
     }
 
     setSize();
@@ -169,19 +173,13 @@ export function Waves({ className = "", strokeColor = "#ffffff", strokeWidth = 1
         height: "100%",
       }}
     >
-      <svg ref={svgRef} className="block w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="waves-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2.5" result="blurSoft" />
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blurWide" />
-            <feMerge>
-              <feMergeNode in="blurWide" />
-              <feMergeNode in="blurSoft" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <g data-waves-lines filter="url(#waves-glow)" />
+      <svg
+        ref={svgRef}
+        className="block w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ filter: "drop-shadow(0 0 8px rgba(255,255,255,0.9))" }}
+      >
+        <g data-waves-lines />
       </svg>
     </div>
   );

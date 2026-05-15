@@ -17,6 +17,8 @@ export default function HeroLogo3D() {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
+    const lowPower = (navigator.hardwareConcurrency ?? 8) <= 4;
+    if (lowPower) return;
     const mq = window.matchMedia("(min-width: 768px)");
     setIsDesktop(mq.matches);
     const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);

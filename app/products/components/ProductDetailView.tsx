@@ -79,7 +79,7 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
           <div className="row-start-1 col-start-1 flex flex-col">
             {images.map((src, i) => (
               <div key={`${src}-${i}`} className="relative w-full aspect-4/5 bg-light-grey">
-                <Image src={src} alt={`${product.name} — image ${i + 1}`} fill className="object-cover" priority={i === 0} sizes="(min-width: 768px) 60vw, 100vw" />
+                <Image src={src} alt={`${product.name} — image ${i + 1}`} fill className="object-cover" priority={i === 0} sizes="(min-width: 768px) 60vw, 100vw" quality={65} />
               </div>
             ))}
           </div>
