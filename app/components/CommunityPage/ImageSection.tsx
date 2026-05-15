@@ -25,7 +25,7 @@ function AnimatedImage({ img, index, order, total, scrollYProgress }: { img: Ima
 
   return (
     <motion.div className="absolute" style={{ translateY, x, y, zIndex: total - order }}>
-      <Image src={img.src} alt={img.alt} width={320 * 3.6} height={420 * 3.6} sizes={img.sizes} className="object-cover" />
+      <Image src={img.src} alt={img.alt} width={320 * 3.6} height={420 * 3.6} sizes={img.sizes} className="object-cover w-[80vw] md:w-[1152px] h-[48vh] md:h-[auto]" />
     </motion.div>
   );
 }
