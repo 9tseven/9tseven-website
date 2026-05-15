@@ -40,13 +40,13 @@ export default function ImageSection() {
   });
 
   return (
-    <section className="px-20 bg-white overflow-x-clip" data-nav-theme="light">
+    <section className="md:px-20 bg-white overflow-x-clip" data-nav-theme="light">
       <div ref={wrapperRef} style={{ height: `${N * 100}vh` }}>
-        <div className="sticky top-0 h-screen flex items-center justify-center">
+        <div className="sticky top-0 h-[80vh] min-h-136 md:h-screen md:min-h-176 flex items-center justify-center">
+          <CommunityHero scrollYProgress={scrollYProgress} />
           {IMAGES.map((img, i) => (
             <AnimatedImage key={img.id} img={img} index={i} order={i} total={N} scrollYProgress={scrollYProgress} />
           ))}
-          <CommunityHero />
         </div>
       </div>
     </section>
