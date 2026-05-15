@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import Slide from "./Slide";
@@ -18,6 +18,17 @@ interface HeroSectionClientProps {
 export default function HeroSectionClient({ slides }: HeroSectionClientProps) {
   const { current, slideWidth, containerRef, x, handleDragEnd, prev, next, nextLooping, goTo } = useSlider(slides.length);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Track which slides have been within ±1 of current. Once visited, stay mounted to avoid refetch.
+  const mountedRef = useRef<Set<number>>(new Set([0]));
+  const [, force] = useState(0);
+  useEffect(() => {
+    const before = mountedRef.current.size;
+    [current - 1, current, current + 1].forEach((i) => {
+      if (i >= 0 && i < slides.length) mountedRef.current.add(i);
+    });
+    if (mountedRef.current.size !== before) force((n) => n + 1);
+  }, [current, slides.length]);
 
   const { reset } = useAutoSlide({ next: nextLooping, isPaused: isHovered });
 
@@ -65,7 +76,7 @@ export default function HeroSectionClient({ slides }: HeroSectionClientProps) {
           whileDrag={{ cursor: "grabbing" }}
         >
           {slides.map((slide) => (
-            <Slide key={slide.id} id={slide.id} bg={slide.bg} image={slide.image} video={slide.video} slideCount={slides.length} isActive={current === slide.id} />
+            <Slide key={slide.id} id={slide.id} bg={slide.bg} image={slide.image} video={slide.video} slideCount={slides.length} isActive={current === slide.id} isVisible={mountedRef.current.has(slide.id)} />
           ))}
         </motion.div>
       </div>
