@@ -32,6 +32,7 @@ export function useProductCardPurchase(product: Product) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const { addLine, openCart, pending } = useCart();
   const soldOut = useMemo(() => new Set(product.soldOutSizes as readonly string[]), [product.soldOutSizes]);
+  const allSoldOut = product.sizes.length > 0 && product.sizes.every((s) => soldOut.has(s));
 
   const selectedVariant = resolveVariant(product, selectedSize);
   const canAddToCart = selectedVariant !== null && selectedVariant.availableForSale && !pending;
@@ -55,6 +56,7 @@ export function useProductCardPurchase(product: Product) {
     selectedSize,
     soldOut,
     toggleSize,
+    allSoldOut,
   };
 }
 
