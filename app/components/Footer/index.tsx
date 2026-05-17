@@ -56,7 +56,7 @@ export default function Footer() {
           <p className="text-sm uppercase font-semibold">9TSEVEN</p>
           <p className="text-sm text-ink-subtle mt-1.5">Sølvgade 28, St. Th</p>
           <p className="text-sm text-ink-subtle mt-1.5">1307 København K</p>
-          <p className="text-sm text-ink-subtle mt-1.5">9T7Running@gmail.com</p>
+          <p className="text-sm text-ink-subtle mt-1.5">Info@9tseven.com</p>
           <Tagline tone="ink-faint" className="block text-[0.6rem] mt-1.5 normal-case">
             © 2026 · 9TSEVEN
           </Tagline>

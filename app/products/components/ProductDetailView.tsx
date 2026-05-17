@@ -51,10 +51,10 @@ export default function ProductDetailView({ product }: ProductDetailViewProps) {
 
   const addToCartButton = (
     <button type="button" onClick={handleAddToCart} disabled={!canAddToCart} className="w-full bg-ink text-fg text-[9px] tracking-eyebrow uppercase py-4 hover:bg-bg/80 transition-colors duration-base disabled:bg-bg/60 disabled:cursor-not-allowed">
-      {pending ? "Adding…" : hasSizes && !selectedSize ? "Select size" : product.isSoldOut ? "Sold out" : "Add to cart"}
+      {pending ? "Adding…" : hasSizes && !selectedSize ? (product.isSoldOut ? "Sold out" : "Select size") : "Add to cart"}
     </button>
   );
-
+  console.log(product.isSoldOut);
   const onSale = product.compareAtPrice !== null && product.compareAtPrice > product.price;
   const formatPrice = (n: number) => n.toLocaleString("da-DK", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const priceLabel = (

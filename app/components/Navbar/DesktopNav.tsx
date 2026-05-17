@@ -19,7 +19,7 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
   const homeRef = useRef<HTMLAnchorElement>(null);
   const communityRef = useRef<HTMLAnchorElement>(null);
   const mantraRef = useRef<HTMLAnchorElement>(null);
-  const shopTriggerRef = useRef<HTMLButtonElement>(null);
+  const shopTriggerRef = useRef<HTMLAnchorElement>(null);
   const cartRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
@@ -111,8 +111,9 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
           Mantra
         </Link>
 
-        <button
+        <Link
           ref={shopTriggerRef}
+          href="/products"
           onMouseEnter={() => {
             setHoveredIndex(3);
             setShopOpen(true);
@@ -121,7 +122,7 @@ export default function DesktopNav({ previews }: { previews: NavPreviews }) {
         >
           Shop
           <ChevronDown size={10} strokeWidth={1.5} className={`transition-transform duration-base ${shopOpen ? "rotate-180" : ""}`} />
-        </button>
+        </Link>
 
         <div className="w-px h-3.5 bg-surface-hover mx-1 shrink-0" />
 
