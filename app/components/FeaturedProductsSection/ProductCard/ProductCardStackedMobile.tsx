@@ -15,8 +15,8 @@ export default function ProductCardStackedMobile({ product }: { product: Product
         <PriceDisplay product={product} className="text-[clamp(11px,2.8vw,13px)] font-medium text-ink-muted mt-1.5" compareAtClassName="ml-1.5 font-normal line-through text-ink-faint" />
         {product.sizes.length > 0 && <SizeSelector sizes={product.sizes} soldOut={soldOut} selectedSize={selectedSize} onToggle={toggleSize} containerClassName="grid gap-0.5 my-2" style={{ gridTemplateColumns: `repeat(${sizeColumns}, minmax(0, 1fr))` }} getButtonClassName={({ out, selected }) => `text-[9px] tracking-label uppercase font-mono font-bold py-1.5 leading-none relative transition-colors duration-fast ${out ? "text-ink-ghost bg-tint" : selected ? "bg-ink text-fg" : "text-ink-muted bg-tint hover:bg-tint-hover"}`} />}
         <button type="button" onClick={handleAddToCart} disabled={!canAddToCart} aria-label={getAddToCartAriaLabel(needsSizeSelection)} className={`w-full flex items-center justify-center gap-2 h-9  ${allSoldOut ? "bg-tint text-ink-ghost" : "bg-ink disabled:bg-bg/75 disabled:text-fg-muted"} text-fg hover:bg-bg/80 transition-colors duration-base `}>
-          <span className="text-[15px] leading-none font-light">+</span>
-          <span className="text-[9px] tracking-eyebrow uppercase font-medium leading-none">{pending ? "Adding…" : needsSizeSelection ? "Select size" : "Add to cart"}</span>
+          {!allSoldOut && <span className="text-[15px] leading-none font-light">+</span>}
+          <span className="text-[9px] tracking-eyebrow uppercase font-medium leading-none">{pending ? "Adding…" : needsSizeSelection ? (!allSoldOut ? "Select size" : "Sold out") : "Add to cart"}</span>
         </button>
       </div>
     </div>
